@@ -1,9 +1,10 @@
-package com.example.coure_view.services;
+package com.example.coure_view.services.impl;
 
 import com.example.coure_view.models.Course;
 import com.example.coure_view.payload.dto.CourseDTO;
 import com.example.coure_view.payload.response.CourseResponse;
 import com.example.coure_view.repositories.CourseRepository;
+import com.example.coure_view.services.CourseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
