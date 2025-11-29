@@ -1,16 +1,12 @@
-package com.example.coure_view.payload.dto;
+package com.example.coure_view.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseDTO {
-    private Long id;
+public class CourseRequest {
     private String title;
-    private List<ChapterDTO> chapters;
 }
