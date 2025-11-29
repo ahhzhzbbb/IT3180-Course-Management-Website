@@ -1,5 +1,6 @@
-package com.example.coure_view.payload;
+package com.example.coure_view.payload.response;
 
+import com.example.coure_view.payload.dto.CourseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.coure_view.payload;
+package com.example.coure_view.payload.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

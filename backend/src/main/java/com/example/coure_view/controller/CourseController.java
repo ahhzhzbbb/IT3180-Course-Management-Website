@@ -1,9 +1,8 @@
 package com.example.coure_view.controller;
 
-import com.example.coure_view.payload.CourseDTO;
-import com.example.coure_view.payload.CourseResponse;
+import com.example.coure_view.payload.dto.CourseDTO;
+import com.example.coure_view.payload.response.CourseResponse;
 import com.example.coure_view.services.CourseService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

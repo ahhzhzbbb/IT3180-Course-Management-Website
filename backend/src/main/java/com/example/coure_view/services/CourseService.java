@@ -1,8 +1,7 @@
 package com.example.coure_view.services;
 
-import com.example.coure_view.payload.CourseDTO;
-import com.example.coure_view.payload.CourseResponse;
-import org.springframework.http.ResponseEntity;
+import com.example.coure_view.payload.dto.CourseDTO;
+import com.example.coure_view.payload.response.CourseResponse;
 
 public interface CourseService {
     CourseResponse getAllCourses();

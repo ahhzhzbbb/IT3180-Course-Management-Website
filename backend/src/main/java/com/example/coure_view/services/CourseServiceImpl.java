@@ -1,12 +1,11 @@
 package com.example.coure_view.services;
 
 import com.example.coure_view.models.Course;
-import com.example.coure_view.payload.CourseDTO;
-import com.example.coure_view.payload.CourseResponse;
+import com.example.coure_view.payload.dto.CourseDTO;
+import com.example.coure_view.payload.response.CourseResponse;
 import com.example.coure_view.repositories.CourseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
