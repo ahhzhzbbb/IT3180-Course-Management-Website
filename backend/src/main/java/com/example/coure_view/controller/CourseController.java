@@ -1,6 +1,7 @@
 package com.example.coure_view.controller;
 
 import com.example.coure_view.payload.dto.CourseDTO;
+import com.example.coure_view.payload.request.CourseRequest;
 import com.example.coure_view.payload.response.CourseResponse;
 import com.example.coure_view.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +17,32 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @PostMapping("/public/courses")
+    @PostMapping("/courses")
     public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO courseDTO) {
         CourseDTO addedCourseDTO = courseService.createCourse(courseDTO);
         return new ResponseEntity<>(addedCourseDTO, HttpStatus.CREATED);
     }
-    @GetMapping("/public/courses")
+
+    @GetMapping("/courses")
     public ResponseEntity<CourseResponse> getAllCourses(){
         CourseResponse courseResponse = courseService.getAllCourses();
         return ResponseEntity.ok().body(courseResponse);
     }
-    @DeleteMapping("/public/courses/{courseId}")
+
+    @GetMapping("/courses/{courseId}")
+    public ResponseEntity<CourseDTO> getCourseById(@PathVariable("courseId") Long courseId){
+        CourseDTO courseDTO = courseService.getCourseById(courseId);
+        return ResponseEntity.ok().body(courseDTO);
+    }
+
+    @DeleteMapping("/courses/{courseId}")
     public ResponseEntity<CourseDTO> deleteCourse(@PathVariable("courseId") Long courseId){
         CourseDTO courseDTO = courseService.deleteCourse(courseId);
         return ResponseEntity.ok().body(courseDTO);
+    }
+    @PutMapping("/courses/{courseId}")
+    public ResponseEntity<CourseDTO> updateCourse(@PathVariable("courseId") Long courseId, @RequestBody CourseRequest courseRequest){
+        CourseDTO courseDTO = courseService.updateCourse(courseId, courseRequest);
+        return  ResponseEntity.ok().body(courseDTO);
     }
 }

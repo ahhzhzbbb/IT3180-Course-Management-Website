@@ -1,16 +1,17 @@
-package com.example.coure_view.services;
+package com.example.coure_view.services.impl;
 
 import com.example.coure_view.models.User;
 import com.example.coure_view.payload.dto.UserDTO;
 import com.example.coure_view.payload.request.LoginRequest;
 import com.example.coure_view.payload.response.LoginResponse;
 import com.example.coure_view.repositories.UserRepository;
+import com.example.coure_view.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private UserRepository userRepository;
