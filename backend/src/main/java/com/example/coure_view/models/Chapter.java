@@ -1,10 +1,38 @@
 package com.example.coure_view.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Chapter {
-    private Long chapterId;
-    private String chapterName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String title;
 
-    List<Lesson> lessons;
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    @JsonIgnore
+    private Course course;
+
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Lesson> lessons;
+
+    public void setLessons(List<Lesson> lessons) {
+        if (lessons != null) {
+            for (Lesson lesson : lessons) {
+                lesson.setChapter(this);
+            }
+        }
+        this.lessons = lessons;
+    }
 }
+

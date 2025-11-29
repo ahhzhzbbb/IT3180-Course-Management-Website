@@ -1,4 +1,4 @@
-package com.example.coure_view.configs;
+package com.example.coure_view.Configs;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
