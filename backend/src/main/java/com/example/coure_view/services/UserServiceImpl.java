@@ -4,6 +4,7 @@ import com.example.coure_view.models.User;
 import com.example.coure_view.payload.dto.UserDTO;
 import com.example.coure_view.payload.response.LoginResponse;
 import com.example.coure_view.repositories.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,4 +53,23 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("Email không tồn tại"));
         return new UserDTO(user.getUserId(), user.getName(), user.getEmail());
     }
+
+    @Override
+    public UserDTO grantTeacherRole(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy user với id: " + userId));
+        user.setRole(1); // 1 = teacher
+        userRepository.save(user);
+        return new UserDTO(user.getUserId(), user.getName(), user.getEmail());
+    }
+
+@Override
+    public UserDTO revokeTeacherRole(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy user với id: " + userId));
+        user.setRole(0); // 0 = normal user
+        userRepository.save(user);
+        return new UserDTO(user.getUserId(), user.getName(), user.getEmail());
+    }
+
 }

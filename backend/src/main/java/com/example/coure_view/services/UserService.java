@@ -11,4 +11,7 @@ public interface UserService {
 
     // Lấy user theo email (có thể dùng cho các nghiệp vụ khác)
     UserDTO getUserByEmail(String email);
+
+    UserDTO grantTeacherRole(Long userID);
+    UserDTO revokeTeacherRole(Long userID);
 }
