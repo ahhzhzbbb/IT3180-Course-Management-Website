@@ -1,0 +1,470 @@
+/* * {
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.header {
+  display : grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 10px;
+}
+
+.wrapper-name-slogan {
+  font-size: 0.9rem;
+  margin: 10px 20px;
+
+}
+
+.wrapper-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper-search input {
+  font-size: 16px;
+  padding: 10px 15px;
+}
+
+.wrapper-sign-in-out {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  justify-self: start;
+  font-size: smaller;
+  gap: 4px;
+}
+
+.sign-in-out.MuiPaper-root {
+  font-size: 0.9 rem;
+  margin: 10px;
+  padding: 10px;
+  background-color: #e4603f;
+}
+
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  justify-items: center;
+  
+}
+
+.navigation {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  padding-right: 20px;
+  border-right: 1px solid black;
+}
+
+.navigation .MuiPaper-root{
+  padding: 10px;
+  margin-top: 20px;
+
+}
+
+.list-course {
+  width: 70%;
+}
+
+.list-course h1 {
+  font-size: 1.5rem;
+
+}
+
+.course-info {
+  display: grid;
+  grid-template-columns: 2fr auto;
+  gap: 12px;
+  width: 100%;
+  margin: 12px 0;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #E5E5E5;
+}
+
+.course-info h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.course-info-button{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+}
+
+.lesson {
+  display: flex;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: #0c010fce;
+}
+
+.footer .wrapper-content-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+/* Reset / base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f6f7fb;
+  color: #222;
+  line-height: 1.4;
+  font-size: 16px;
+}
+
+/* Generic helpers */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Header */
+.header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 18px;
+  background: linear-gradient(90deg, #ffffffcc, #f7f9fc);
+  border-bottom: 1px solid #e6e9ef;
+  box-shadow: 0 1px 4px rgba(20,20,30,0.03);
+}
+
+.wrapper-name-slogan {
+  font-size: 0.95rem;
+  margin-left: 6px;
+}
+
+.wrapper-name-slogan h1 {
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+
+.wrapper-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper-search input {
+  width: 100%;
+  max-width: 520px;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #d8ddea;
+  background: #fff;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+.wrapper-search input:focus {
+  outline: none;
+  border-color: #9fb4ff;
+  box-shadow: 0 0 0 4px rgba(155, 179, 255, 0.12);
+}
+
+.wrapper-sign-in-out {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  justify-self: end;
+  align-items: center;
+}
+
+/* Target MUI Card root that has class "sign-in-out" */
+.sign-in-out.MuiPaper-root {
+  font-size: 0.95rem;
+  margin: 0 6px;
+  padding: 8px 12px;
+  background-color: #e4603f;
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Content layout */
+.content {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+}
+
+/* Navigation */
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  border-right: 1px solid #e6e9ef;
+}
+
+.navigation .MuiPaper-root {
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.navigation .MuiPaper-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(20,20,30,0.06);
+}
+
+/* List of courses */
+.list-course {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.list-course h1 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+
+/* Course card */
+.course-info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  width: 100%;
+  margin: 12px 0;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid #e8eaf0;
+  border-radius: 10px;
+  background-color: #fff;
+  transition: box-shadow .12s ease, transform .12s ease;
+}
+
+.course-info:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(20,20,30,0.06);
+}
+
+.course-info h1 {
+  margin: 0 0 6px 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.course-info p {
+  margin: 4px 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.course-info-button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Buttons (MUI Buttons inherit styles; add small adjustments) */
+button, .MuiButton-root {
+  border-radius: 8px;
+}
+
+/* Wrapper for lesson list (course detail area) */
+.wrapper-lesson {
+  max-width: 920px;
+  margin: 12px auto 40px;
+  padding: 18px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border: 1px solid #e6eef9;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(12,16,30,0.04);
+}
+
+/* Each chapter block (the immediate child divs inside wrapper-lesson) */
+.wrapper-lesson > div {
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #eef2f7;
+  margin-bottom: 12px;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.wrapper-lesson > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(20,20,30,0.05);
+}
+
+/* Chapter header row */
+.lesson {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 4px;
+}
+
+.lesson h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Toggle button for expand/collapse */
+.lesson button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 38px;
+  height: 38px;
+  padding: 6px 10px;
+  background: #eef3ff;
+  color: #1f2937;
+  border: 1px solid #d7e1ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .12s ease, transform .12s ease, box-shadow .12s;
+  font-weight: 600;
+}
+
+.lesson button:hover {
+  background: #e0e8ff;
+  transform: translateY(-2px);
+}
+
+/* List of lessons inside a chapter */
+.list-lesson {
+  margin-top: 10px;
+  padding-left: 6px;
+}
+
+/* Individual lesson item */
+.list-lesson > div {
+  padding: 10px 12px;
+  margin: 6px 0;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #eef2f7;
+  transition: background .12s ease, transform .12s ease;
+}
+
+.list-lesson > div:hover {
+  background: #f1f5f9;
+  transform: translateY(-2px);
+}
+
+.list-lesson h3 {
+  margin: 0;
+  font-size: 0.98rem;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .wrapper-lesson {
+    padding: 12px;
+    margin: 10px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    margin: 12px 12px 6px;
+  }
+
+  h2 {
+    margin: 0 12px 10px;
+    font-size: 1rem;
+  }
+
+  .lesson button {
+    min-width: 34px;
+    height: 34px;
+    padding: 6px 8px;
+  }
+}
+
+
+/* Footer */
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: #0c010fce;
+  color: #fff;
+  padding: 18px 0;
+  margin-top: 36px;
+}
+
+.footer .wrapper-content-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .header {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    text-align: center;
+  }
+  .wrapper-sign-in-out {
+    justify-self: center;
+    grid-template-columns: repeat(2, 120px);
+  }
+  .content {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+  .navigation {
+    flex-direction: row;
+    border-right: none;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .navigation .MuiPaper-root {
+    white-space: nowrap;
+  }
+}
