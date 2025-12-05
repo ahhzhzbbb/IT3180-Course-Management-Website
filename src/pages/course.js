@@ -5,7 +5,7 @@ import Navigation from "../components/navigation-bar";
 import Footer from "../components/footer";
 import DescriptionIcon from '@mui/icons-material/Description';
 
-import callCourseDetail from "../api/call-get-course-detail";
+import callCourseDetail from "../api/crud_course/call-get-course-detail";
 
 export default function Course () {
     const { state } = useLocation();

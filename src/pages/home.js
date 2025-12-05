@@ -6,12 +6,12 @@ import { Button } from "@mui/material";
 import Header from "../components/header";
 import Footer from "../components/footer";
 
-import callGetAllCourse from '../api/call-get-all-courses';
-import callDeleteCourse from "../api/call-delete-course";
-import callAddNewCourse from "../api/call-add-new-course";
+import callGetAllCourse from '../api/crud_course/call-get-all-courses';
+import callDeleteCourse from "../api/crud_course/call-delete-course";
+import callAddNewCourse from "../api/crud_course/call-add-new-course";
 
-import AlertBeforeDel from "../components/alert-before-del";
-import FormAddNewCourse from "../components/form-add-new-course";
+import AlertBeforeDel from "../components/allert/alert-before-del";
+import FormAddNewCourse from "../components/allert/form-add-new-course";
 import { Form } from "react-router-dom";
 
 function Home() {
