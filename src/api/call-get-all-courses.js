@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 async function  callGetAllCourse() {
-    const api = 'https://amphibologically-nonterminal-jazlynn.ngrok-free.dev/api/courses'
+    const api = 'http://localhost:8080/api/courses'
     
     try {
         const res = await axios.get(api) 

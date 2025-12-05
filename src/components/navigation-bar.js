@@ -1,26 +1,26 @@
 import { Card } from "@mui/material";
 
 import HomeIcon from '@mui/icons-material/Home';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+
 
 
 export default function Navigation() {
     return (
         <div className="navigation">
-            <div>
-
+            <div >
                 <Card className="button-navigation">
-                    <HomeIcon/>
+                    <HomeIcon />
 
-                    <h2>Trang chủ</h2>
+                    <h3>Trang chủ</h3>
                 </Card>
             </div>
 
             <div>
-                <Card>Khóa học của tôi</Card>
-            </div>
-
-            <div>
-                <Card>Bài viết</Card>
+                <Card className="button-navigation">
+                    <MenuBookIcon/>
+                    <h3>Bài viết</h3>
+                </Card>
             </div>
         </div>
     )
