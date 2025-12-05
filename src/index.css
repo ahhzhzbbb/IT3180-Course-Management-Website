@@ -387,3 +387,74 @@ button, .MuiButton-root {
     white-space: nowrap;
   }
 }
+
+/* allert-before-del */
+
+.abd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.abd-box {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  overflow: hidden;
+}
+
+.abd-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+  background: #fafafa;
+}
+
+.abd-body {
+  padding: 20px;
+  color: #333;
+}
+
+.abd-footer {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+
+.abd-btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.abd-cancel {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.abd-confirm {
+  background: #d9534f;
+  color: #fff;
+}
+
+/* Optional focus/hover tweaks */
+.abd-btn:focus {
+  outline: 2px solid rgba(0,0,0,0.08);
+  outline-offset: 2px;
+}
+
+.abd-btn:hover {
+  filter: brightness(0.98);
+}
