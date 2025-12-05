@@ -16,15 +16,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    private int role;
+    private Integer role;
 
     @Column(nullable = true)
     private String password;
-    private LocalDate createAt;
+    private LocalDate createAt = LocalDate.now();
     private String status;
     private String name;
-    private boolean gender;
+    private Boolean gender;
     private LocalDate birth;
+
 
     @Column(nullable = false, unique = true)
     private String email;
