@@ -1,13 +1,72 @@
-export default function SignUpForm({ inputEmail, inputPassword, onInputEmailChange, onInputPasswordChange }) {
-    function handleSubmit(e) {
+import { useState } from "react";
+import callRegisterApi from "../api/registerApi";
+
+export default function SignUpForm({
+    inputEmail,
+    inputPassword,
+    onInputEmailChange,
+    onInputPasswordChange,
+}) {
+    const [comfirmPassword, setComfirmPassword] = useState("");
+    const [error, setError] = useState("");
+    const [name, setName] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [gender, setGender] = useState(true);
+    const [birth, setBirth] = useState("");
+
+
+    async function handleSubmit(e) {
         e.preventDefault();
-        console.log("Dang ky thanh cong");
+
+        if (inputPassword !== comfirmPassword) {
+            setError("Mật khẩu không khớp!");
+            return;
+        }
+
+        if (inputPassword.length < 8) {
+            setError("Mật khẩu quá ngắn!");
+            return;
+        }
+
+        setError(""); 
+
+        const user = {
+            email: inputEmail,
+            password: inputPassword,
+            nam: name,
+            gender: gender,
+            birth: birth,
+            phoneNumber: phoneNumber
+        };
+
+        const result = await callRegisterApi(user);
+
+        console.log("Kết quả:", result);
+        console.log("Đăng ký thành công");
     }
 
     return (
         <div className="form-box register">
             <form onSubmit={handleSubmit}>
                 <h1>SignUp</h1>
+                <div className="input-row">
+                    <div className="input-box">
+                        <input 
+                            type="text" 
+                            placeholder="Tên"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}    
+                        />
+                    </div>
+                    <div className="input-box">
+                        <input 
+                            type="text" 
+                            placeholder="Số Điện Thoại"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}    
+                        />
+                    </div>
+                </div>
                 <div className="input-box">
                     <input
                         type="email"
@@ -15,32 +74,67 @@ export default function SignUpForm({ inputEmail, inputPassword, onInputEmailChan
                         value={inputEmail}
                         onChange={(e) => onInputEmailChange(e.target.value)}
                     />
-                    <i className='bx bxs-user'></i> {/*icon nhung chua cai dat:V*/}
                 </div>
-
+                
                 <div className="input-box">
                     <input
                         type="password"
-                        placeholder="Password"
+                        placeholder="Mật khẩu"
                         value={inputPassword}
                         onChange={(e) => onInputPasswordChange(e.target.value)}
-                        className="inputField"
                     />
-                    <i className='bx bxs-lock-alt' ></i>
                 </div>
+                
+                <div className="input-box">
+                    <input
+                        type="password"
+                        placeholder="Nhập lại mật khẩu"
+                        value={comfirmPassword}
+                        onChange={(e) => setComfirmPassword(e.target.value)}
+                    />
+                    {error && (
+                        <p className="error-text" style={{ color: "red", fontSize: "14px" }}>
+                            {error}
+                        </p>
+                    )}
+                </div>
+                <div className="input-row">
+                    <div className="input-box">
+                        <input 
+                            type="date" 
+                            value={birth}
+                            onChange={(e) => setBirth(e.target.value)}
+                        />
+                    </div>
+                    <div className="gender">
+                        <label>Giới tính : </label>
 
-                <div className="forgot-link">
-                    <a href="#">Forgot Password?</a>
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value={true}
+                                checked={gender === true}
+                                onChange={() => setGender(true)}
+                            />
+                            Nam
+                        </label>
+
+                        <label>
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                value={false}
+                                checked={gender === false}
+                                onChange={() => setGender(false)}
+                            />
+                            Nữ
+                        </label>
+                    </div>
                 </div>
+                
 
                 <button type="submit" className="btn">Register</button>
-                <p>or login with social platforms</p>
-                <div className="social-icons">
-                    <a href="#"><i className='bx bxl-google' ></i></a>
-                    <a href="#"><i className='bx bxl-facebook' ></i></a>
-                    <a href="#"><i className='bx bxl-github' ></i></a>
-                    <a href="#"><i className='bx bxl-linkedin' ></i></a>
-                </div>
             </form>
         </div>
     );
