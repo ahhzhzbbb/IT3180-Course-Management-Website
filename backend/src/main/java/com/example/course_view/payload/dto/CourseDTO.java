@@ -12,5 +12,6 @@ import java.util.List;
 public class CourseDTO {
     private Long id;
     private String title;
+    private String description;
     private List<ChapterDTO> chapters;
 }
