@@ -1,7 +1,24 @@
+import callLoginApi from "../api/loginApi";
+
+import { useNavigate } from "react-router-dom";
+
 export default function LoginForm({ inputEmail, inputPassword, onInputEmailChange, onInputPasswordChange }) {
-    function handleSubmit(e) {
+    const navigate = useNavigate();
+
+    async function handleSubmit(e) {
         e.preventDefault();
-        console.log("Dang nhap thanh cong");
+
+        const user = {
+            email: inputEmail,
+            password: inputPassword
+        };
+
+        const result = await callLoginApi(user);
+
+        if (result) {
+            console.log("Đăng nhập thành công");
+            navigate("/dashboard");
+        }
     };
 
     return (
