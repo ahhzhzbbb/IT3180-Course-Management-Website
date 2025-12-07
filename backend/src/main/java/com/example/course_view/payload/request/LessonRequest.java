@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LessonRequest {
     private String title;
+    private String videoUrl;
 }
