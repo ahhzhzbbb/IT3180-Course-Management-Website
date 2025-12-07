@@ -19,7 +19,6 @@ public class ChapterController {
         ChapterDTO chapterDTO = chapterService.createChapter(courseId, chapterRequest);
         return new ResponseEntity<>(chapterDTO, HttpStatus.CREATED);
     }
-
     @DeleteMapping("chapters/{chapterId}")
     public ResponseEntity<ChapterDTO> deleteChapter(@PathVariable Long chapterId) {
         ChapterDTO chapterDTO = chapterService.deleteChapter(chapterId);

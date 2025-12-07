@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Lesson {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String  title;
-
+    private String title;
+    private String videoUrl;
     @JoinColumn(name = "chapter_id")
     @ManyToOne
     @JsonIgnore
     private Chapter chapter;
+
 }

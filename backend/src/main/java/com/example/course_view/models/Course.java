@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
 
