@@ -1,0 +1,34 @@
+package com.example.course_view.controller;
+
+import com.example.course_view.payload.dto.ExerciseDTO;
+import com.example.course_view.payload.dto.LessonDTO;
+import com.example.course_view.payload.request.ExerciseRequest;
+import com.example.course_view.payload.request.LessonRequest;
+import com.example.course_view.services.ExerciseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class ExerciseController {
+    @Autowired
+    private ExerciseService exerciseService;
+
+    @PostMapping("/lessons/{lessonId}/exercises")
+    public ResponseEntity<ExerciseDTO> createExercise(@PathVariable Long lessonId, @RequestBody ExerciseRequest exerciseRequest) {
+        ExerciseDTO newExerciseDTO = exerciseService.createExercise(lessonId, exerciseRequest);
+        return new ResponseEntity<>(newExerciseDTO, HttpStatus.CREATED);
+    }
+    @DeleteMapping("/exercises/{exerciseId}")
+    public ResponseEntity<ExerciseDTO> deleteExercise(@PathVariable Long exerciseId) {
+        ExerciseDTO exerciseDTO = exerciseService.deleteExercise(exerciseId);
+        return new ResponseEntity<>(exerciseDTO, HttpStatus.OK);
+    }
+    @PutMapping("/exercises/{exerciseId}")
+    public ResponseEntity<ExerciseDTO>  updateExercise(@PathVariable Long exerciseId, @RequestBody ExerciseRequest exerciseRequest) {
+        ExerciseDTO exerciseDTO = exerciseService.updateExercise(exerciseId, exerciseRequest);
+        return new ResponseEntity<>(exerciseDTO, HttpStatus.OK);
+    }
+}
