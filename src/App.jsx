@@ -1,15 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
-import Home from "./pages/home";
-import Course from "./pages/course";
+import HomePage from "./pages/home";
+import CoursePage from "./pages/course";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: Home,
+    Component: HomePage,
   },
   {
-    path:"/chapter",
-    Component: Course,
+    path:"/course/:courseId",
+    Component: CoursePage,
   }
 ]);
 

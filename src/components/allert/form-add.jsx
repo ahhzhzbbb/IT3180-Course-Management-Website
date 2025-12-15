@@ -1,14 +1,34 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from "@mui/material";
 
-export default function FormAddNewCourse({ open, onClose, onAdd }) {
+import callGetAllCourse from "../../api/crud_course/call-get-all-courses";
+import callGetCourseDetail from "../../api/crud_course/call-get-course-detail";
+
+export default function FormAdd({ type, titleOfAllert, courseId=null, open, onClose, onAdd }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    if (!open) {
-      setTitle("");
-      setDescription("");
+    console.log("Open state changed:", open);
+    if (open) {
+      if (type === "insert") {
+        setTitle("");
+        setDescription("");
+      }
+      if (type === "update") {
+        if (titleOfAllert === "Chỉnh sửa khoá học") {
+          // Lấy chi tiết khoá học
+          const fetchCourseDetail = async () => { 
+            const data = await callGetCourseDetail(courseId);
+            setTitle(data.title || "");
+            setDescription(data.description || "");
+          };
+          fetchCourseDetail();
+        }
+        if (titleOfAllert === "Chỉnh sửa chương") {
+          
+        }
+      }
     }
   }, [open]);
 
@@ -16,13 +36,12 @@ export default function FormAddNewCourse({ open, onClose, onAdd }) {
     e?.preventDefault();
     if (!title.trim()) return;
     await onAdd({ title: title.trim(), description: description.trim() });
-    // onAdd should close modal; fallback:
     onClose();
   };
 
   return (
     <Dialog open={Boolean(open)} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Thêm khóa học mới</DialogTitle>
+      <DialogTitle>{titleOfAllert}</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <TextField
@@ -46,7 +65,7 @@ export default function FormAddNewCourse({ open, onClose, onAdd }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Hủy</Button>
-          <Button type="submit" variant="contained">Thêm</Button>
+          <Button type="submit" variant="contained">Lưu</Button>
         </DialogActions>
       </form>
     </Dialog>
