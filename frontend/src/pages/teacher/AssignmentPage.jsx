@@ -6,6 +6,7 @@ export default function AssignmentPage() {
 
   return (
     <div className={`assignment-layout ${collapsed ? "collapsed" : ""}`}>
+      {/* SIDEBAR */}
       <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
         <button
           className="collapse-btn"
@@ -13,7 +14,6 @@ export default function AssignmentPage() {
         >
           {collapsed ? ">" : "<"}
         </button>
-
 
         {!collapsed && (
           <>
@@ -30,9 +30,11 @@ export default function AssignmentPage() {
         )}
       </aside>
 
+      {/* CONTENT */}
       <main className="content">
         <h1 className="title">Tên Bài Tập: HTML Basics</h1>
 
+        {/* VIDEO */}
         <section className="video-box">
           <label>Video YouTube (URL):</label>
           <div className="video-wrapper">
@@ -44,14 +46,61 @@ export default function AssignmentPage() {
             />
           </div>
         </section>
+
+        {/* ASSIGNMENT LIST */}
+        <section className="assignment-box">
+          <div className="assignment-header">
+            <h2>Bài tập</h2>
+            <button className="add-btn">+ Thêm bài tập</button>
+          </div>
+
+          <ul className="assignment-list">
+            <li className="assignment-item">
+              <span>Bài tập 1: HTML cơ bản</span>
+              <div className="actions">
+                <button className="edit-btn">Sửa</button>
+                <button className="delete-btn">Xóa</button>
+              </div>
+            </li>
+
+            <li className="assignment-item">
+              <span>Bài tập 2: CSS Layout</span>
+              <div className="actions">
+                <button className="edit-btn">Sửa</button>
+                <button className="delete-btn">Xóa</button>
+              </div>
+            </li>
+          </ul>
+        </section>
       </main>
 
+      {/* STUDENT LIST */}
       <aside className="student-list">
-        <h3>Danh sách học viên</h3>
-        <ul>
-          <li>Nguyễn Văn A</li>
-          <li>Trần Thị B</li>
-          <li>Lê Văn C</li>
+        <div className="student-header">
+          <h3>Học viên</h3>
+          <input
+            type="text"
+            placeholder="Tìm học viên..."
+            className="student-search"
+          />
+        </div>
+
+        <ul className="student-items">
+          <li className="student-item">
+            <div className="student-info">
+              <strong>Nguyễn Văn A</strong>
+              <span>emailA@gmail.com</span>
+            </div>
+            <button className="view-btn">Xem bài nộp</button>
+          </li>
+
+          <li className="student-item">
+            <div className="student-info">
+              <strong>Trần Thị B</strong>
+              <span>emailB@gmail.com</span>
+            </div>
+            <button className="view-btn">Xem bài nộp</button>
+          </li>
         </ul>
       </aside>
     </div>
