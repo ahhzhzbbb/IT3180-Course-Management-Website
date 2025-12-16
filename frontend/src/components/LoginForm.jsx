@@ -1,29 +1,21 @@
-import callLoginApi from "../api/loginApi";
+// components/LoginForm.jsx
+import React from 'react';
 
-import { useNavigate } from "react-router-dom";
+// Lưu ý: Không cần import useNavigate hay API ở đây nữa
+// Vì logic đó đã được chuyển lên LoginPage.jsx để kiểm tra quyền Admin
 
-export default function LoginForm({ inputEmail, inputPassword, onInputEmailChange, onInputPasswordChange }) {
-    const navigate = useNavigate();
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-
-        const user = {
-            email: inputEmail,
-            password: inputPassword
-        };
-
-        const result = await callLoginApi(user);
-
-        if (result) {
-            console.log("Đăng nhập thành công");
-            navigate("/dashboard");
-        }
-    };
+export default function LoginForm({ 
+    inputEmail, 
+    inputPassword, 
+    onInputEmailChange, 
+    onInputPasswordChange,
+    onLoginSubmit // <--- Nhận hàm này từ cha (LoginPage)
+}) {
 
     return (
         <div className="form-box login">
-            <form onSubmit={handleSubmit}>
+            {/* Gọi hàm onLoginSubmit khi nhấn nút Login */}
+            <form onSubmit={onLoginSubmit}>
                 <h1>Login</h1>
                 <div className="input-box">
                     <input
@@ -31,8 +23,9 @@ export default function LoginForm({ inputEmail, inputPassword, onInputEmailChang
                         placeholder="Email"
                         value={inputEmail}
                         onChange={(e) => onInputEmailChange(e.target.value)}
+                        required // Nên thêm required để HTML tự validate cơ bản
                     />
-                    <i className='bx bxs-user'></i> {/*icon nhung chua cai dat:V*/}
+                    <i className='bx bxs-user'></i>
                 </div>
 
                 <div className="input-box">
@@ -42,6 +35,7 @@ export default function LoginForm({ inputEmail, inputPassword, onInputEmailChang
                         value={inputPassword}
                         onChange={(e) => onInputPasswordChange(e.target.value)}
                         className="inputField"
+                        required
                     />
                     <i className='bx bxs-lock-alt' ></i>
                 </div>
@@ -51,6 +45,7 @@ export default function LoginForm({ inputEmail, inputPassword, onInputEmailChang
                 </div>
 
                 <button type="submit" className="btn">Login</button>
+                
                 <p>or login with social platforms</p>
                 <div className="social-icons">
                     <a href="#"><i className='bx bxl-google' ></i></a>
