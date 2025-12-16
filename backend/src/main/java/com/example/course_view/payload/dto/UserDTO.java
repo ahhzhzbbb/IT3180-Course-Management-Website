@@ -15,9 +15,10 @@ public class UserDTO {
     private boolean gender;
     private String email;
 
-    public UserDTO(Long userId, String name, String email) {
+    public UserDTO(Long userId, String name, String email, boolean gender) {
         this.userId = userId;
         this.name = name;
         this.email = email;
+        this.gender = gender;
     }
 }
