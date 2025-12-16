@@ -1,9 +1,10 @@
 // src/pages/Admin/AdminPage.jsx
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import Dashboard from './Dashboard';
-import UserManager from './UserManager';
-import CourseManager from './CourseManager';
+// Dấu .. nghĩa là thoát ra khỏi thư mục pages, rồi đi vào components
+import Sidebar from "../components/Sidebar";
+import Dashboard from "../components/Dashboard";
+import UserManager from "../components/UserManager";
+import CourseManager from "../components/CourseManager";
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('dashboard');

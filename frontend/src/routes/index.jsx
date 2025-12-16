@@ -4,7 +4,7 @@ import DashBoard from "../pages/testPage";
 
 // 1. IMPORT TRANG ADMIN
 // (Lưu ý: Đảm bảo bro đã tạo file AdminPage.jsx trong thư mục src/pages/Admin/ như hướng dẫn trước)
-import AdminPage from "../pages/Admin/AdminPage";
+import AdminPage from "../pages/AdminPage";
 
 export const router = createBrowserRouter([
   {
