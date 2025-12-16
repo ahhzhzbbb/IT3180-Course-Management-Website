@@ -121,13 +121,13 @@ public class SecurityConfigs {
                 userRepository.save(user1);
             }
 
-            if (!userRepository.existsByUserName("intructor1")) {
+            if (!userRepository.existsByUserName("instructor1")) {
                 User seller1 = new User("instructor1", "instructor1@example.com", passwordEncoder.encode("password2"));
                 userRepository.save(seller1);
             }
 
             if (!userRepository.existsByUserName("admin")) {
-                User admin = new User("admin", "admin@example.com", passwordEncoder.encode("adminPass"));
+                User admin = new User("admin", "admin@example.com", passwordEncoder.encode("adminpass"));
                 userRepository.save(admin);
             }
 
@@ -137,7 +137,7 @@ public class SecurityConfigs {
                 userRepository.save(user);
             });
 
-            userRepository.findByUserName("seller1").ifPresent(seller -> {
+            userRepository.findByUserName("instructor1").ifPresent(seller -> {
                 seller.setRoles(sellerRoles);
                 userRepository.save(seller);
             });
