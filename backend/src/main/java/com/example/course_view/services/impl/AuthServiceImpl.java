@@ -4,7 +4,7 @@ package com.example.course_view.services.impl;
 import com.example.course_view.models.AppRole;
 import com.example.course_view.models.Role;
 import com.example.course_view.models.User;
-import com.example.course_view.payload.response.AuthenticationResult;
+import com.example.course_view.security.response.AuthenticationResult;
 import com.example.course_view.repositories.RoleRepository;
 import com.example.course_view.repositories.UserRepository;
 import com.example.course_view.security.jwt.JwtUtils;
@@ -30,8 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @Transactional
@@ -91,7 +89,7 @@ public class AuthServiceImpl implements AuthService {
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> strRoles = signUpRequest.getRole();
+        Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {

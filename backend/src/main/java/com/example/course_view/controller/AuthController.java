@@ -1,11 +1,10 @@
 package com.example.course_view.controller;
 
-import com.example.course_view.payload.response.AuthenticationResult;
+import com.example.course_view.security.response.AuthenticationResult;
 import com.example.course_view.security.request.LoginRequest;
 import com.example.course_view.security.request.SignupRequest;
 import com.example.course_view.security.response.MessageResponse;
 import com.example.course_view.services.AuthService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;

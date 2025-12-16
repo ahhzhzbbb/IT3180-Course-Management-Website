@@ -1,6 +1,5 @@
-package com.example.course_view.payload.response;
+package com.example.course_view.security.response;
 
-import com.example.course_view.security.response.UserInfoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.ResponseCookie;

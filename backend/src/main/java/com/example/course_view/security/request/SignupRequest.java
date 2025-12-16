@@ -4,6 +4,9 @@ import java.util.Set;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class SignupRequest {
@@ -16,7 +19,9 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> role;
+    @Getter
+    @Setter
+    private Set<String> roles;
 
     @NotBlank
     @Size(min = 6, max = 40)

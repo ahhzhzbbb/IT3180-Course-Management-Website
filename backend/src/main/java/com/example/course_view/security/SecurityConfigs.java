@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,6 +31,7 @@ import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfigs {
     @Autowired
     UserDetailsService userDetailsService;
@@ -111,7 +113,7 @@ public class SecurityConfigs {
                     });
 
             Set<Role> userRoles = Set.of(userRole);
-            Set<Role> sellerRoles = Set.of(instructorRole);
+            Set<Role> instructorRoles = Set.of(instructorRole);
             Set<Role> adminRoles = Set.of(userRole, instructorRole, adminRole);
 
 
@@ -122,8 +124,8 @@ public class SecurityConfigs {
             }
 
             if (!userRepository.existsByUserName("instructor1")) {
-                User seller1 = new User("instructor1", "instructor1@example.com", passwordEncoder.encode("password2"));
-                userRepository.save(seller1);
+                User instructor1 = new User("instructor1", "instructor1@example.com", passwordEncoder.encode("password2"));
+                userRepository.save(instructor1);
             }
 
             if (!userRepository.existsByUserName("admin")) {
@@ -137,9 +139,9 @@ public class SecurityConfigs {
                 userRepository.save(user);
             });
 
-            userRepository.findByUserName("instructor1").ifPresent(seller -> {
-                seller.setRoles(sellerRoles);
-                userRepository.save(seller);
+            userRepository.findByUserName("instructor1").ifPresent(instructor -> {
+                instructor.setRoles(instructorRoles);
+                userRepository.save(instructor);
             });
 
             userRepository.findByUserName("admin").ifPresent(admin -> {

@@ -1,6 +1,7 @@
 package com.example.course_view.security.response;
 import java.util.List;
 
+
 public class UserInfoResponse {
     private Long id;
     private String jwtToken;
