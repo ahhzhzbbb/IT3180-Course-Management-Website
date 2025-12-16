@@ -4,7 +4,7 @@ import DashBoard from "../pages/testPage";
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
+    path: "/",
     element: <LoginPage />
   },
   {
