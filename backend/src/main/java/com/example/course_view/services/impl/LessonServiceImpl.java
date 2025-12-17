@@ -9,19 +9,18 @@ import com.example.course_view.repositories.ChapterRepository;
 import com.example.course_view.repositories.LessonRepository;
 import com.example.course_view.services.LessonService;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
-    @Autowired
-    private LessonRepository lessonRepository;
-    @Autowired
-    private ChapterRepository chapterRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final LessonRepository lessonRepository;
+    private final ChapterRepository chapterRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional
     @Override

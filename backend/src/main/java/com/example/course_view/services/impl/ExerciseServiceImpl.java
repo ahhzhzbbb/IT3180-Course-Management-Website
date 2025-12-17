@@ -10,19 +10,18 @@ import com.example.course_view.payload.request.ExerciseRequest;
 import com.example.course_view.repositories.ExerciseRepository;
 import com.example.course_view.repositories.LessonRepository;
 import com.example.course_view.services.ExerciseService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
-    @Autowired
-    private ExerciseRepository exerciseRepository;
-    @Autowired
-    private LessonRepository lessonRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ExerciseRepository exerciseRepository;
+    private final LessonRepository lessonRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional
     @Override

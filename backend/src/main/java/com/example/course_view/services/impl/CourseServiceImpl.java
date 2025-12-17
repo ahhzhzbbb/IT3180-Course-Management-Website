@@ -23,9 +23,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
     // test
-    private CourseRepository courseRepository;
-    private CourseStudentRepository courseStudentRepository;
-    private ModelMapper modelMapper;
+    private final CourseRepository courseRepository;
+    private final CourseStudentRepository courseStudentRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public CourseResponse getAllCourses() {
