@@ -83,7 +83,11 @@ public class AuthServiceImpl implements AuthService {
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getPhoneNumber(),
+                signUpRequest.getBirth(),
+                signUpRequest.getGender()
+                );
 
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
