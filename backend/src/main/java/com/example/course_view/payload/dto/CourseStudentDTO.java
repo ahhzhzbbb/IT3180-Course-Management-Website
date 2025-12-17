@@ -4,14 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseDTO {
+@Data
+public class CourseStudentDTO {
     private Long id;
-    private String title;
-    private String description;
-    List<ChapterDTO> chapters;
+    private Long courseId;
+    private Long studentId;
 }
