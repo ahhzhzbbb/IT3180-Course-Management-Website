@@ -1,8 +1,17 @@
 import { Card } from "@mui/material";
 import logo from "../asset/images/logo_n7.png";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Header() {
+    const navigate = useNavigate();
+    
+    function handleClick(e) {
+        e.preventDefault();
+
+        navigate("/auth/login");
+    }
+
     return (
         <div className="header">
             <div className="wrapper-logo-name-slogan">
@@ -30,10 +39,10 @@ export default function Header() {
             </div>
 
             <div className="wrapper-sign-in-out">
-                <Card className="sign-in-out">
+                <Card className="sign-in-out" onClick={handleClick}>
                     <h2>Đăng nhập</h2>
                 </Card>
-                <Card className="sign-in-out">
+                <Card className="sign-in-out" onClick={handleClick}>
                     <h2>Đăng ký</h2>
                 </Card>
             </div>
