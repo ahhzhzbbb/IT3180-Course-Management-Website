@@ -11,13 +11,13 @@ export default function TrangChu() {
                 <Header />
             </div>
 
-            <div className="home-page">
+            <div className="home-page"> 
                 <div className="app-navigation">
                     <Navigation />
                 </div>
 
                 <div className="home-page-content">
-                    {/* Hero banner giống F8 */}
+                    {/* Hero banner */}
                     <section className="hero-banner">
                         <div className="hero-content">
                             <h2 className="hero-title">
