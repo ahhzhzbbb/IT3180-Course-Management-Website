@@ -114,7 +114,7 @@ public class SecurityConfigs {
 
             Set<Role> userRoles = Set.of(userRole);
             Set<Role> instructorRoles = Set.of(instructorRole);
-            Set<Role> adminRoles = Set.of(userRole, instructorRole, adminRole);
+            Set<Role> adminRoles = Set.of(adminRole);
 
 
             // Create users if not already present

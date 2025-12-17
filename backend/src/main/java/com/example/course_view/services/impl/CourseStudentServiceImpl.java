@@ -14,7 +14,6 @@ import com.example.course_view.repositories.CourseStudentRepository;
 import com.example.course_view.repositories.UserRepository;
 import com.example.course_view.services.CourseStudentService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

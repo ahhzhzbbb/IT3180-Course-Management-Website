@@ -135,6 +135,7 @@ public class AuthServiceImpl implements AuthService {
         return new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), roles);
     }
 
+
     @Override
     public ResponseCookie logoutUser() {
         return jwtUtils.getCleanJwtCookie();

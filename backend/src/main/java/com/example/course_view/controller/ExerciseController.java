@@ -5,6 +5,7 @@ import com.example.course_view.payload.dto.LessonDTO;
 import com.example.course_view.payload.request.ExerciseRequest;
 import com.example.course_view.payload.request.LessonRequest;
 import com.example.course_view.services.ExerciseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class ExerciseController {
-    @Autowired
-    private ExerciseService exerciseService;
+
+    private final ExerciseService exerciseService;
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PostMapping("/lessons/{lessonId}/exercises")
