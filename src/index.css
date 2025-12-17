@@ -5,6 +5,110 @@
 }
 
 html, body, #root {
+
+/* ================= Trang chủ (F8-like) ================ */
+.hero-banner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 18px;
+  padding: 22px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #1e3a8a 0%, #0284c7 100%);
+  color: #fff;
+  overflow: hidden;
+  min-height: 260px;
+}
+
+.hero-content {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.hero-crown { filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25)); }
+
+.hero-desc { opacity: 0.95; }
+
+.hero-cta {
+  width: fit-content;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #fde68a;
+  color: #1f2937;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.hero-cta:hover { filter: brightness(0.98); }
+
+.hero-dots { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
+.hero-dots span {
+  height: 6px; width: 36px; border-radius: 999px; background: rgba(255,255,255,0.6);
+}
+.hero-dots span:first-child { background: #fff; }
+
+.hero-media {
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-media img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 10px;
+  box-shadow: 0 14px 50px rgba(0,0,0,0.25);
+}
+
+.course-pro-section { margin-top: 22px; }
+.section-heading { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.section-heading h3 { margin: 0; font-size: 20px; }
+.badge-new {
+  background: #1d4ed8; color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 999px;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.course-card {
+  position: relative;
+  border-radius: 14px;
+  padding: 18px;
+  height: 160px;
+  color: #111827;
+  display: grid;
+  align-content: end;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(20,20,30,0.06);
+}
+
+.course-card-title { font-weight: 800; font-size: 18px; }
+.course-card-sub { opacity: 0.85; font-size: 13px; }
+
+.course-card.pro-blue {
+  background: linear-gradient(135deg, #93c5fd, #bfdbfe);
+}
+.course-card.pro-yellow {
+  background: linear-gradient(135deg, #fde68a, #fcd34d);
+}
+.course-card.pro-pink {
+  background: linear-gradient(135deg, #fbcfe8, #f9a8d4);
+}
+.course-card.pro-purple {
+  background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+}
+
+@media (max-width: 900px) {
+  .hero-banner { grid-template-columns: 1fr; }
+  .course-grid { grid-template-columns: 1fr 1fr; }
+}
   height: 100%;
 }
 
@@ -739,5 +843,101 @@ button, .MuiButton-root {
 }
 .btn-success:hover {
   filter: brightness(0.96);
+}
+
+
+/* ========== CourseIntroCard (F8-like tile) ========== */
+.course-tile {
+  width: 100%;
+  max-width: 300px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(17, 24, 39, 0.06);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.course-tile:focus {
+  outline: 3px solid rgba(59,130,246,.35);
+  outline-offset: 2px;
+}
+
+.course-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(17, 24, 39, 0.10);
+}
+
+.course-tile-banner {
+  position: relative;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  color: #fff;
+}
+
+.course-tile-banner-content {
+  position: relative;
+  z-index: 2;
+}
+
+.course-tile-banner-title {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.course-tile-banner-sub {
+  margin: 0;
+  font-size: 13px;
+  opacity: .9;
+}
+
+/* Simple decorative polygon-ish shape */
+.course-tile-banner-shape {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80px 80px at 70% 40%, rgba(255,255,255,.25), transparent 60%),
+              radial-gradient(120px 120px at 20% 80%, rgba(255,255,255,.18), transparent 60%);
+  opacity: .6;
+}
+
+.course-tile-body {
+  padding: 14px 14px 16px;
+}
+
+.course-tile-name {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.course-tile-price {
+  color: #ef4444;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.course-tile-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.course-tile-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.course-tile-ico { font-size: 14px; }
+
+.course-tile-dot {
+  width: 6px; height: 6px; border-radius: 999px; background: #e5e7eb;
 }
 
