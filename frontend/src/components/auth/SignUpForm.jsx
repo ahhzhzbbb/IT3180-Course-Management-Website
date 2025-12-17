@@ -1,5 +1,5 @@
 import { useState } from "react";
-import callRegisterApi from "../api/registerApi";
+import callRegisterApi from "../../api/registerApi";
 
 export default function SignUpForm({
     inputEmail,

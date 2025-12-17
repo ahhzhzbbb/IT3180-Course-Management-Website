@@ -1,4 +1,4 @@
-import callLoginApi from "../api/loginApi";
+import callLoginApi from "../../api/loginApi";
 
 import { useNavigate } from "react-router-dom";
 
