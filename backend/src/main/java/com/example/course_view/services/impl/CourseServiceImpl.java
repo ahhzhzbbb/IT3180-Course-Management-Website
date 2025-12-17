@@ -7,8 +7,11 @@ import com.example.course_view.payload.dto.CourseListDTO;
 import com.example.course_view.payload.request.CourseRequest;
 import com.example.course_view.payload.response.CourseResponse;
 import com.example.course_view.repositories.CourseRepository;
+import com.example.course_view.repositories.CourseStudentRepository;
 import com.example.course_view.services.CourseService;
 
+import com.example.course_view.services.CourseStudentService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
     // test
-    @Autowired
     private CourseRepository courseRepository;
-
-    @Autowired
+    private CourseStudentRepository courseStudentRepository;
     private ModelMapper modelMapper;
 
     @Override
@@ -48,6 +50,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseDTO deleteCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
+        courseStudentRepository.deleteByCourse(course);
         courseRepository.delete(course);
         return modelMapper.map(course, CourseDTO.class);
     }

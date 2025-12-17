@@ -19,4 +19,6 @@ public interface CourseStudentRepository extends JpaRepository<CourseStudent, Lo
     List<CourseStudent> findByStudent(User student);
 
     void deleteByStudent(User existingUser);
+
+    void deleteByCourse(Course course);
 }
