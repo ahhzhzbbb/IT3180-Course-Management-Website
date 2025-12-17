@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -16,18 +18,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    private Integer role;
-
-    @Column(nullable = true)
-    private String password;
-    private LocalDate createAt = LocalDate.now();
-    private String status;
-    private String name;
-    private Boolean gender;
-    private LocalDate birth;
-
-
-    @Column(nullable = false, unique = true)
+    private String userName;
     private String email;
-    private String phoneNumber;
+    private String password;
+
+    public User(String userName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+    @Setter
+    @Getter
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+
+
 }

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f0f2f5;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button.logout {
+            background: #dc3545;
+        }
+
+        button.logout:hover {
+            background: #a71d2a;
+        }
+
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            background: #e9ecef;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>1. Login</h2>
+        <p>This sets the HttpOnly cookie in your browser.</p>
+        <input type="text" id="username" placeholder="Username" value="admin">
+        <input type="password" id="password" placeholder="Password" value="password123">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div class="card">
+        <h2>2. Test Access</h2>
+        <p>Try to access a protected resource (e.g., /api/courses).</p>
+        <button onclick="checkAccess()">Check Protected Resource</button>
+    </div>
+
+    <div class="card">
+        <h2>3. Sign Out</h2>
+        <p>This should clear the cookie.</p>
+        <button class="logout" onclick="logout()">Sign Out</button>
+    </div>
+
+    <div id="status">Status: Waiting for action...</div>
+
+    <script>
+        // CONFIGURATION: Change these URLs to match your Backend
+        const API_URL = 'http://localhost:8080/api';
+        const LOGIN_URL = `${API_URL}/auth/signin`;   // Adjust if your login path is different
+        const LOGOUT_URL = `${API_URL}/auth/signout`;
+        const PROTECTED_URL = `${API_URL}/courses`; // Change to any protected endpoint you have
+
+        function showStatus(message, isError = false) {
+            const el = document.getElementById('status');
+            el.innerHTML = message;
+            el.style.color = isError ? 'red' : 'green';
+            console.log(message);
+        }
+
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(LOGIN_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include', // CRITICAL: Tells browser to save the cookie it receives
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    showStatus("✅ Login Successful! Cookie should be set.");
+                } else {
+                    showStatus(`❌ Login Failed: ${response.status}`, true);
+                }
+            } catch (e) {
+                showStatus(`❌ Network Error: ${e.message}`, true);
+            }
+        }
+
+        async function checkAccess() {
+            try {
+                const response = await fetch(PROTECTED_URL, {
+                    method: 'GET',
+                    credentials: 'include' // CRITICAL: Tells browser to send the cookie
+                });
+
+                if (response.ok) {
+                    const data = await response.text();
+                    showStatus(`✅ Access Granted!\nServer Response: ${data}`);
+                } else {
+                    showStatus(`⛔ Access Denied (Status: ${response.status}).\nYou are not logged in.`, true);
+                }
+            } catch (e) {
+                showStatus(`❌ Network Error: ${e.message}`, true);
+            }
+        }
+
+        async function logout() {
+            try {
+                const response = await fetch(LOGOUT_URL, {
+                    method: 'POST',
+                    credentials: 'include' // CRITICAL: Sends the cookie so server knows WHICH user to logout
+                });
+
+                if (response.ok) {
+                    showStatus("👋 Logout Successful! Cookie should be deleted.");
+                } else {
+                    showStatus(`❌ Logout Failed: ${response.status}`, true);
+                }
+            } catch (e) {
+                showStatus(`❌ Network Error: ${e.message}`, true);
+            }
+        }
+    </script>
+</body>
+
+</html>
