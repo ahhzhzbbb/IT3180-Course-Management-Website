@@ -5,7 +5,7 @@ import com.example.course_view.security.request.LoginRequest;
 import com.example.course_view.security.request.SignupRequest;
 import com.example.course_view.security.response.MessageResponse;
 import com.example.course_view.services.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {

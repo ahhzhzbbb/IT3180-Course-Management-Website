@@ -1,16 +1,17 @@
 package com.example.course_view.payload.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.List;
 
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserUpdateRequest {
+    private String username;
+    private String email;
     private String password;
-    private Integer role;
-    private String status;
-    private String name;
-    private Boolean gender;
+    private List<String> roles;
 }

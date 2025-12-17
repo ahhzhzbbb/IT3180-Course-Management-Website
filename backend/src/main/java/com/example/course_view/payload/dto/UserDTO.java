@@ -5,21 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class UserDTO {
-    private Long userId;
-    private Integer role;
-    private String status;
-    private String name;
-    private Boolean gender;
+    private Long id;
+    private String userName;
     private String email;
-
-    public UserDTO(Long userId, String name, String email, Boolean gender) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.gender = gender;
-    }
 }

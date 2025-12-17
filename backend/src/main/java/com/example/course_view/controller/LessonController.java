@@ -3,6 +3,7 @@ package com.example.course_view.controller;
 import com.example.course_view.payload.dto.LessonDTO;
 import com.example.course_view.payload.request.LessonRequest;
 import com.example.course_view.services.LessonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class LessonController {
-    @Autowired
-    private LessonService lessonService;
+    private final LessonService lessonService;
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PostMapping("/chapters/{chapterId}/lessons")

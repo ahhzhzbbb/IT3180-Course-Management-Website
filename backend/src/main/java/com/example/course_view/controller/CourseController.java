@@ -4,6 +4,7 @@ import com.example.course_view.payload.dto.CourseDTO;
 import com.example.course_view.payload.request.CourseRequest;
 import com.example.course_view.payload.response.CourseResponse;
 import com.example.course_view.services.CourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class CourseController {
 
-    @Autowired
-    private CourseService courseService;
+    private final CourseService courseService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/courses")
