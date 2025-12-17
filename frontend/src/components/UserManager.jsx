@@ -1,6 +1,7 @@
+// src/components/UserManager.jsx
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { MOCK_USERS } from './constants';
+import { MOCK_USERS } from './constants'; // Đảm bảo file constants.js đã có dữ liệu
 import { Search, UserPlus, MoreVertical, Shield, Mail, Calendar, X, AlertCircle, Trash2, Ban, CheckCircle } from 'lucide-react';
 
 const UserManager = () => {
@@ -11,10 +12,7 @@ const UserManager = () => {
   })));
 
   const [filterRole, setFilterRole] = useState('All');
-  
-  // 1. STATE MỚI: Lưu từ khóa tìm kiếm
   const [searchTerm, setSearchTerm] = useState('');
-
   const [showAddModal, setShowAddModal] = useState(false);
   const [openMenuId, setOpenMenuId] = useState(null);
 
@@ -32,6 +30,7 @@ const UserManager = () => {
     'Student': 'Học viên'
   };
 
+  // Click ra ngoài thì đóng menu
   useEffect(() => {
     const handleClickOutside = () => setOpenMenuId(null);
     if (openMenuId) {
@@ -40,18 +39,13 @@ const UserManager = () => {
     return () => window.removeEventListener('click', handleClickOutside);
   }, [openMenuId]);
 
-  // 2. LOGIC LỌC MỚI: Kết hợp Role và Tìm kiếm
+  // Logic lọc user
   const filteredUsers = users.filter(user => {
-    // Điều kiện 1: Khớp Role (hoặc chọn Tất cả)
     const matchRole = filterRole === 'All' ? true : user.role === filterRole;
-    
-    // Điều kiện 2: Khớp tên HOẶC email (không phân biệt hoa thường)
     const searchLower = searchTerm.toLowerCase();
     const matchSearch = 
       user.name.toLowerCase().includes(searchLower) || 
       user.email.toLowerCase().includes(searchLower);
-
-    // Phải thỏa mãn cả 2 điều kiện
     return matchRole && matchSearch;
   });
 
@@ -100,6 +94,7 @@ const UserManager = () => {
     setUsers(users.map(u => u.id === userId ? { ...u, status: 'Active' } : u));
   };
 
+  // Modal Content
   const modalContent = showAddModal && (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden relative z-10" onClick={(e) => e.stopPropagation()}>
@@ -181,7 +176,6 @@ const UserManager = () => {
           
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-            {/* 3. GẮN STATE SEARCHTERM VÀO Ô INPUT */}
             <input 
               type="text" 
               placeholder="Tìm theo tên hoặc email..." 
@@ -194,85 +188,92 @@ const UserManager = () => {
 
         <div className="divide-y divide-slate-100">
           {filteredUsers.length > 0 ? (
-            filteredUsers.map((user) => (
-              <div key={user.id} className="p-4 flex flex-col sm:flex-row items-center justify-between hover:bg-slate-50 transition-colors gap-4">
-                <div className="flex items-center space-x-4 w-full sm:w-auto">
-                  <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full object-cover border border-slate-200" />
-                  <div>
-                    <h4 className="font-semibold text-slate-800">{user.name}</h4>
-                    <div className="flex items-center text-slate-500 text-sm">
-                      <Mail size={12} className="mr-1" />
-                      {user.email}
+            filteredUsers.map((user, index) => {
+              // --- FIX LỖI DROPDOWN BỊ MẤT Ở CUỐI ---
+              // Dòng mới: Chỉ mở lên nếu danh sách > 2 VÀ đang ở cuối
+              const isLastRow = filteredUsers.length > 2 && index >= filteredUsers.length - 2;
+
+              return (
+                <div key={user.id} className="p-4 flex flex-col sm:flex-row items-center justify-between hover:bg-slate-50 transition-colors gap-4">
+                  <div className="flex items-center space-x-4 w-full sm:w-auto">
+                    <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full object-cover border border-slate-200" />
+                    <div>
+                      <h4 className="font-semibold text-slate-800">{user.name}</h4>
+                      <div className="flex items-center text-slate-500 text-sm">
+                        <Mail size={12} className="mr-1" />
+                        {user.email}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-4 sm:gap-8 w-full sm:w-auto justify-between sm:justify-end">
+                    <div className="flex items-center text-sm text-slate-500 min-w-[120px]">
+                      <Shield size={14} className="mr-1.5 text-slate-400" />
+                      <span className={`font-medium ${
+                        user.role === 'Admin' ? 'text-purple-600' :
+                        user.role === 'Instructor' ? 'text-blue-600' : 'text-slate-600'
+                      }`}>{ROLE_NAMES[user.role]}</span>
+                    </div>
+
+                    <div className="flex items-center text-sm text-slate-500 min-w-[120px]">
+                      <Calendar size={14} className="mr-1.5 text-slate-400" />
+                      <span>{new Date(user.joinDate).toLocaleDateString()}</span>
+                    </div>
+
+                    <div className="min-w-[80px]">
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                        user.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' :
+                        'bg-red-50 text-red-700 border-red-200'
+                      }`}>{user.status}</span>
+                    </div>
+
+                    <div className="relative">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenuId(openMenuId === user.id ? null : user.id);
+                        }}
+                        className={`text-slate-400 hover:text-slate-600 p-2 hover:bg-slate-100 rounded-lg transition-colors ${openMenuId === user.id ? 'bg-slate-100 text-slate-600' : ''}`}
+                      >
+                        <MoreVertical size={18} />
+                      </button>
+
+                      {openMenuId === user.id && (
+                        // --- ÁP DỤNG LOGIC isLastRow ---
+                        <div className={`absolute right-0 w-36 bg-white rounded-lg shadow-xl border border-slate-100 z-20 overflow-hidden animate-fade-in
+                          ${isLastRow ? 'bottom-full mb-2 origin-bottom' : 'top-full mt-2 origin-top'}
+                        `}>
+                          <div className="py-1">
+                            <button 
+                              onClick={() => handleActive(user.id)}
+                              className="w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 flex items-center gap-2"
+                            >
+                              <CheckCircle size={14} />
+                              <span>Active</span>
+                            </button>
+                            <button 
+                              onClick={() => handleBan(user.id)}
+                              className="w-full text-left px-4 py-2 text-sm text-yellow-600 hover:bg-yellow-50 flex items-center gap-2"
+                            >
+                              <Ban size={14} />
+                              <span>Banned</span>
+                            </button>
+                            <button 
+                              onClick={() => handleDelete(user.id)}
+                              className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                            >
+                              <Trash2 size={14} />
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-
-                <div className="flex flex-wrap items-center gap-4 sm:gap-8 w-full sm:w-auto justify-between sm:justify-end">
-                  <div className="flex items-center text-sm text-slate-500 min-w-[120px]">
-                    <Shield size={14} className="mr-1.5 text-slate-400" />
-                    <span className={`font-medium ${
-                      user.role === 'Admin' ? 'text-purple-600' :
-                      user.role === 'Instructor' ? 'text-blue-600' : 'text-slate-600'
-                    }`}>{ROLE_NAMES[user.role]}</span>
-                  </div>
-
-                  <div className="flex items-center text-sm text-slate-500 min-w-[120px]">
-                    <Calendar size={14} className="mr-1.5 text-slate-400" />
-                    <span>{new Date(user.joinDate).toLocaleDateString()}</span>
-                  </div>
-
-                  <div className="min-w-[80px]">
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                      user.status === 'Active' ? 'bg-green-50 text-green-700 border-green-200' :
-                      'bg-red-50 text-red-700 border-red-200'
-                    }`}>{user.status}</span>
-                  </div>
-
-                  <div className="relative">
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setOpenMenuId(openMenuId === user.id ? null : user.id);
-                      }}
-                      className={`text-slate-400 hover:text-slate-600 p-2 hover:bg-slate-100 rounded-lg transition-colors ${openMenuId === user.id ? 'bg-slate-100 text-slate-600' : ''}`}
-                    >
-                      <MoreVertical size={18} />
-                    </button>
-
-                    {openMenuId === user.id && (
-                      <div className="absolute right-0 top-full mt-2 w-36 bg-white rounded-lg shadow-xl border border-slate-100 z-20 overflow-hidden animate-fade-in">
-                        <div className="py-1">
-                          <button 
-                            onClick={() => handleActive(user.id)}
-                            className="w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 flex items-center gap-2"
-                          >
-                            <CheckCircle size={14} />
-                            <span>Active</span>
-                          </button>
-                          <button 
-                            onClick={() => handleBan(user.id)}
-                            className="w-full text-left px-4 py-2 text-sm text-yellow-600 hover:bg-yellow-50 flex items-center gap-2"
-                          >
-                            <Ban size={14} />
-                            <span>Banned</span>
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(user.id)}
-                            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
-                          >
-                            <Trash2 size={14} />
-                            <span>Delete</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
-            // Hiển thị thông báo nếu không tìm thấy kết quả
             <div className="p-8 text-center text-slate-500">
               Không tìm thấy người dùng nào phù hợp.
             </div>

@@ -1,24 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
-import DashBoard from "../pages/testPage";
-
-// 1. IMPORT TRANG ADMIN
-// (Lưu ý: Đảm bảo bro đã tạo file AdminPage.jsx trong thư mục src/pages/Admin/ như hướng dẫn trước)
-import AdminPage from "../pages/AdminPage";
+import AdminPage from "../pages/AdminPage"; // File chứa Sidebar
+import CourseDetail from "../pages/CourseDetail"; // Import file vừa tạo
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <LoginPage />
+    element: <LoginPage />,
   },
-  {
-    path: "/dashboard",
-    element: <DashBoard />
-  },
-  
-  // 2. THÊM ROUTE ADMIN
   {
     path: "/admin",
-    element: <AdminPage />
+    element: <AdminPage />,
+  },
+  // THÊM DÒNG NÀY:
+  // Khi người dùng vào /admin/course/123 thì hiện trang CourseDetail
+  {
+    path: "/admin/course/:id", 
+    element: <CourseDetail />, 
   }
 ]);
