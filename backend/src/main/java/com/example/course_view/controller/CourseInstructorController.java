@@ -31,15 +31,14 @@ public class CourseInstructorController {
         return new ResponseEntity<>(courseInstructorDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/courses/{courseId}/instructors")
-    public ResponseEntity<UserResponse> getAllInstructorFromCourse(@PathVariable Long courseId) {
+    public ResponseEntity<UserResponse> getAllInstructorsFromCourse(@PathVariable Long courseId) {
         UserResponse userResponse = courseInstructorService.getAllInstructorsFromCourse(courseId);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     @GetMapping("/instructors/{instructorId}/courses")
-    public ResponseEntity<CourseResponse> getAllCoursesFromStudent(@PathVariable Long instructorId) {
+    public ResponseEntity<CourseResponse> getAllCoursesFromInstructor(@PathVariable Long instructorId) {
         CourseResponse courseResponse = courseInstructorService.getAllCoursesFromInstructor(instructorId);
         return new ResponseEntity<>(courseResponse, HttpStatus.OK);
     }
