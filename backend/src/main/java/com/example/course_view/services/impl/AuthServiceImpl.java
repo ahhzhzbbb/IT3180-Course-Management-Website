@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
                 .toList();
 
         UserInfoResponse response = new UserInfoResponse(userDetails.getId(),
-                userDetails.getUsername(), roles, userDetails.getEmail(), jwtCookie.toString());
+                userDetails.getUsername(), roles, jwtCookie.toString());
 
         return new AuthenticationResult(response, jwtCookie);
     }
@@ -76,13 +76,9 @@ public class AuthServiceImpl implements AuthService {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-        }
 
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getPhoneNumber(),
                 signUpRequest.getBirth(),

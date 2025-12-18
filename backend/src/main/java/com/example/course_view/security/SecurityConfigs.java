@@ -119,17 +119,17 @@ public class SecurityConfigs {
 
             // Create users if not already present
             if (!userRepository.existsByUserName("user1")) {
-                User user1 = new User("user1", "user1@example.com", passwordEncoder.encode("password1"));
+                User user1 = new User("user1",  passwordEncoder.encode("password1"));
                 userRepository.save(user1);
             }
 
             if (!userRepository.existsByUserName("instructor1")) {
-                User instructor1 = new User("instructor1", "instructor1@example.com", passwordEncoder.encode("password2"));
+                User instructor1 = new User("instructor1", passwordEncoder.encode("password2"));
                 userRepository.save(instructor1);
             }
 
             if (!userRepository.existsByUserName("admin")) {
-                User admin = new User("admin", "admin@example.com", passwordEncoder.encode("adminpass"));
+                User admin = new User("admin", passwordEncoder.encode("adminpass"));
                 userRepository.save(admin);
             }
 

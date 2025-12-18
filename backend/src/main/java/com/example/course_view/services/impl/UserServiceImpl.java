@@ -36,7 +36,16 @@ public class UserServiceImpl implements UserService {
     public UserResponse getAllUsers() {
         List<User> users = userRepository.findAll();
         List<UserDTO> userDTOs = users.stream()
-                .map(user -> modelMapper.map(user, UserDTO.class))
+                .map(user -> {
+                    List<String> userRoles = user.getRoles().stream()
+                            .map(role -> role.getRoleName().name())
+                            .toList();
+                    return new UserDTO(
+                            user.getUserId(),
+                            user.getUserName(),
+                            userRoles
+                    );
+                })
                 .toList();
         return new UserResponse(userDTOs);
     }
@@ -47,13 +56,8 @@ public class UserServiceImpl implements UserService {
             throw new IllegalStateException("username already existed");
         }
 
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new IllegalStateException("email already existed");
-        }
-
         User user = new User(
                 signupRequest.getUsername(),
-                signupRequest.getEmail(),
                 encoder.encode(signupRequest.getPassword())
         );
 
@@ -92,7 +96,7 @@ public class UserServiceImpl implements UserService {
         List<String> savedUserRoles = savedUser.getRoles().stream()
                 .map(role -> role.getRoleName().name())
                 .toList();
-        return new UserInfoResponse(savedUser.getUserId(), savedUser.getUserName(), savedUserRoles, savedUser.getEmail(), null);
+        return new UserInfoResponse(savedUser.getUserId(), savedUser.getUserName(), savedUserRoles,  null);
     }
 
     @Transactional
@@ -107,7 +111,6 @@ public class UserServiceImpl implements UserService {
                 existingUser.getUserId(),
                 existingUser.getUserName(),
                 existingUserRoles,
-                existingUser.getEmail(),
                 ""
         );
         userRepository.delete(existingUser);
@@ -129,13 +132,6 @@ public class UserServiceImpl implements UserService {
             user.setUserName(request.getUsername());
         }
 
-        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
-            if (!user.getEmail().equals(request.getEmail()) &&
-                    userRepository.existsByEmail(request.getEmail())) {
-                throw new RuntimeException("Error: Email is already in use!");
-            }
-            user.setEmail(request.getEmail());
-        }
 
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(encoder.encode(request.getPassword()));
@@ -184,7 +180,6 @@ public class UserServiceImpl implements UserService {
                 savedUser.getUserId(),
                 savedUser.getUserName(),
                 savedUserRoles,
-                savedUser.getEmail(),
                 null
         );
     }

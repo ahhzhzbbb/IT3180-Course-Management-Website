@@ -20,7 +20,6 @@ public class User {
 
     @Column(nullable = false)
     private String userName;
-    private String email;
     private String password;
     private String phoneNumber;
     private LocalDate createdAt = LocalDate.now();
@@ -28,15 +27,13 @@ public class User {
     private Boolean gender;
     private String state;
 
-    public User(String userName, String email, String password) {
+    public User(String userName, String password) {
         this.userName = userName;
-        this.email = email;
         this.password = password;
     }
 
-    public User(String userName, String email, String password, String phoneNumber, LocalDate birth, Boolean gender) {
+    public User(String userName, String password, String phoneNumber, LocalDate birth, Boolean gender) {
         this.userName = userName;
-        this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.birth = birth;

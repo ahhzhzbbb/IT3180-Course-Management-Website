@@ -3,13 +3,11 @@ package com.example.course_view.controller;
 import com.example.course_view.payload.dto.CourseStudentDTO;
 import com.example.course_view.payload.response.CourseResponse;
 import com.example.course_view.payload.response.UserResponse;
-import com.example.course_view.security.services.UserDetailsImpl;
 import com.example.course_view.services.CourseStudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,7 +38,6 @@ public class CourseStudentController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/students/{studentId}/courses")
     public ResponseEntity<CourseResponse> getAllCoursesFromStudent(@PathVariable Long studentId) {
         CourseResponse courseResponse = courseStudentService.getAllCoursesFromStudent(studentId);
