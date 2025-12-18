@@ -107,5 +107,8 @@ public class UserDetailsImpl implements UserDetails {
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
     }
-
+    public boolean hasRole(String role) {
+        return authorities.stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_" + role));
+    }
 }

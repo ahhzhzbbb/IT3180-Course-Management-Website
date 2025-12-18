@@ -36,14 +36,17 @@ public class CourseStudentServiceImpl implements CourseStudentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
         User student = userRepository.findById(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student", "id", studentId));
+        if (!student.isStudent()) {
+            throw new IllegalStateException("User is not a student");
+        }
         if (courseStudentRepository.existsByCourseAndStudent(course, student)) {
-            throw new IllegalStateException("This student has already enrolled in this course");
+            throw new IllegalStateException("Student already enrolled this course");
         }
         CourseStudent courseStudent = new CourseStudent();
         courseStudent.setCourse(course);
         courseStudent.setStudent(student);
-        CourseStudent saveCourseStudent = courseStudentRepository.save(courseStudent);
-        return modelMapper.map(courseStudent, CourseStudentDTO.class);
+        CourseStudent savedCourseStudent = courseStudentRepository.save(courseStudent);
+        return modelMapper.map(savedCourseStudent, CourseStudentDTO.class);
     }
 
     @Transactional
@@ -59,7 +62,7 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
-    public UserResponse getAllStudentFromCourse(Long courseId) {
+    public UserResponse getAllStudentsFromCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "Id", courseId));
         List<CourseStudent> courseStudents = courseStudentRepository.findByCourse(course);

@@ -4,7 +4,9 @@ import com.example.course_view.exceptions.ResourceNotFoundException;
 import com.example.course_view.models.AppRole;
 import com.example.course_view.models.Role;
 import com.example.course_view.models.User;
+import com.example.course_view.payload.dto.UserDTO;
 import com.example.course_view.payload.request.UserUpdateRequest;
+import com.example.course_view.payload.response.UserResponse;
 import com.example.course_view.repositories.CourseStudentRepository;
 import com.example.course_view.repositories.RoleRepository;
 import com.example.course_view.repositories.UserRepository;
@@ -12,6 +14,7 @@ import com.example.course_view.security.request.SignupRequest;
 import com.example.course_view.security.response.UserInfoResponse;
 import com.example.course_view.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,16 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final CourseStudentRepository courseStudentRepository;
     private final PasswordEncoder encoder;
+    private final ModelMapper modelMapper;
+
+    @Override
+    public UserResponse getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOs = users.stream()
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .toList();
+        return new UserResponse(userDTOs);
+    }
 
     @Override
     public UserInfoResponse createUser(SignupRequest signupRequest) {
@@ -175,4 +188,5 @@ public class UserServiceImpl implements UserService {
                 null
         );
     }
+
 }

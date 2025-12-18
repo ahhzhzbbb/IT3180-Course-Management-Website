@@ -53,5 +53,21 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
+    public boolean hasRole(AppRole role) {
+        return roles.stream()
+                .anyMatch(r -> r.getRoleName() == role);
+    }
+
+    public boolean isInstructor() {
+        return hasRole(AppRole.ROLE_INSTRUCTOR);
+    }
+
+    public boolean isStudent() {
+        return hasRole(AppRole.ROLE_USER);
+    }
+
+    public boolean isAdmin() {
+        return hasRole(AppRole.ROLE_ADMIN);
+    }
 
 }

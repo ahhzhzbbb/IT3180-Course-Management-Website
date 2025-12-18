@@ -39,8 +39,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseDTO createCourse(CourseDTO courseDTO) {
-        Course newCourse = modelMapper.map(courseDTO, Course.class);
+    public CourseDTO createCourse(CourseRequest courseRequest) {
+        Course newCourse = modelMapper.map(courseRequest, Course.class);
         Course addedCourse = courseRepository.save(newCourse);
         return modelMapper.map(addedCourse, CourseDTO.class);
     }
