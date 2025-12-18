@@ -1,24 +1,18 @@
 package com.example.course_view.payload.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-@NoArgsConstructor
-@Data
-public class UserDTO {
-    private Long userId;
-    private int role;
-    private LocalDate createAt;
-    private String status;
-    private String name;
-    private boolean gender;
-    private String email;
+import java.util.List;
 
-    public UserDTO(Long userId, String name, String email, boolean gender) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.gender = gender;
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTO {
+    private Long id;
+    private String username;
+    private String name;
+    private List<String> roles;
 }

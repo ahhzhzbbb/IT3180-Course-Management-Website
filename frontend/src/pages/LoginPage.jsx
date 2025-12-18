@@ -1,8 +1,8 @@
-import LoginForm from "../components/LoginForm";
-import ToggleBox from "../components/ToggleBox";
+import LoginForm from "../components/auth/LoginForm";
+import ToggleBox from "../components/auth/ToggleBox";
 
 import { useState, useEffect } from "react";
-import SignUpForm from "../components/SignUpForm";
+import SignUpForm from "../components/auth/SignUpForm";
 
 import "../styles/LoginPage.css";
 /*

@@ -9,21 +9,20 @@ import com.example.course_view.repositories.ChapterRepository;
 import com.example.course_view.repositories.CourseRepository;
 import com.example.course_view.services.ChapterService;
 
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ChapterServiceImpl implements ChapterService {
 
-    @Autowired
-    private ChapterRepository chapterRepository;
+    private final ChapterRepository chapterRepository;
 
-    @Autowired
-    private CourseRepository courseRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final CourseRepository courseRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional
     @Override

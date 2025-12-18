@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CourseRequest {
     private String title;
+    private String description;
 }

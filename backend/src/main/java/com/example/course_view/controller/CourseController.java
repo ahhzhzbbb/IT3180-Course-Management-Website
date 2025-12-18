@@ -4,22 +4,24 @@ import com.example.course_view.payload.dto.CourseDTO;
 import com.example.course_view.payload.request.CourseRequest;
 import com.example.course_view.payload.response.CourseResponse;
 import com.example.course_view.services.CourseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class CourseController {
 
-    @Autowired
-    private CourseService courseService;
+    private final CourseService courseService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/courses")
-    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO courseDTO) {
-        CourseDTO addedCourseDTO = courseService.createCourse(courseDTO);
+    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseRequest courseRequest) {
+        CourseDTO addedCourseDTO = courseService.createCourse(courseRequest);
         return new ResponseEntity<>(addedCourseDTO, HttpStatus.CREATED);
     }
 
@@ -35,11 +37,14 @@ public class CourseController {
         return ResponseEntity.ok().body(courseDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/courses/{courseId}")
     public ResponseEntity<CourseDTO> deleteCourse(@PathVariable("courseId") Long courseId){
         CourseDTO courseDTO = courseService.deleteCourse(courseId);
         return ResponseEntity.ok().body(courseDTO);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/courses/{courseId}")
     public ResponseEntity<CourseDTO> updateCourse(@PathVariable("courseId") Long courseId, @RequestBody CourseRequest courseRequest){
         CourseDTO courseDTO = courseService.updateCourse(courseId, courseRequest);
