@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-    // test
+
     private final CourseRepository courseRepository;
     private final CourseStudentRepository courseStudentRepository;
     private final ModelMapper modelMapper;
