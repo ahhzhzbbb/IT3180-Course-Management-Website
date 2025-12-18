@@ -30,6 +30,7 @@ public class ChapterController {
         ChapterDTO chapterDTO = chapterService.deleteChapter(chapterId);
         return new ResponseEntity<>(chapterDTO, HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PutMapping("chapters/{chapterId}")
     public ResponseEntity<ChapterDTO> updateChapter(@PathVariable Long chapterId, @RequestBody ChapterRequest chapterRequest) {

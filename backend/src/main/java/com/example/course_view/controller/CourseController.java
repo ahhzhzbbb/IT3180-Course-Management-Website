@@ -20,8 +20,8 @@ public class CourseController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/courses")
-    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseDTO courseDTO) {
-        CourseDTO addedCourseDTO = courseService.createCourse(courseDTO);
+    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseRequest courseRequest) {
+        CourseDTO addedCourseDTO = courseService.createCourse(courseRequest);
         return new ResponseEntity<>(addedCourseDTO, HttpStatus.CREATED);
     }
 

@@ -25,19 +25,18 @@ public class UserDetailsImpl implements UserDetails {
 
     private String username;
 
-    private String email;
-
+    private String name;
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password,
+    public UserDetailsImpl(Long id, String username, String password, String name,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
-        this.email = email;
         this.password = password;
+        this.name = name;
         this.authorities = authorities;
     }
 
@@ -48,8 +47,8 @@ public class UserDetailsImpl implements UserDetails {
 
         return new UserDetailsImpl(
                 user.getUserId(),
-                user.getUserName(),
-                user.getEmail(),
+                user.getUsername(),
+                user.getName(),
                 user.getPassword(),
                 authorities
         );
@@ -64,9 +63,6 @@ public class UserDetailsImpl implements UserDetails {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     @Override
     public String getPassword() {
@@ -107,5 +103,8 @@ public class UserDetailsImpl implements UserDetails {
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
     }
-
+    public boolean hasRole(String role) {
+        return authorities.stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_" + role));
+    }
 }

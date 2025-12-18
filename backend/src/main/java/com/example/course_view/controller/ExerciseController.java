@@ -25,12 +25,14 @@ public class ExerciseController {
         ExerciseDTO newExerciseDTO = exerciseService.createExercise(lessonId, exerciseRequest);
         return new ResponseEntity<>(newExerciseDTO, HttpStatus.CREATED);
     }
+
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @DeleteMapping("/exercises/{exerciseId}")
     public ResponseEntity<ExerciseDTO> deleteExercise(@PathVariable Long exerciseId) {
         ExerciseDTO exerciseDTO = exerciseService.deleteExercise(exerciseId);
         return new ResponseEntity<>(exerciseDTO, HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PutMapping("/exercises/{exerciseId}")
     public ResponseEntity<ExerciseDTO>  updateExercise(@PathVariable Long exerciseId, @RequestBody ExerciseRequest exerciseRequest) {

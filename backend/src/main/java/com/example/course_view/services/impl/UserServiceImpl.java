@@ -4,7 +4,9 @@ import com.example.course_view.exceptions.ResourceNotFoundException;
 import com.example.course_view.models.AppRole;
 import com.example.course_view.models.Role;
 import com.example.course_view.models.User;
+import com.example.course_view.payload.dto.UserDTO;
 import com.example.course_view.payload.request.UserUpdateRequest;
+import com.example.course_view.payload.response.UserResponse;
 import com.example.course_view.repositories.CourseStudentRepository;
 import com.example.course_view.repositories.RoleRepository;
 import com.example.course_view.repositories.UserRepository;
@@ -12,6 +14,7 @@ import com.example.course_view.security.request.SignupRequest;
 import com.example.course_view.security.response.UserInfoResponse;
 import com.example.course_view.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,18 +32,32 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public UserInfoResponse createUser(SignupRequest signupRequest) {
-        if (userRepository.existsByUserName(signupRequest.getUsername())) {
-            throw new IllegalStateException("username already existed");
-        }
+    public UserResponse getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOs = users.stream()
+                .map(user -> {
+                    List<String> userRoles = user.getRoles().stream()
+                            .map(role -> role.getRoleName().name())
+                            .toList();
+                    return new UserDTO(
+                            user.getUserId(),
+                            user.getUsername(),
+                            user.getName(),
+                            userRoles
+                    );
+                })
+                .toList();
+        return new UserResponse(userDTOs);
+    }
 
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            throw new IllegalStateException("email already existed");
+    @Override
+    public UserInfoResponse createUser(SignupRequest signupRequest) {
+        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+            throw new IllegalStateException("username already existed");
         }
 
         User user = new User(
                 signupRequest.getUsername(),
-                signupRequest.getEmail(),
                 encoder.encode(signupRequest.getPassword())
         );
 
@@ -79,7 +96,7 @@ public class UserServiceImpl implements UserService {
         List<String> savedUserRoles = savedUser.getRoles().stream()
                 .map(role -> role.getRoleName().name())
                 .toList();
-        return new UserInfoResponse(savedUser.getUserId(), savedUser.getUserName(), savedUserRoles, savedUser.getEmail(), null);
+        return new UserInfoResponse(savedUser.getUserId(), null, savedUser.getUsername(), savedUser.getName(), savedUserRoles);
     }
 
     @Transactional
@@ -92,10 +109,10 @@ public class UserServiceImpl implements UserService {
                 .toList();
         UserInfoResponse deletedUserInfoResponse = new UserInfoResponse(
                 existingUser.getUserId(),
-                existingUser.getUserName(),
-                existingUserRoles,
-                existingUser.getEmail(),
-                ""
+                null,
+                existingUser.getUsername(),
+                existingUser.getName(),
+                existingUserRoles
         );
         userRepository.delete(existingUser);
         courseStudentRepository.deleteByStudent(existingUser);
@@ -109,20 +126,13 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         if (request.getUsername() != null && !request.getUsername().isEmpty()) {
-            if (!user.getUserName().equals(request.getUsername()) &&
-                    userRepository.existsByUserName(request.getUsername())) {
+            if (!user.getUsername().equals(request.getUsername()) &&
+                    userRepository.existsByUsername(request.getUsername())) {
                 throw new RuntimeException("Error: Username is already taken!");
             }
-            user.setUserName(request.getUsername());
+            user.setUsername(request.getUsername());
         }
 
-        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
-            if (!user.getEmail().equals(request.getEmail()) &&
-                    userRepository.existsByEmail(request.getEmail())) {
-                throw new RuntimeException("Error: Email is already in use!");
-            }
-            user.setEmail(request.getEmail());
-        }
 
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(encoder.encode(request.getPassword()));
@@ -169,10 +179,11 @@ public class UserServiceImpl implements UserService {
 
         return new UserInfoResponse(
                 savedUser.getUserId(),
-                savedUser.getUserName(),
-                savedUserRoles,
-                savedUser.getEmail(),
-                null
+                null,
+                savedUser.getUsername(),
+                savedUser.getName(),
+                savedUserRoles
         );
     }
+
 }

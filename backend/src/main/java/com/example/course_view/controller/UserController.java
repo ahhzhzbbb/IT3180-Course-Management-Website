@@ -1,6 +1,7 @@
 package com.example.course_view.controller;
 
 import com.example.course_view.payload.request.UserUpdateRequest;
+import com.example.course_view.payload.response.UserResponse;
 import com.example.course_view.security.request.SignupRequest;
 import com.example.course_view.security.response.UserInfoResponse;
 import com.example.course_view.services.UserService;
@@ -14,7 +15,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/users")
+    public ResponseEntity<UserResponse> getAllUsers() {
+        UserResponse userResponse = userService.getAllUsers();
+        return ResponseEntity.ok(userResponse);
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/users")

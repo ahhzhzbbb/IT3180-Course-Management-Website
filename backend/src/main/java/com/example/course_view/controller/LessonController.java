@@ -22,12 +22,14 @@ public class LessonController {
         LessonDTO lessonDTO = lessonService.createLesson(chapterId, lessonRequest);
         return new ResponseEntity<>(lessonDTO, HttpStatus.CREATED);
     }
+
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @DeleteMapping("/lessons/{lessonId}")
     public ResponseEntity<LessonDTO> deleteLesson(@PathVariable Long lessonId) {
         LessonDTO lessonDTO = lessonService.deleteLesson(lessonId);
         return new ResponseEntity<>(lessonDTO, HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PutMapping("/lessons/{lessonId}")
     public ResponseEntity<LessonDTO>  updateLesson(@PathVariable Long lessonId, @RequestBody LessonRequest lessonRequest) {

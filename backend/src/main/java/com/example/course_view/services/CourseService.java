@@ -7,7 +7,7 @@ import com.example.course_view.payload.response.CourseResponse;
 public interface CourseService {
     CourseResponse getAllCourses();
 
-    CourseDTO createCourse(CourseDTO courseDTO);
+    CourseDTO createCourse(CourseRequest courseRequest);
 
     CourseDTO deleteCourse(Long courseId);
 

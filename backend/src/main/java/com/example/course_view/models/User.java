@@ -19,25 +19,24 @@ public class User {
     private Long userId;
 
     @Column(nullable = false)
-    private String userName;
-    private String email;
+    private String username;
     private String password;
+    private String name;
     private String phoneNumber;
     private LocalDate createdAt = LocalDate.now();
     private LocalDate birth;
     private Boolean gender;
     private String state;
 
-    public User(String userName, String email, String password) {
-        this.userName = userName;
-        this.email = email;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public User(String userName, String email, String password, String phoneNumber, LocalDate birth, Boolean gender) {
-        this.userName = userName;
-        this.email = email;
+    public User(String username, String password, String name, String phoneNumber, LocalDate birth, Boolean gender) {
+        this.username = username;
         this.password = password;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.birth = birth;
         this.gender = gender;
@@ -53,5 +52,21 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
+    public boolean hasRole(AppRole role) {
+        return roles.stream()
+                .anyMatch(r -> r.getRoleName() == role);
+    }
+
+    public boolean isInstructor() {
+        return hasRole(AppRole.ROLE_INSTRUCTOR);
+    }
+
+    public boolean isStudent() {
+        return hasRole(AppRole.ROLE_USER);
+    }
+
+    public boolean isAdmin() {
+        return hasRole(AppRole.ROLE_ADMIN);
+    }
 
 }
