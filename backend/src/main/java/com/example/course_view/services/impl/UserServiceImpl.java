@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final CourseStudentRepository courseStudentRepository;
     private final PasswordEncoder encoder;
-    private final ModelMapper modelMapper;
 
     @Override
     public UserResponse getAllUsers() {
@@ -42,7 +41,8 @@ public class UserServiceImpl implements UserService {
                             .toList();
                     return new UserDTO(
                             user.getUserId(),
-                            user.getUserName(),
+                            user.getUsername(),
+                            user.getName(),
                             userRoles
                     );
                 })
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfoResponse createUser(SignupRequest signupRequest) {
-        if (userRepository.existsByUserName(signupRequest.getUsername())) {
+        if (userRepository.existsByUsername(signupRequest.getUsername())) {
             throw new IllegalStateException("username already existed");
         }
 
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
         List<String> savedUserRoles = savedUser.getRoles().stream()
                 .map(role -> role.getRoleName().name())
                 .toList();
-        return new UserInfoResponse(savedUser.getUserId(), savedUser.getUserName(), savedUserRoles,  null);
+        return new UserInfoResponse(savedUser.getUserId(), null, savedUser.getUsername(), savedUser.getName(), savedUserRoles);
     }
 
     @Transactional
@@ -109,9 +109,10 @@ public class UserServiceImpl implements UserService {
                 .toList();
         UserInfoResponse deletedUserInfoResponse = new UserInfoResponse(
                 existingUser.getUserId(),
-                existingUser.getUserName(),
-                existingUserRoles,
-                ""
+                null,
+                existingUser.getUsername(),
+                existingUser.getName(),
+                existingUserRoles
         );
         userRepository.delete(existingUser);
         courseStudentRepository.deleteByStudent(existingUser);
@@ -125,11 +126,11 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         if (request.getUsername() != null && !request.getUsername().isEmpty()) {
-            if (!user.getUserName().equals(request.getUsername()) &&
-                    userRepository.existsByUserName(request.getUsername())) {
+            if (!user.getUsername().equals(request.getUsername()) &&
+                    userRepository.existsByUsername(request.getUsername())) {
                 throw new RuntimeException("Error: Username is already taken!");
             }
-            user.setUserName(request.getUsername());
+            user.setUsername(request.getUsername());
         }
 
 
@@ -178,9 +179,10 @@ public class UserServiceImpl implements UserService {
 
         return new UserInfoResponse(
                 savedUser.getUserId(),
-                savedUser.getUserName(),
-                savedUserRoles,
-                null
+                null,
+                savedUser.getUsername(),
+                savedUser.getName(),
+                savedUserRoles
         );
     }
 

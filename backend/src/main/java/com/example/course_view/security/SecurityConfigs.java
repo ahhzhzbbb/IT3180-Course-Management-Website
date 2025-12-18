@@ -118,33 +118,33 @@ public class SecurityConfigs {
 
 
             // Create users if not already present
-            if (!userRepository.existsByUserName("user1")) {
+            if (!userRepository.existsByUsername("user1")) {
                 User user1 = new User("user1",  passwordEncoder.encode("password1"));
                 userRepository.save(user1);
             }
 
-            if (!userRepository.existsByUserName("instructor1")) {
+            if (!userRepository.existsByUsername("instructor1")) {
                 User instructor1 = new User("instructor1", passwordEncoder.encode("password2"));
                 userRepository.save(instructor1);
             }
 
-            if (!userRepository.existsByUserName("admin")) {
+            if (!userRepository.existsByUsername("admin")) {
                 User admin = new User("admin", passwordEncoder.encode("adminpass"));
                 userRepository.save(admin);
             }
 
             // Update roles for existing users
-            userRepository.findByUserName("user1").ifPresent(user -> {
+            userRepository.findByUsername("user1").ifPresent(user -> {
                 user.setRoles(userRoles);
                 userRepository.save(user);
             });
 
-            userRepository.findByUserName("instructor1").ifPresent(instructor -> {
+            userRepository.findByUsername("instructor1").ifPresent(instructor -> {
                 instructor.setRoles(instructorRoles);
                 userRepository.save(instructor);
             });
 
-            userRepository.findByUserName("admin").ifPresent(admin -> {
+            userRepository.findByUsername("admin").ifPresent(admin -> {
                 admin.setRoles(adminRoles);
                 userRepository.save(admin);
             });

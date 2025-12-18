@@ -16,7 +16,6 @@ import com.example.course_view.security.services.UserDetailsImpl;
 import com.example.course_view.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,26 +63,33 @@ public class AuthServiceImpl implements AuthService {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
 
-        UserInfoResponse response = new UserInfoResponse(userDetails.getId(),
-                userDetails.getUsername(), roles, jwtCookie.toString());
+        UserInfoResponse response = new UserInfoResponse(
+                userDetails.getId(),
+                jwtCookie.toString(),
+                userDetails.getUsername(),
+                userDetails.getName(),
+                roles
+        );
 
         return new AuthenticationResult(response, jwtCookie);
     }
 
     @Override
     public ResponseEntity<MessageResponse> register(SignupRequest signUpRequest) {
-        if (userRepository.existsByUserName(signUpRequest.getUsername())) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
+        User user = new User(
+                signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getName(),
                 signUpRequest.getPhoneNumber(),
                 signUpRequest.getBirth(),
                 signUpRequest.getGender()
-                );
+        );
 
         Set<String> strRoles = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
@@ -128,7 +134,7 @@ public class AuthServiceImpl implements AuthService {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
 
-        return new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), roles);
+        return new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getName(), roles);
     }
 
 

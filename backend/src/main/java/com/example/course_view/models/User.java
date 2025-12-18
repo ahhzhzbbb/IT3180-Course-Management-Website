@@ -19,22 +19,24 @@ public class User {
     private Long userId;
 
     @Column(nullable = false)
-    private String userName;
+    private String username;
     private String password;
+    private String name;
     private String phoneNumber;
     private LocalDate createdAt = LocalDate.now();
     private LocalDate birth;
     private Boolean gender;
     private String state;
 
-    public User(String userName, String password) {
-        this.userName = userName;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public User(String userName, String password, String phoneNumber, LocalDate birth, Boolean gender) {
-        this.userName = userName;
+    public User(String username, String password, String name, String phoneNumber, LocalDate birth, Boolean gender) {
+        this.username = username;
         this.password = password;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.birth = birth;
         this.gender = gender;
