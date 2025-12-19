@@ -20,7 +20,7 @@ public class UserResourceController {
     private final CourseInstructorService courseInstructorService;
     private final CourseStudentService courseStudentService;
 
-    @PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('USER','INSTRUCTOR')")
     @GetMapping("/me/courses")
     public ResponseEntity<CourseResponse> getMyCourses(Authentication authentication) {
 

@@ -11,7 +11,6 @@ import com.example.course_view.services.LessonService;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +20,13 @@ public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final ChapterRepository chapterRepository;
     private final ModelMapper modelMapper;
+
+    @Override
+    public LessonDTO getLessonById(Long lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
+        return modelMapper.map(lesson, LessonDTO.class);
+    }
 
     @Transactional
     @Override
@@ -56,4 +62,5 @@ public class LessonServiceImpl implements LessonService {
         Lesson savedLesson = lessonRepository.save(existingLesson);
         return modelMapper.map(savedLesson, LessonDTO.class);
     }
+
 }
