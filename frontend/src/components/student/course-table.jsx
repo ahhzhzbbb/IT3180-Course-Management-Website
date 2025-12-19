@@ -5,10 +5,6 @@ export default function CourseTable({
   title,
   description,
   lessons = [],
-  onEditChapter,
-  onDeleteChapter,
-  onEditLesson,
-  onDeleteLesson,
   onLink
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -32,13 +28,6 @@ export default function CourseTable({
         </div>
       </button>
 
-      {/* Hành động trên Chapter */}
-      <div className="course-table-actions">
-        <button className="course-table-btn" onClick={onEditChapter}>✏️ Chỉnh sửa chương</button>
-        <button className="course-table-btn course-table-btn--danger" onClick={onDeleteChapter}>
-          🗑️ Xóa chương
-        </button>
-      </div>
 
       {expanded && (
         <div id="chapter-lessons" className="chapter-list">

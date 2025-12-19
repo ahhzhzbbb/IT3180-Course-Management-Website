@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../index.css";  
 
 import Header from "../components/header";
 import Navigation from "../components/navigation-bar";

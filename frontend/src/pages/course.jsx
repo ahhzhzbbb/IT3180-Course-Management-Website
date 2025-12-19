@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 
 import Header from "../components/header";
 import Navigation from "../components/navigation-bar";
@@ -18,8 +19,8 @@ import callUpdateLesson from "../api/crud_lesson/call-update-lesson";
 
 
 export default function CoursePage() {
-
-  const courseID = window.location.pathname.split("/").pop();
+  const { courseId } = useParams();
+  const courseID = courseId;
   const [courseData, setCourseData] = useState({title: ""});
   const [chapters, setChapters] = useState([]);
 
@@ -31,7 +32,7 @@ export default function CoursePage() {
 
   useEffect(() => {
     fetchCourseData();
-  }, []);
+  }, [courseID]);
 
   // Modal state
   const [formOpen, setFormOpen] = useState(false);
@@ -119,44 +120,82 @@ export default function CoursePage() {
 
   return (
     <div className="course-page">
-        <Header />
-        <h1 className="course-heading">{courseData.title}</h1>
+      <Header />
 
-      <div className="course-toolbar">
-        <button
-          className="btn-primary"
-          onClick={() => {
-            setFormType("insert");
-            setFormTarget({ kind: "chapter", data: null });
-            setFormOpen(true);
-          }}
-        >
-          ➕ Thêm chương
-        </button>
-      </div>
-
-      <div className="course-list">
-        {chapters.map((chapter) => (
-          <div key={chapter.id}>
-            <CourseTable
-              title={chapter.title}
-              description={chapter.description}
-              lessons={chapter.lessons}
-              onEditChapter={() => handleEditChapter(chapter)}
-              onDeleteChapter={() => handleDeleteChapter(chapter)}
-              onEditLesson= {handleEditLesson}
-              onDeleteLesson={handleDeleteLesson}
-            />
-            <div className="course-add-lesson">
-              <button
-                className="btn-success"
-                onClick={() => openAddFormForLesson(chapter)}
-              >
-                ➕ Thêm bài học vào "{chapter.title}"
-              </button>
+      <div
+        className="course-page-content"
+      >
+        {/* Left: Player area (placeholder similar to F8) */}
+        <div>
+          {/* <div className="player">
+            <div className="player-content">
+              <div className="player-title">
+                {courseData.title || "Khoá học"}
+              </div>
+              <div className="player-subtitle">Video player placeholder</div>
             </div>
+            <div className="player-overlay" />
+          </div> */}
+          <iframe
+            className="player"
+            title="Course Video Player"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/sSt0ixN5Z1M"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+
+
+          <div className="player-controls">
+            <button className="btn-primary btn-prev">
+              ◀ Bài trước
+            </button>
+            <button className="btn-primary">Bài tiếp theo ▶</button>
           </div>
-        ))}
+        </div>
+
+        {/* Right: Course content (chapters/lessons) */}
+        <aside className="wrapper-lesson">
+          <h2>Nội dung khóa học</h2>
+          <div className="lesson-header">
+            <button
+              className="btn-primary"
+              onClick={() => {
+                setFormType("insert");
+                setFormTarget({ kind: "chapter", data: null });
+                setFormOpen(true);
+              }}
+            >
+              ➕ Thêm chương
+            </button>
+          </div>
+
+          <div className="course-list">
+            {chapters.map((chapter) => (
+              <div key={chapter.id}>
+                <CourseTable
+                  title={chapter.title}
+                  description={chapter.description}
+                  lessons={chapter.lessons}
+                  onEditChapter={() => handleEditChapter(chapter)}
+                  onDeleteChapter={() => handleDeleteChapter(chapter)}
+                  onEditLesson={handleEditLesson}
+                  onDeleteLesson={handleDeleteLesson}
+                />
+                <div className="course-add-lesson">
+                  <button
+                    className="btn-success"
+                    onClick={() => openAddFormForLesson(chapter)}
+                  >
+                    ➕ Thêm bài học cho {chapter.title}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </aside>
       </div>
 
       {/* FormAdd cho thêm/chỉnh sửa */}
@@ -192,7 +231,7 @@ export default function CoursePage() {
         onConfirm={handleConfirmDelete}
         onCancel={() => setConfirmOpen(false)}
       />
-      <Footer/>
+      <Footer />
     </div>
   );
 }
