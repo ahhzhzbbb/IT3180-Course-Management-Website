@@ -48,8 +48,8 @@ public class UserDetailsImpl implements UserDetails {
         return new UserDetailsImpl(
                 user.getUserId(),
                 user.getUsername(),
-                user.getName(),
                 user.getPassword(),
+                user.getName(),
                 authorities
         );
     }

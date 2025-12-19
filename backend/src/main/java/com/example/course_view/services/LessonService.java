@@ -9,4 +9,6 @@ public interface LessonService {
     LessonDTO deleteLesson(Long lessonId);
 
     LessonDTO updateLesson(Long lessonId, LessonRequest lessonRequest);
+
+    LessonDTO getLessonById(Long lessonId);
 }

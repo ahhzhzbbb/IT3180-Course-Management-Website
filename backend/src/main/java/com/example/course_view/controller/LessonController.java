@@ -14,7 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class LessonController {
+
     private final LessonService lessonService;
+
+    @GetMapping("/lessons/{lessonId}")
+    public ResponseEntity<LessonDTO> getLessonById(@PathVariable Long lessonId) {
+        LessonDTO lessonDTO = lessonService.getLessonById(lessonId);
+        return ResponseEntity.ok(lessonDTO);
+    }
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PostMapping("/chapters/{chapterId}/lessons")
