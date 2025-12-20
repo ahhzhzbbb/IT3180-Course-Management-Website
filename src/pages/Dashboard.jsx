@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import api from '../api/axiosConfig';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthProvider';
+import '../styles/global.css';
+
+// Child Components
+import DashboardHeader from '../components/dashboard/DashboardHeader';
+import CourseList from '../components/dashboard/CourseList';
 
 export default function Dashboard() {
-  const { user, logout } = useAuth(); // Get logout function
+  const { user } = useAuth();
   const [courses, setCourses] = useState([]);
-  const navigate = useNavigate(); // For redirection
+  const [loading, setLoading] = useState(true);
 
-  // --- LOGOUT HANDLER ---
-  const handleLogout = () => {
-    logout();            // 1. Clear context and local storage
-    navigate('/login');  // 2. Redirect to login page
-  };
+  const isInstructor = user?.roles?.includes('ROLE_INSTRUCTOR');
 
   useEffect(() => {
-    // ... your existing fetch logic ...
+    setLoading(true);
     api.get('/me/courses')
       .then(res => {
         let courseList = [];
@@ -26,63 +26,33 @@ export default function Dashboard() {
         }
         setCourses(courseList);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
   }, []);
 
-  const isInstructor = user?.roles?.includes('ROLE_INSTRUCTOR');
-
   return (
-    <div className="dashboard">
-      {/* HEADER SECTION */}
-      <header style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '20px',
-        borderBottom: '1px solid #ddd'
-      }}>
-        <div>
-          <h1>Welcome, {user?.name || user?.username}</h1>
-          <p style={{ color: '#666' }}>Role: {isInstructor ? 'Instructor' : 'Student'}</p>
-        </div>
+    <div className="admin-container" style={{ maxWidth: '1200px' }}>
 
-        {/* LOGOUT BUTTON */}
-        <button
-          onClick={handleLogout}
-          style={{
-            backgroundColor: '#ff4d4d',
-            color: 'white',
-            border: 'none',
-            padding: '10px 20px',
-            cursor: 'pointer',
-            borderRadius: '5px'
-          }}
-        >
-          Logout
-        </button>
-      </header>
+      {/* 1. Welcome Banner */}
+      <DashboardHeader user={user} isInstructor={isInstructor} />
 
-      <section style={{ padding: '20px' }}>
-        <h2>Your Courses</h2>
-        {/* ... rest of your course grid ... */}
-        {isInstructor && <button>+ Create New Course</button>}
+      {/* 2. Section Title & Actions */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2 style={{ fontSize: '1.5rem', color: '#1f2937' }}>My Courses</h2>
 
-        <div className="course-grid">
-          {courses.length > 0 ? (
-            courses.map(course => (
-              <div key={course.id} className="course-card" style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-                <h3>{course.title}</h3>
-                <p>{course.description}</p>
-                <Link to={`/course/${course.id}`}>
-                  <button>View Course</button>
-                </Link>
-              </div>
-            ))
-          ) : (
-            <p>No courses found.</p>
-          )}
-        </div>
-      </section>
+        {isInstructor && (
+          <button
+            className="btn-primary"
+            onClick={() => alert("To create a course, please go to the Admin Panel.")}
+          >
+            + Create New Course
+          </button>
+        )}
+      </div>
+
+      {/* 3. Course Grid */}
+      <CourseList courses={courses} loading={loading} />
+
     </div>
   );
 }

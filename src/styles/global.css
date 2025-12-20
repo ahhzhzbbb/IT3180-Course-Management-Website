@@ -1,0 +1,565 @@
+/* =========================
+   1. GLOBAL & TYPOGRAPHY
+   ========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    /* Slightly lighter gray */
+    color: #1f2937;
+    /* Modern dark gray text */
+    -webkit-font-smoothing: antialiased;
+}
+
+.main-content {
+    min-height: calc(100vh - 60px);
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+    color: #111827;
+    font-weight: 700;
+}
+
+/* =========================
+   2. NAVBAR STYLES
+   ========================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+    /* Modern gradient */
+    color: white;
+    padding: 12px 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: -webkit-linear-gradient(45deg, #60a5fa, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navbar-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar-links a:hover {
+    color: #fff;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 6px 16px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-logout {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-logout:hover {
+    background-color: #dc2626;
+}
+
+/* =========================
+   3. COURSE PLAYER (LAYOUT)
+   ========================= */
+
+/* Main Container */
+.course-container {
+    max-width: 1600px;
+    width: 95%;
+    margin: 30px auto;
+    padding: 0;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+/* --- LEFT COLUMN --- */
+.course-left-column {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+/* Video Wrapper */
+.video-wrapper {
+    width: 100%;
+    background: #000;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    /* Deep Shadow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.video-wrapper iframe,
+.video-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Lesson Info Box */
+.lesson-info-box {
+    background: transparent;
+    padding: 10px 5px;
+}
+
+.lesson-info-box h1 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    color: #111827;
+    letter-spacing: -0.02em;
+}
+
+.lesson-info-box p {
+    font-size: 1.05rem;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* --- RIGHT COLUMN: Curriculum Sidebar --- */
+.course-right-column {
+    flex: 1;
+    min-width: 320px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    position: sticky;
+    top: 90px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Sidebar Header */
+.course-right-column h3 {
+    margin: 0;
+    padding: 20px 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-bottom: 1px solid #e5e7eb;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-radius: 16px 16px 0 0;
+    color: #374151;
+}
+
+/* CHAPTER HEADER (Accordion) */
+.chapter-item {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.chapter-header {
+    background: #f9fafb;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.chapter-header:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.chapter-arrow {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-right: 12px;
+}
+
+.chapter-arrow.open {
+    transform: rotate(180deg);
+    color: #3b82f6;
+}
+
+/* LESSON LIST & ITEMS */
+.lesson-list-container {
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+    background: white;
+}
+
+.lesson-list-container.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+.lesson-list-container.expanded {
+    max-height: 1200px;
+    opacity: 1;
+}
+
+.lesson-item {
+    padding: 14px 20px 14px 35px;
+    /* Deep indentation */
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.95rem;
+    color: #4b5563;
+    background: white;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.lesson-item:hover {
+    background: #f9fafb;
+    color: #2563eb;
+    padding-left: 38px;
+    /* Subtle movement effect */
+}
+
+.lesson-item.active {
+    background: #eff6ff;
+    /* Light blue */
+    border-left: 4px solid #3b82f6;
+    /* Solid Blue Border */
+    padding-left: 31px;
+    /* Account for border width */
+    color: #1e40af;
+    /* Darker blue text */
+    font-weight: 600;
+}
+
+/* =========================
+   4. ADMIN DASHBOARD & TABLES
+   ========================= */
+.admin-container {
+    padding: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.admin-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6b7280;
+    transition: all 0.3s;
+    position: relative;
+    top: 2px;
+}
+
+.tab-btn:hover {
+    color: #111827;
+}
+
+.tab-btn.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+    font-weight: 600;
+}
+
+/* DATA TABLE */
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.data-table th {
+    background-color: #f9fafb;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    font-weight: 600;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.data-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================
+   5. MODALS
+   ========================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(17, 24, 39, 0.7);
+    /* Darker overlay */
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    /* Fixes width overflow */
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* =========================
+   6. BUTTONS & ACTIONS
+   ========================= */
+.btn-primary {
+    background: linear-gradient(to bottom right, #3b82f6, #2563eb);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.btn-icon:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.btn-edit {
+    color: #f59e0b;
+}
+
+.btn-delete {
+    color: #ef4444;
+}
+
+/* Admin Tags */
+.user-tag {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Animations */
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .course-container {
+        flex-direction: column;
+    }
+
+    .course-left-column,
+    .course-right-column {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .course-right-column {
+        max-height: 500px;
+        position: static;
+    }
+}
+
+/* =========================
+   7. DASHBOARD STYLES
+   ========================= */
+
+/* Welcome Banner */
+.dashboard-header {
+    background: linear-gradient(to right, #2563eb, #3b82f6);
+    padding: 40px;
+    border-radius: 16px;
+    color: white;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.dashboard-header h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.dashboard-header p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+/* Course Grid System */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* Course Card */
+.course-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+    border: 1px solid #e5e7eb;
+}
+
+.course-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.course-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: #111827;
+}
+
+.course-card p {
+    color: #4b5563;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Empty State */
+.empty-state {
+    grid-column: 1 / -1;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    text-align: center;
+    color: #6b7280;
+    border: 1px dashed #d1d5db;
+}
