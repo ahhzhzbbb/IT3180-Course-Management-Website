@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
+    private final SubmissionRepository submissionRepository;
     private final ExerciseRepository exerciseRepository;
     private final LessonRepository lessonRepository;
     private final ModelMapper modelMapper;
@@ -43,6 +44,8 @@ public class ExerciseServiceImpl implements ExerciseService {
             lesson.getExercises().remove(existingExercise);
             existingExercise.setLesson(null);
         }
+
+        submissionRepository.deleteByExerciseId(exerciseId);
         exerciseRepository.delete(existingExercise);
         return modelMapper.map(existingExercise, ExerciseDTO.class);
     }

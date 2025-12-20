@@ -18,22 +18,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoading(true);
-    api.get('/me/courses')
-      .then(res => {
-        let courseList = [];
-        if (res.data && Array.isArray(res.data.courses)) {
-          courseList = res.data.courses;
-        } else if (Array.isArray(res.data)) {
-          courseList = res.data;
-        }
-        setCourses(courseList);
-      })
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
     api.get('/courses')
       .then(res => {
         console.log("Dữ liệu nhận được:", res.data);

@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SubmissionRequest {
     private Long userId;
-    private Long exerciseId;
     private String solution;
 }

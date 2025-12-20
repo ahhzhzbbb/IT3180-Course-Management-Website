@@ -32,12 +32,12 @@ public class SubmissionServiceImpl implements SubmissionService {
     private ExerciseRepository exerciseRepository;
 
     @Override
-    public SubmissionDTO submitExercise(SubmissionRequest request) {
+    public SubmissionDTO submitExercise(Long exerciseId, SubmissionRequest request) {
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Exercise exercise = exerciseRepository.findById(request.getExerciseId())
+        Exercise exercise = exerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> new RuntimeException("Exercise not found"));
 
         Submission newSubmission = new Submission();
