@@ -1,0 +1,76 @@
+/* src/components/layout/Navbar.module.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    padding: 12px 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+
+    /* MODERN TEXT GRADIENT SYNTAX */
+    /* 1. Standard gradient direction (to right top) */
+    background: linear-gradient(45deg, #60a5fa, #3b82f6);
+
+    /* 2. Standard property first, then Webkit for fallback/support */
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    /* 3. Text fill color is still needed for the effect */
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* Fallback for standard */
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.link {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.link:hover {
+    color: #fff;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 6px 16px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoutBtn {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.logoutBtn:hover {
+    background-color: #dc2626;
+}
