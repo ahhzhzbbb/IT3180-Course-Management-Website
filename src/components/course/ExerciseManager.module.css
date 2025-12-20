@@ -1,3 +1,5 @@
+/* src/components/course/ExerciseManager.module.css */
+
 .section {
     margin-top: 20px;
     padding: 20px;
@@ -77,7 +79,7 @@
 .gradeBox {
     display: flex;
     gap: 5px;
-    alignItems: center;
+    align-items: center;
     margin-top: 5px;
 }
 
