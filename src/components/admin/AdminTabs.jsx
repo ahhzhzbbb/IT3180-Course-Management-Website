@@ -1,16 +1,17 @@
 import React from 'react';
+import styles from './AdminTabs.module.css';
 
 export default function AdminTabs({ activeTab, setActiveTab }) {
   return (
-    <div className="admin-tabs">
+    <div className={styles.tabs}>
       <button
-        className={`tab-btn ${activeTab === 'courses' ? 'active' : ''}`}
+        className={`${styles.btn} ${activeTab === 'courses' ? styles.active : ''}`}
         onClick={() => setActiveTab('courses')}
       >
         Courses
       </button>
       <button
-        className={`tab-btn ${activeTab === 'users' ? 'active' : ''}`}
+        className={`${styles.btn} ${activeTab === 'users' ? styles.active : ''}`}
         onClick={() => setActiveTab('users')}
       >
         Users

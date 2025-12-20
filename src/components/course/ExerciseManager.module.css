@@ -1,0 +1,87 @@
+.section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f0f8ff;
+    border-radius: 8px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addForm {
+    background: white;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.input {
+    display: block;
+    margin-bottom: 5px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.itemHeader {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.submissionArea {
+    margin-top: 10px;
+}
+
+.textArea {
+    width: 100%;
+    height: 80px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.buttonGroup {
+    margin-top: 5px;
+    display: flex;
+    gap: 5px;
+}
+
+.subsList {
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.subItem {
+    background: #fafafa;
+    padding: 8px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.gradeBox {
+    display: flex;
+    gap: 5px;
+    alignItems: center;
+    margin-top: 5px;
+}
+
+.gradeInput {
+    width: 60px;
+    padding: 4px;
+}

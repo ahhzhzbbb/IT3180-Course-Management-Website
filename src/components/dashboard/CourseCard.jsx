@@ -1,16 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from './CourseCard.module.css';
 
 export default function CourseCard({ course }) {
   return (
-    <div className="course-card">
+    <div className={styles.card}>
       <div>
-        <h3>{course.title}</h3>
-        <p>{course.description || "No description provided."}</p>
+        <h3 className={styles.title}>{course.title}</h3>
+        <p className={styles.description}>
+          {course.description || "No description provided."}
+        </p>
       </div>
-      <div style={{ marginTop: '20px' }}>
+      <div className={styles.actions}>
         <Link to={`/course/${course.id}`} style={{ textDecoration: 'none' }}>
-          <button className="btn-primary" style={{ width: '100%' }}>
+          {/* Reusing global 'btn-primary' but adding local width utility */}
+          <button className={`btn-primary ${styles.btnFull}`}>
             Go to Course →
           </button>
         </Link>

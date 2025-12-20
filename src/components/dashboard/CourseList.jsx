@@ -1,19 +1,16 @@
 import React from 'react';
 import CourseCard from './CourseCard';
+import styles from './CourseList.module.css';
 
 export default function CourseList({ courses, loading }) {
   if (loading) {
-    return (
-      <div style={{ padding: '40px', textAlign: 'center', color: '#6b7280' }}>
-        Loading courses...
-      </div>
-    );
+    return <div className={styles.loading}>Loading courses...</div>;
   }
 
   if (courses.length === 0) {
     return (
-      <div className="course-grid">
-        <div className="empty-state">
+      <div className={styles.grid}>
+        <div className={styles.emptyState}>
           <p>You haven't enrolled in any courses yet.</p>
         </div>
       </div>
@@ -21,7 +18,7 @@ export default function CourseList({ courses, loading }) {
   }
 
   return (
-    <div className="course-grid">
+    <div className={styles.grid}>
       {courses.map(course => (
         <CourseCard key={course.id} course={course} />
       ))}

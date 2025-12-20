@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axiosConfig';
 import { useAuth } from '../context/AuthProvider';
-import '../styles/global.css';
+import styles from './Dashboard.module.css';
 
 // Child Components
 import DashboardHeader from '../components/dashboard/DashboardHeader';
@@ -31,14 +31,14 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="admin-container" style={{ maxWidth: '1200px' }}>
+    <div className={styles.container}>
 
       {/* 1. Welcome Banner */}
       <DashboardHeader user={user} isInstructor={isInstructor} />
 
       {/* 2. Section Title & Actions */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ fontSize: '1.5rem', color: '#1f2937' }}>My Courses</h2>
+      <div className={styles.sectionHeader}>
+        <h2 className={styles.sectionTitle}>My Courses</h2>
 
         {isInstructor && (
           <button

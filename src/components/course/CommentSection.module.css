@@ -1,0 +1,36 @@
+.section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.inputRow {
+    display: flex;
+    gap: 10px;
+    marginBottom: 20px;
+}
+
+.input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.item {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.meta {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.date {
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 5px;
+}

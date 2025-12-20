@@ -1,41 +1,24 @@
 import React, { useState } from 'react';
+import styles from './CommentSection.module.css';
 
-export default function CommentSection({ comments = [], loading, onPostComment, user }) {
+export default function CommentSection({ comments = [], loading, onPostComment }) {
   const [newComment, setNewComment] = useState("");
 
-  const handlePost = () => {
-    if (!newComment.trim()) return;
-    onPostComment(newComment); // Call parent handler
-    setNewComment("");
-  };
-
   return (
-    <div className="comment-section" style={{ marginTop: '20px', padding: '20px', background: '#fff', borderRadius: '8px' }}>
+    <div className={styles.section}>
       <h3>Discussion</h3>
-
-      {/* Input */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-        <input
-          type="text"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Ask a question..."
-          style={{ flex: 1, padding: '10px', borderRadius: '4px', border: '1px solid #ddd' }}
-        />
-        <button onClick={handlePost} className="btn-primary">Post</button>
+      <div className={styles.inputRow}>
+        <input className={styles.input} type="text" value={newComment} onChange={(e) => setNewComment(e.target.value)} placeholder="Ask a question..." />
+        <button className="btn-primary" onClick={() => { if (newComment.trim()) { onPostComment(newComment); setNewComment(""); } }}>Post</button>
       </div>
-
-      {/* List */}
-      {loading ? <p>Loading comments...</p> : (
-        <div className="comment-list">
+      {loading ? <p>Loading...</p> : (
+        <div>
           {comments.length === 0 && <p style={{ color: '#888' }}>No comments yet.</p>}
-          {comments.map((c) => (
-            <div key={c.id} style={{ borderBottom: '1px solid #eee', padding: '10px 0' }}>
-              <div style={{ fontWeight: 'bold', fontSize: '0.9em' }}>{c.userName || "User"}</div>
-              <div style={{ marginTop: '5px' }}>{c.content}</div>
-              <div style={{ fontSize: '0.8em', color: '#999', marginTop: '5px' }}>
-                {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : ''}
-              </div>
+          {comments.map(c => (
+            <div key={c.id} className={styles.item}>
+              <div className={styles.meta}>{c.userName || "User"}</div>
+              <div style={{ marginTop: 5 }}>{c.content}</div>
+              <div className={styles.date}>{c.createdAt ? new Date(c.createdAt).toLocaleDateString() : ''}</div>
             </div>
           ))}
         </div>

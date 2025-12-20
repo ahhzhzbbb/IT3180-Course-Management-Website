@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { PrivateRoute, AdminRoute } from './Guards';
 
-// Layout & Components
+// Components
 import Navbar from '../components/layout/Navbar';
 
 // Pages

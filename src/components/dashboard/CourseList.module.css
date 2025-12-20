@@ -1,0 +1,22 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.loading {
+    padding: 40px;
+    text-align: center;
+    color: #6b7280;
+}
+
+.emptyState {
+    grid-column: 1 / -1;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    text-align: center;
+    color: #6b7280;
+    border: 1px dashed #d1d5db;
+}

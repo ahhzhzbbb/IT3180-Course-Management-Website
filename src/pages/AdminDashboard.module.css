@@ -1,0 +1,22 @@
+.container {
+    padding: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 2rem;
+    color: #111827;
+    margin: 0;
+}
+
+.content {
+    margin-top: 20px;
+}

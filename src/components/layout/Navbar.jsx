@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../context/AuthProvider'; // Note the path change if you moved the file
+import styles from './Navbar.module.css'; // Import the module
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -11,29 +12,27 @@ export default function Navbar() {
     navigate('/login');
   };
 
-  // If not logged in, don't show the navbar (or show a simplified one)
+  // If not logged in, don't show the navbar
   if (!user) return null;
 
   const isInstructor = user.roles?.includes('ROLE_INSTRUCTOR');
   const isAdmin = user.roles?.includes('ROLE_ADMIN');
 
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/dashboard" style={{ textDecoration: 'none', color: 'white' }}>
-          📚 LMS App
-        </Link>
+    <nav className={styles.navbar}>
+      <div className={styles.brand}>
+        <Link to="/dashboard">📚 LMS App</Link>
       </div>
 
-      <div className="navbar-links">
+      <div className={styles.links}>
         {/* Navigation Links */}
-        <Link to="/dashboard">Dashboard</Link>
-        {isAdmin && <Link to="/admin">Admin Panel</Link>}
+        <Link to="/dashboard" className={styles.link}>Dashboard</Link>
+        {isAdmin && <Link to="/admin" className={styles.link}>Admin Panel</Link>}
 
         {/* User Info & Logout */}
-        <div className="user-info">
+        <div className={styles.userInfo}>
           <span>{user.name || user.username} ({isAdmin ? 'Admin' : isInstructor ? 'Instructor' : 'Student'})</span>
-          <button onClick={handleLogout} className="btn-logout">Logout</button>
+          <button onClick={handleLogout} className={styles.logoutBtn}>Logout</button>
         </div>
       </div>
     </nav>

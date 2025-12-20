@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
-import '../styles/global.css';
+import styles from './Login.module.css'; // Import the CSS Module
 
 export default function Login() {
   const [creds, setCreds] = useState({ username: '', password: '' });
@@ -11,7 +11,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError('');
 
     const userData = await login(creds.username, creds.password);
 
@@ -27,42 +27,39 @@ export default function Login() {
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'
-    }}>
-      <div className="modal-content" style={{ width: '400px', animation: 'fadeIn 0.5s ease' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#111827' }}>Sign In</h2>
+    <div className={styles.container}>
+      <div className={styles.loginCard}>
+        <h2 className={styles.title}>Sign In</h2>
 
-        {error && <div style={{ color: '#ef4444', textAlign: 'center', marginBottom: '10px' }}>{error}</div>}
+        {error && <div className={styles.errorMessage}>{error}</div>}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: '500', color: '#374151' }}>Username</label>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Username</label>
             <input
               type="text"
               required
-              style={{ width: '100%' }}
+              className={styles.input}
               value={creds.username}
               onChange={e => setCreds({ ...creds, username: e.target.value })}
             />
           </div>
 
-          <div>
-            <label style={{ display: 'block', marginBottom: '5px', fontWeight: '500', color: '#374151' }}>Password</label>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Password</label>
             <input
               type="password"
               required
-              style={{ width: '100%' }}
+              className={styles.input}
               value={creds.password}
               onChange={e => setCreds({ ...creds, password: e.target.value })}
             />
           </div>
 
-          <button type="submit" className="btn-primary" style={{ marginTop: '10px' }}>Login</button>
+          {/* Using global 'btn-primary' combined with local spacing class if needed */}
+          <button type="submit" className={`btn-primary ${styles.submitBtn}`}>
+            Login
+          </button>
         </form>
       </div>
     </div>
