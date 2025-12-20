@@ -60,7 +60,10 @@ public class UserServiceImpl implements UserService {
                 signupRequest.getUsername(),
                 encoder.encode(signupRequest.getPassword())
         );
-
+        user.setName(signupRequest.getName());
+        user.setPhoneNumber(signupRequest.getPhoneNumber());
+        user.setBirth(signupRequest.getBirth());
+        user.setGender(signupRequest.getGender());
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
@@ -133,13 +136,16 @@ public class UserServiceImpl implements UserService {
             user.setUsername(request.getUsername());
         }
 
+        if (request.getName() != null && !request.getName().isEmpty()) {
+            user.setName(request.getName());
+        }
 
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(encoder.encode(request.getPassword()));
         }
 
+        // 4. Update Roles
         List<String> strRolesList = request.getRoles();
-
         if (strRolesList != null) {
             Set<String> strRoles = new HashSet<>(strRolesList);
             Set<Role> roles = new HashSet<>();

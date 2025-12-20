@@ -4,6 +4,7 @@ import com.example.course_view.payload.response.CourseResponse;
 import com.example.course_view.security.services.UserDetailsImpl;
 import com.example.course_view.services.CourseInstructorService;
 import com.example.course_view.services.CourseStudentService;
+import com.example.course_view.services.UserResourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,24 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserResourceController {
-
-    private final CourseInstructorService courseInstructorService;
-    private final CourseStudentService courseStudentService;
+    private final UserResourceService userResourceService;
 
     @PreAuthorize("hasAnyRole('USER','INSTRUCTOR')")
     @GetMapping("/me/courses")
     public ResponseEntity<CourseResponse> getMyCourses(Authentication authentication) {
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Long userId = userDetails.getId();
-        CourseResponse response;
-
-        if (userDetails.hasRole("INSTRUCTOR")) {
-            response = courseInstructorService.getAllCoursesFromInstructor(userId);
-        } else {
-            response = courseStudentService.getAllCoursesFromStudent(userId);
-        }
-
+        CourseResponse response = userResourceService.getMyCourses(authentication);
         return ResponseEntity.ok(response);
     }
+
+
 }
