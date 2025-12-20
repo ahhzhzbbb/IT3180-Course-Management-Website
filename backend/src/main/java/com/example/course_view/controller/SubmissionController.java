@@ -25,9 +25,9 @@ public class SubmissionController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("exercise/{exerciseId}/submissions")
-    public ResponseEntity<SubmissionDTO> createSubmission(@PathVariable Long exerciseId, @RequestBody SubmissionRequest resquest) {
-        SubmissionDTO response = submissionService.submitExercise(exerciseId, resquest);
+    @PostMapping("exercise/{exerciseId}/submissions/{userId}")
+    public ResponseEntity<SubmissionDTO> createSubmission(@PathVariable Long exerciseId, @PathVariable Long userId, @RequestBody SubmissionRequest resquest) {
+        SubmissionDTO response = submissionService.submitExercise(exerciseId, userId, resquest);
         return ResponseEntity.ok().body(response);
     }
 

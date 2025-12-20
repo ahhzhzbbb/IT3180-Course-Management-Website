@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class SubmissionDTO {
     private String solution;
     private Integer score;
-    private String username;
+    private String userUsername;
 }

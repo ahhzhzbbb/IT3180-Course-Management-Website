@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface SubmissionService {
-    SubmissionDTO submitExercise(SubmissionRequest submissionRequest);
+    SubmissionDTO submitExercise(Long exerciseId, Long userId, SubmissionRequest request);
 
     SubmissionResponse getSubmissionsByExercise(Long exerciseId);
 
