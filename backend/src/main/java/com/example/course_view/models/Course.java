@@ -28,17 +28,9 @@ public class Course {
         }
         this.chapters = chapters;
     }
-    @OneToMany(
-            mappedBy = "course",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<CourseStudent> students;
 
-    @OneToMany(
-            mappedBy = "course",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     Set<CourseInstructor> instructors;
 }

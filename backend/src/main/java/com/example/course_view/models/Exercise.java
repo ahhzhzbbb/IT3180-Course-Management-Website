@@ -24,11 +24,7 @@ public class Exercise {
     @JsonIgnore
     private Lesson lesson;
 
-    @OneToMany(
-            mappedBy = "exercise",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submission> submissions;
 
 }
