@@ -32,7 +32,7 @@ public class UserController {
         return new ResponseEntity<>(userInfoResponse, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("@userResource.canUpdateUser(#userId, authentication)")
     @PutMapping("/users/{userId}")
     public ResponseEntity<UserInfoResponse> updateUser(@RequestBody UserUpdateRequest request, @PathVariable Long userId) {
         UserInfoResponse userInfoResponse = userService.updateUser(request, userId);
