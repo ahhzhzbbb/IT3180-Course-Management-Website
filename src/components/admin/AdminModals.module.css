@@ -1,0 +1,95 @@
+/* src/components/admin/AdminModals.module.css */
+
+/* Reuse global modal structure or keep consistent with local style */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    /* Important so padding doesn't break width */
+}
+
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.rolesContainer {
+    display: flex;
+    gap: 15px;
+    padding: 12px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    flex-wrap: wrap;
+}
+
+.roleLabel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: #4b5563;
+    cursor: pointer;
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.cancelBtn {
+    flex: 1;
+    padding: 10px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cancelBtn:hover {
+    background: #e5e7eb;
+}
+
+/* Helper to force full width on save button if needed */
+.saveBtnWrapper {
+    flex: 1;
+}
+
+.saveBtnWrapper button {
+    width: 100%;
+}
