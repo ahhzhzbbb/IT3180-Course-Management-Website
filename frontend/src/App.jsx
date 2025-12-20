@@ -1,9 +1,15 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
-import {router} from "./routes/index.jsx";
-import './index.css';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/AuthProvider';
+import AppRoutes from './routes/AppRoutes';
+import './styles/global.css'; // Import the global styles here
 
-function App() {
-  return <RouterProvider router={router} />;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
-
-export default App;
