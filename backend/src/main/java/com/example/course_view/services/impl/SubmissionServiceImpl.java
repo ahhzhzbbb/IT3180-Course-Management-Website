@@ -14,6 +14,7 @@ import com.example.course_view.services.SubmissionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -31,6 +32,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
+    @Transactional
     @Override
     public SubmissionDTO submitExercise(Long exerciseId, Long userId, SubmissionRequest request) {
         User user = userRepository.findById(userId)
@@ -38,6 +40,14 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         Exercise exercise = exerciseRepository.findById(exerciseId)
                 .orElseThrow(() -> new RuntimeException("Exercise not found"));
+
+        long submissionCount = submissionRepository.countByExerciseIdAndUserId(exerciseId, userId);
+
+        Integer limit = exercise.getMaxSubmissions() != null ? exercise.getMaxSubmissions() : 1;
+
+        if (submissionCount >= limit) {
+            throw new RuntimeException("Bạn đã đạt giới hạn số lần nộp bài (" + limit + " lần)!");
+        }
 
         Submission newSubmission = new Submission();
         newSubmission.setUser(user);

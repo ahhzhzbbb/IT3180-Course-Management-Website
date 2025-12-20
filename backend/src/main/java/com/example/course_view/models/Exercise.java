@@ -19,6 +19,8 @@ public class Exercise {
     private String title;
     private String description;
 
+    private Integer maxSubmissions = 1;
+
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     @JsonIgnore

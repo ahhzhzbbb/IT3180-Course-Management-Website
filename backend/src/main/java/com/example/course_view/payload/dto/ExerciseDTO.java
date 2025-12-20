@@ -11,4 +11,5 @@ public class ExerciseDTO {
     private String id;
     private String title;
     private String description;
+    private Integer maxSubmissions = 1;
 }

@@ -1,12 +1,10 @@
 package com.example.course_view.services.impl;
 
 import com.example.course_view.exceptions.ResourceNotFoundException;
-import com.example.course_view.models.Chapter;
 import com.example.course_view.models.Exercise;
 import com.example.course_view.models.Lesson;
 import com.example.course_view.models.Submission;
 import com.example.course_view.payload.dto.ExerciseDTO;
-import com.example.course_view.payload.dto.LessonDTO;
 import com.example.course_view.payload.request.ExerciseRequest;
 import com.example.course_view.repositories.ExerciseRepository;
 import com.example.course_view.repositories.LessonRepository;
@@ -14,7 +12,6 @@ import com.example.course_view.repositories.SubmissionRepository;
 import com.example.course_view.services.ExerciseService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -64,4 +61,5 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise savedExercise = exerciseRepository.save(existingExercise);
         return modelMapper.map(savedExercise, ExerciseDTO.class);
     }
+
 }
