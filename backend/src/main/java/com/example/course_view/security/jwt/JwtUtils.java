@@ -54,13 +54,13 @@ public class JwtUtils {
                 .maxAge(jwtExpirationMs / 1000)
                 .httpOnly(true)
                 .secure(false) // true when https
-                .sameSite("None")
+                .sameSite("Lax")
                 .build();
     }
 
     public ResponseCookie getCleanJwtCookie() {
         return ResponseCookie.from(jwtCookie, "")
-                .path("/api")
+                .path("/")
                 .maxAge(0)
                 .build();
     }

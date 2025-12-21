@@ -31,7 +31,7 @@ public class SubmissionController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @PutMapping("/submission/{id}/{score}")
     public ResponseEntity<SubmissionDTO> gradeSubmission(@PathVariable("id") Long submissionId, @PathVariable Integer score) {
         SubmissionDTO response = submissionService.gradeSubmission(submissionId, score);

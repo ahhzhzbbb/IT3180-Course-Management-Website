@@ -23,21 +23,21 @@ public class LessonController {
         return ResponseEntity.ok(lessonDTO);
     }
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @PostMapping("/chapters/{chapterId}/lessons")
     public ResponseEntity<LessonDTO> createLesson(@PathVariable Long chapterId, @RequestBody LessonRequest lessonRequest) {
         LessonDTO lessonDTO = lessonService.createLesson(chapterId, lessonRequest);
         return new ResponseEntity<>(lessonDTO, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @DeleteMapping("/lessons/{lessonId}")
     public ResponseEntity<LessonDTO> deleteLesson(@PathVariable Long lessonId) {
         LessonDTO lessonDTO = lessonService.deleteLesson(lessonId);
         return new ResponseEntity<>(lessonDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @PutMapping("/lessons/{lessonId}")
     public ResponseEntity<LessonDTO>  updateLesson(@PathVariable Long lessonId, @RequestBody LessonRequest lessonRequest) {
         LessonDTO lessonDTO = lessonService.updateLesson(lessonId, lessonRequest);

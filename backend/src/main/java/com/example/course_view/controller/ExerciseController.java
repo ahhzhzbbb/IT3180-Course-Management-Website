@@ -19,21 +19,21 @@ public class ExerciseController {
 
     private final ExerciseService exerciseService;
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @PostMapping("/lessons/{lessonId}/exercises")
     public ResponseEntity<ExerciseDTO> createExercise(@PathVariable Long lessonId, @RequestBody ExerciseRequest exerciseRequest) {
         ExerciseDTO newExerciseDTO = exerciseService.createExercise(lessonId, exerciseRequest);
         return new ResponseEntity<>(newExerciseDTO, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @DeleteMapping("/exercises/{exerciseId}")
     public ResponseEntity<ExerciseDTO> deleteExercise(@PathVariable Long exerciseId) {
         ExerciseDTO exerciseDTO = exerciseService.deleteExercise(exerciseId);
         return new ResponseEntity<>(exerciseDTO, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @PutMapping("/exercises/{exerciseId}")
     public ResponseEntity<ExerciseDTO>  updateExercise(@PathVariable Long exerciseId, @RequestBody ExerciseRequest exerciseRequest) {
         ExerciseDTO exerciseDTO = exerciseService.updateExercise(exerciseId, exerciseRequest);
