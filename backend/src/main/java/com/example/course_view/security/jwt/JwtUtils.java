@@ -60,7 +60,7 @@ public class JwtUtils {
 
     public ResponseCookie getCleanJwtCookie() {
         return ResponseCookie.from(jwtCookie, "")
-                .path("/api")
+                .path("/")
                 .maxAge(0)
                 .build();
     }
