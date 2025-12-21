@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axiosConfig';
 import { useAuth } from '../context/AuthProvider';
+import { useLanguage } from '../context/LanguageProvider';
 import styles from './Dashboard.module.css';
 
 // Child Components
@@ -9,78 +10,84 @@ import CourseList from '../components/dashboard/CourseList';
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const [courses, setCourses] = useState([]);
+  const { t } = useLanguage();
+  const [myCourses, setMyCourses] = useState([]);
+  const [allCourses, setAllCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [allCourses, setAllCourse] = useState([]);
-
   const isInstructor = user?.roles?.includes('ROLE_INSTRUCTOR');
+  const isAdmin = user?.roles?.includes('ROLE_ADMIN');
 
   useEffect(() => {
-    setLoading(true);
-    api.get('/me/courses')
-      .then(res => {
-        let courseList = [];
-        if (res.data && Array.isArray(res.data.courses)) {
-          courseList = res.data.courses;
-        } else if (Array.isArray(res.data)) {
-          courseList = res.data;
-        }
-        setCourses(courseList);
-      })
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
+    // Fetch user's enrolled courses
+    const fetchMyCourses = async () => {
+      if (!user?.id) return;
+      try {
+        const res = await api.get(`/students/${user.id}/courses`);
+        const courseList = res.data?.courses || res.data || [];
+        setMyCourses(Array.isArray(courseList) ? courseList : []);
+      } catch (err) {
+        console.error('Error fetching my courses:', err);
+        setMyCourses([]);
+      }
+    };
+
+    fetchMyCourses();
+  }, [user]);
 
   useEffect(() => {
-    setLoading(true);
-    api.get('/courses')
-      .then(res => {
-        console.log("Dữ liệu nhận được:", res.data);
-        
-        let courseList = [];
-        
-        // SỬA TẠI ĐÂY: Kiểm tra res.data.courses thay vì allCourses
-        if (res.data && Array.isArray(res.data.courses)) {
-          courseList = res.data.courses;
-        } else if (Array.isArray(res.data)) {
-          courseList = res.data;
-        }
-        
-        setAllCourse(courseList);
-      })
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
+    // Fetch all available courses
+    const fetchAllCourses = async () => {
+      try {
+        const res = await api.get('/courses');
+        const courseList = res.data?.courses || res.data || [];
+        setAllCourses(Array.isArray(courseList) ? courseList : []);
+      } catch (err) {
+        console.error('Error fetching all courses:', err);
+        setAllCourses([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllCourses();
   }, []);
 
+  // Filter out enrolled courses from all courses
+  const availableCourses = allCourses.filter(
+    course => !myCourses.some(mc => mc.id === course.id)
+  );
 
   return (
     <div className={styles.container}>
-
-      {/* 1. Welcome Banner */}
+      {/* Welcome Banner */}
       <DashboardHeader user={user} isInstructor={isInstructor} />
 
-      {/* 2. Section Title & Actions */}
+      {/* My Courses Section */}
+      {myCourses.length > 0 && (
+        <>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>{t('dashboard.myLearning')}</h2>
+            {isInstructor && (
+              <button
+                className="btn-primary"
+                onClick={() => alert("Please use the Admin Panel to create courses.")}
+              >
+                {t('admin.newCourse')}
+              </button>
+            )}
+          </div>
+          <CourseList courses={myCourses} loading={loading} />
+        </>
+      )}
+
+      {/* All Courses Section */}
       <div className={styles.sectionHeader}>
-        <h2 className={styles.sectionTitle}>My Courses</h2>
-
-        {isInstructor && (
-          <button
-            className="btn-primary"
-            onClick={() => alert("To create a course, please go to the Admin Panel.")}
-          >
-            + Create New Course
-          </button>
-        )}
+        <h2 className={styles.sectionTitle}>
+          {myCourses.length > 0 ? t('dashboard.discoverMore') : t('dashboard.allCourses')}
+        </h2>
       </div>
-
-      {/* 3. Course Grid */}
-      <CourseList courses={courses} loading={loading} />
-
-      <br />
-
-      <h2 className={styles.sectionTitle}>Những Khóa Học Khác</h2>
-      <CourseList courses={allCourses} loading={loading} />
+      <CourseList courses={availableCourses} loading={loading} emptyMessage={t('dashboard.noCourses')} />
     </div>
   );
 }

@@ -22,16 +22,20 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     try {
       const res = await api.post('/auth/login', { username, password });
-      let rawToken = res.data.jwtToken;
+      
+      // JWT is set as HTTP-only cookie by backend
+      // Extract token from response if available (for local storage backup)
+      if (res.data.jwtToken) {
+        let rawToken = res.data.jwtToken;
+        if (rawToken.includes('=')) rawToken = rawToken.split('=')[1];
+        if (rawToken.includes(';')) rawToken = rawToken.split(';')[0];
+        localStorage.setItem('jwtToken', rawToken);
+      }
 
-      if (rawToken && rawToken.includes('=')) rawToken = rawToken.split('=')[1];
-      if (rawToken && rawToken.includes(';')) rawToken = rawToken.split(';')[0];
-      if (!rawToken) return null;
-
-      localStorage.setItem('jwtToken', rawToken);
-      const { jwtToken, ...userData } = res.data;
-      setUser(userData);
-      return userData;
+      // Fetch user details after successful login
+      const userRes = await api.get('/auth/user');
+      setUser(userRes.data);
+      return userRes.data;
     } catch (error) {
       console.error("Login failed", error);
       return null;
