@@ -3,19 +3,18 @@ import { Link } from 'react-router-dom';
 import styles from './CourseCard.module.css';
 
 export default function CourseCard({ course }) {
-  // Generate a consistent placeholder image based on course id
-  const placeholderImage = `https://via.placeholder.com/400x225/5624d0/ffffff?text=${encodeURIComponent(course.title?.substring(0, 20) || 'Course')}`;
-  
+  const fallbackImage = 'https://hinhnen4k.com/wp-content/uploads/2023/06/hinh-nen-hoc-tap-30.jpg';
+
   return (
     <Link to={`/course/${course.id}`} className={styles.cardLink}>
       <div className={styles.card}>
         <div className={styles.imageWrapper}>
           <img 
-            src={course.imageUrl || placeholderImage} 
+            src={course.imageUrl || fallbackImage} 
             alt={course.title}
             className={styles.courseImage}
             onError={(e) => {
-              e.target.src = placeholderImage;
+              e.target.src = fallbackImage;
             }}
           />
           {course.badge && (
@@ -26,7 +25,7 @@ export default function CourseCard({ course }) {
         <div className={styles.content}>
           <h3 className={styles.title}>{course.title}</h3>
           <p className={styles.description}>
-            {course.description || "No description provided."}
+            {course.description || "Chưa có mô tả"}
           </p>
           
           <div className={styles.footer}>
@@ -44,7 +43,7 @@ export default function CourseCard({ course }) {
                   <svg className={styles.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
-                  {course.chapters.length} chapters
+                  {course.chapters.length} chương
                 </span>
               )}
             </div>

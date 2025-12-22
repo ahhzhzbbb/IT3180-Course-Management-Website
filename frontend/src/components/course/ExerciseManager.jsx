@@ -8,7 +8,10 @@ export default function ExerciseManager({
   onDeleteExercise, 
   onSubmitWork, 
   onGradeWork, 
-  onLoadSubmissions 
+  onLoadSubmissions,
+  // New props
+  onLoadMySubmission,
+  user
 }) {
   const [isAdding, setIsAdding] = useState(false);
   const [newExercise, setNewExercise] = useState({ title: '', description: '' });
@@ -19,6 +22,9 @@ export default function ExerciseManager({
   
   // State lưu điểm số theo ID bài nộp
   const [gradeScore, setGradeScore] = useState({});
+
+  // Student-specific: lưu bài nộp của chính người dùng hiện tại cho mỗi exercise
+  const [mySubmission, setMySubmission] = useState(null);
 
   const handleToggleSubmissions = async (exId) => {
     if (activeExerciseId === exId) {
@@ -40,9 +46,9 @@ export default function ExerciseManager({
   return (
     <div className={styles.section}>
       <div className={styles.header}>
-        <h3>📝 Exercises</h3>
+        <h3>📝 Bài tập</h3>
         {isInstructor && !isAdding && (
-          <button onClick={() => setIsAdding(true)} style={{ fontSize: '0.8em' }}>+ Add Exercise</button>
+          <button onClick={() => setIsAdding(true)} style={{ fontSize: '0.8em' }}>+ Thêm bài tập</button>
         )}
       </div>
 
@@ -50,25 +56,25 @@ export default function ExerciseManager({
         <div className={styles.addForm}>
           <input 
             className={styles.input} 
-            placeholder="Title" 
+            placeholder="Tiêu đề" 
             value={newExercise.title} 
             onChange={e => setNewExercise({ ...newExercise, title: e.target.value })} 
           />
           <textarea 
             className={styles.input} 
-            placeholder="Description" 
+            placeholder="Mô tả" 
             value={newExercise.description} 
             onChange={e => setNewExercise({ ...newExercise, description: e.target.value })} 
           />
           <div className={styles.buttonGroup}>
-            <button onClick={() => { onAddExercise(newExercise); setIsAdding(false); setNewExercise({ title: '', description: '' }); }}>Save</button>
-            <button onClick={() => setIsAdding(false)} style={{ background: '#ccc' }}>Cancel</button>
+            <button onClick={() => { onAddExercise(newExercise); setIsAdding(false); setNewExercise({ title: '', description: '' }); }}>Lưu</button>
+            <button onClick={() => setIsAdding(false)} style={{ background: '#ccc' }}>Hủy</button>
           </div>
         </div>
       )}
 
       <div style={{ marginTop: '15px' }}>
-        {exercises.length === 0 && <p>No exercises assigned.</p>}
+        {exercises.length === 0 && <p>Chưa có bài tập.</p>}
         {exercises.map(ex => (
           <div key={ex.id} className={styles.item}>
             <div className={styles.itemHeader}>
@@ -78,29 +84,31 @@ export default function ExerciseManager({
               )}
             </div>
             <p>{ex.description}</p>
+            <p className={styles.meta}><strong>Số lượt nộp tối đa:</strong> {ex.maxSubmissions || 1}</p>
 
             {isInstructor ? (
               <div>
                 <button onClick={() => handleToggleSubmissions(ex.id)} style={{ fontSize: '0.8rem', marginTop: 10 }}>
-                  {activeExerciseId === ex.id ? 'Hide Submissions' : 'View Submissions & Grade'}
+                  {activeExerciseId === ex.id ? 'Ẩn bài nộp' : 'Xem bài nộp & chấm'}
                 </button>
                 
                 {activeExerciseId === ex.id && (
                   <div className={styles.subsList}>
-                    {loadingSubs && <p>Loading...</p>}
-                    {!loadingSubs && submissions.length === 0 && <p>No submissions.</p>}
+                    {loadingSubs && <p>Đang tải...</p>}
+                    {!loadingSubs && submissions.length === 0 && <p>Chưa có bài nộp.</p>}
                     {!loadingSubs && submissions.map((sub, index) => {
                       // Ưu tiên lấy ID. Nếu cả id và submissionId đều không có, dùng index làm fallback (không khuyến khích)
                       const currentSubId = sub.id || sub.submissionId;
 
                       return (
                         <div key={currentSubId || index} className={styles.subItem}>
-                          <p><strong>Solution:</strong> {sub.solution || sub.content}</p>
+                          <p className={styles.studentLabel}><strong>Học viên:</strong> {sub.userUsername || (sub.user && sub.user.username) || 'Unknown'}</p>
+                          <p><strong>Bài làm:</strong> {sub.solution || sub.content}</p>
                           <div className={styles.gradeBox}>
                             <input 
                               type="number" 
                               className={styles.gradeInput} 
-                              placeholder="Score"
+                              placeholder="Điểm"
                               // Hiển thị điểm đang có trong DB nếu chưa gõ điểm mới
                               defaultValue={sub.score} 
                               onChange={(e) => {
@@ -126,7 +134,7 @@ export default function ExerciseManager({
                               }} 
                               style={{ padding: '2px 8px' }}
                             >
-                              Grade
+                              Chấm
                             </button>
                           </div>
                         </div>
@@ -138,11 +146,21 @@ export default function ExerciseManager({
             ) : (
               <div className={styles.submissionArea}>
                 {activeExerciseId !== ex.id && (
-                  <button onClick={() => {
+                  <button onClick={async () => {
                     setActiveExerciseId(ex.id);
                     setSubmissionText("");
+
+                    // Load the student's own submission (if any) when they open the submission area
+                    if (typeof onLoadMySubmission === 'function') {
+                      try {
+                        const mine = await onLoadMySubmission(ex.id);
+                        setMySubmission(mine);
+                      } catch (e) {
+                        console.error('Không thể tải bài nộp của bạn:', e);
+                      }
+                    }
                   }}>
-                    Submit Work
+                    Nộp bài
                   </button>
                 )}
                 
@@ -150,7 +168,7 @@ export default function ExerciseManager({
                   <div style={{ marginTop: '10px' }}>
                     <textarea 
                       className={styles.textArea} 
-                      placeholder="Type your solution here..." 
+                      placeholder="Viết lời giải của cưng vào đây..." 
                       value={submissionText} 
                       onChange={e => setSubmissionText(e.target.value)} 
                     />
@@ -158,12 +176,14 @@ export default function ExerciseManager({
                       <button 
                         disabled={!submissionText.trim()}
                         onClick={async () => {
-                          await onSubmitWork(ex.id, submissionText); 
-                          setSubmissionText(""); 
-                          setActiveExerciseId(null); 
+                          const created = await onSubmitWork(ex.id, submissionText);
+                          setSubmissionText("");
+                          // Keep submission area open and show the submitted solution
+                          setActiveExerciseId(ex.id);
+                          if (created) setMySubmission(created);
                         }}
                       >
-                        Confirm Submit
+                        Xác nhận nộp
                       </button>
                       <button 
                         onClick={() => {
@@ -172,9 +192,19 @@ export default function ExerciseManager({
                         }} 
                         style={{ background: '#ccc' }}
                       >
-                        Cancel
+                        Hủy
                       </button>
                     </div>
+
+                    {/* Show the student's submission and score if available */}
+                    {mySubmission ? (
+                      <div style={{ marginTop: 10, padding: 10, border: '1px solid #eee', background: '#fff' }}>
+                        <p><strong>Bài nộp của bạn:</strong> {mySubmission.solution}</p>
+                        <p><strong>Điểm:</strong> {mySubmission.score !== null && mySubmission.score !== undefined ? mySubmission.score : 'Chưa có điểm'}</p>
+                      </div>
+                    ) : (
+                      <div style={{ marginTop: 10 }}><em>You haven't submitted yet.</em></div>
+                    )}
                   </div>
                 )}
               </div>

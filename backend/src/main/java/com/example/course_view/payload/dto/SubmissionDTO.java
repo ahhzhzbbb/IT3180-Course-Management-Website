@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubmissionDTO {
+    private Long id;
     private String solution;
     private Integer score;
     private String userUsername;

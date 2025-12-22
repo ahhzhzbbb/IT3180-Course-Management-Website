@@ -14,4 +14,7 @@ public interface SubmissionRepository extends JpaRepository<Submission, Long> {
 
     @Query("SELECT COUNT(s) FROM Submission s WHERE s.exercise.id = :exerciseId AND s.user.userId = :userId")
     long countByExerciseIdAndUserId(@Param("exerciseId") Long exerciseId, @Param("userId") Long userId);
+
+    // Find a single submission for a given exercise by the user's username (for students to view their own submission)
+    java.util.Optional<Submission> findFirstByExerciseIdAndUserUsername(Long exerciseId, String username);
 }

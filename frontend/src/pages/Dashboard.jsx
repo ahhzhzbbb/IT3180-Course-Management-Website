@@ -23,7 +23,7 @@ export default function Dashboard() {
     const fetchMyCourses = async () => {
       if (!user?.id) return;
       try {
-        const res = await api.get(`/students/${user.id}/courses`);
+        const res = await api.get(`/me/courses`);
         const courseList = res.data?.courses || res.data || [];
         setMyCourses(Array.isArray(courseList) ? courseList : []);
       } catch (err) {

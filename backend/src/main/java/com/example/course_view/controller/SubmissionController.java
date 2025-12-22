@@ -20,9 +20,19 @@ public class SubmissionController {
     private SubmissionService submissionService;
 
     @GetMapping("/submissions")
-    public ResponseEntity<SubmissionResponse> getSubmissionOfExercise(Long exerciseId) {
+    public ResponseEntity<SubmissionResponse> getSubmissionOfExercise(@RequestParam("exerciseId") Long exerciseId) {
         SubmissionResponse response = submissionService.getSubmissionsByExercise(exerciseId);
         return ResponseEntity.ok().body(response);
+    }
+
+    // Endpoint for a student to fetch their own submission for an exercise
+    @GetMapping("/submissions/my")
+    public ResponseEntity<?> getMySubmission(@RequestParam("exerciseId") Long exerciseId, java.security.Principal principal) {
+        if (principal == null) return ResponseEntity.status(401).build();
+        String username = principal.getName();
+        SubmissionDTO dto = submissionService.getSubmissionByExerciseAndUsername(exerciseId, username);
+        if (dto == null) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("exercise/{exerciseId}/submissions/{userId}")
@@ -33,7 +43,7 @@ public class SubmissionController {
 
     @PreAuthorize("hasRole('INSTRUCTOR')")
     @PutMapping("/submission/{id}/{score}")
-    public ResponseEntity<SubmissionDTO> gradeSubmission(@PathVariable("id") Long submissionId, @PathVariable Integer score) {
+    public ResponseEntity<SubmissionDTO> gradeSubmission(@PathVariable("id") Long submissionId, @PathVariable("score") Integer score) {
         SubmissionDTO response = submissionService.gradeSubmission(submissionId, score);
         return ResponseEntity.ok().body(response);
     }

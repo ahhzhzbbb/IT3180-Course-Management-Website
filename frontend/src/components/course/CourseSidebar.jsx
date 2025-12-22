@@ -9,7 +9,7 @@ export default function CourseSidebar({
 }) {
   return (
     <div className={styles.sidebar}>
-      <h3>Course Content</h3>
+      <h3>Nội Dung Khoá Học</h3>
       <div style={{ paddingBottom: 10 }}>
         {isInstructor && (
           <div style={{ padding: '0 15px 10px 15px' }}>

@@ -26,8 +26,9 @@
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 6px;
     box-sizing: border-box;
+    background: #fff;
 }
 
 .item {
@@ -46,6 +47,21 @@
 
 .submissionArea {
     margin-top: 10px;
+    background: linear-gradient(180deg, #ffffff, #fbfcff);
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #f0f0f5;
+}
+
+.meta {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 6px;
+}
+
+.studentLabel {
+    color: #2a4365;
+    font-weight: 600;
 }
 
 .textArea {
@@ -53,8 +69,9 @@
     height: 80px;
     padding: 8px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 6px;
     box-sizing: border-box;
+    background: #fff;
 }
 
 .buttonGroup {
@@ -70,20 +87,24 @@
 }
 
 .subItem {
-    background: #fafafa;
-    padding: 8px;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
+    background: linear-gradient(90deg, #ffffff, #fbfbfb);
+    padding: 12px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    border-left: 4px solid #e6f0ff;
+    border-radius: 4px;
 }
 
 .gradeBox {
     display: flex;
-    gap: 5px;
+    gap: 8px;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 8px;
 }
 
 .gradeInput {
-    width: 60px;
-    padding: 4px;
+    width: 70px;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }

@@ -13,4 +13,7 @@ public interface SubmissionService {
 
     SubmissionDTO gradeSubmission(Long submissionId, Integer score);
 
+    // Get the currently authenticated student's submission for a given exercise (or null if none)
+    SubmissionDTO getSubmissionByExerciseAndUsername(Long exerciseId, String username);
+
 }

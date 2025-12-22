@@ -56,7 +56,9 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         Submission savedSubmission = submissionRepository.save(newSubmission);
 
-        return modelMapper.map(savedSubmission, SubmissionDTO.class);
+        SubmissionDTO dto = modelMapper.map(savedSubmission, SubmissionDTO.class);
+        if (savedSubmission.getUser() != null) dto.setUserUsername(savedSubmission.getUser().getUsername());
+        return dto;
     }
 
     @Override
@@ -65,7 +67,11 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .orElseThrow(() -> new RuntimeException("exercise not found"));
         List<Submission> submissionList = submissionRepository.findAllByExerciseId(exerciseId);
         List<SubmissionDTO> submissionDTOList = submissionList.stream()
-                .map(submission -> modelMapper.map(submission, SubmissionDTO.class))
+                .map(submission -> {
+                    SubmissionDTO dto = modelMapper.map(submission, SubmissionDTO.class);
+                    if (submission.getUser() != null) dto.setUserUsername(submission.getUser().getUsername());
+                    return dto;
+                })
                 .toList();
 
         SubmissionResponse response = new SubmissionResponse(submissionDTOList);
@@ -78,6 +84,15 @@ public class SubmissionServiceImpl implements SubmissionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Submission", "id", submissionId));
         submission.setScore(score);
         submissionRepository.save(submission);
-        return modelMapper.map(submission, SubmissionDTO.class);
+        SubmissionDTO dto = modelMapper.map(submission, SubmissionDTO.class);
+        if (submission.getUser() != null) dto.setUserUsername(submission.getUser().getUsername());
+        return dto;
+    }
+
+    @Override
+    public SubmissionDTO getSubmissionByExerciseAndUsername(Long exerciseId, String username) {
+        return submissionRepository.findFirstByExerciseIdAndUserUsername(exerciseId, username)
+                .map(sub -> modelMapper.map(sub, SubmissionDTO.class))
+                .orElse(null);
     }
 }

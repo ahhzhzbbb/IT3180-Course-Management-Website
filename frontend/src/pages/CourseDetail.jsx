@@ -78,14 +78,16 @@ export default function CourseDetail() {
     try {
       // Lưu ý: Kiểm tra xem backend yêu cầu field là 'solution' hay 'content'
       // Ở đây tôi giữ 'solution' theo code cũ của bạn, nhưng bọc trong object
-      await api.post(`/exercise/${exId}/submissions/${user.id}`, { 
+      const res = await api.post(`/exercise/${exId}/submissions/${user.id}`, { 
         solution: solution 
       }); 
       
       alert("Nộp bài thành công!");
+      return res.data;
     } catch (error) {
       console.error("Lỗi khi nộp bài:", error);
       alert("Có lỗi xảy ra khi nộp bài. Vui lòng thử lại.");
+      return null;
     }
   };
 
@@ -164,6 +166,19 @@ export default function CourseDetail() {
               exercises={activeLesson.exercises || []} isInstructor={isInstructor}
               onAddExercise={handleAddExercise} onDeleteExercise={handleDeleteExercise}
               onSubmitWork={handleSubmitWork} onGradeWork={handleGradeWork} onLoadSubmissions={handleLoadSubmissions}
+              // student-specific: function to load the current user's submission for an exercise
+              onLoadMySubmission={async (exId) => {
+                try {
+                  const res = await api.get(`/submissions/my?exerciseId=${exId}`);
+                  return res.status === 204 ? null : res.data;
+                } catch (err) {
+                  if (err.response?.status === 204) return null;
+                  console.error('Lỗi tải bài nộp của bạn:', err);
+                  return null;
+                }
+              }}
+              // pass the current user so ExerciseManager can identify the student's own submission
+              user={user}
             />
             <CommentSection key={`cm-${activeLesson.id}`} comments={comments} loading={commentsLoading} onPostComment={handlePostComment} />
           </>
