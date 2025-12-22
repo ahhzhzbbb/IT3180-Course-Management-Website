@@ -13,7 +13,7 @@ export default function CourseSidebar({
       <div style={{ paddingBottom: 10 }}>
         {isInstructor && (
           <div style={{ padding: '0 15px 10px 15px' }}>
-            <button className="btn-primary" style={{ width: '100%' }} onClick={onAddChapter}>+ New Chapter</button>
+            <button className="btn-primary" style={{ width: '100%' }} onClick={onAddChapter}>+ Thêm chương mới</button>
           </div>
         )}
         {course.chapters && course.chapters.map(chapter => (
@@ -26,7 +26,7 @@ export default function CourseSidebar({
               {isInstructor && (
                 <div>
                   <button className="btn-icon btn-edit" onClick={(e) => onEditChapter(e, chapter)}>✏️</button>
-                  <button className="btn-icon btn-delete" onClick={(e) => onDeleteChapter(e, chapter.id)}>🗑️</button>
+                  <button className="btn-icon btn-delete" onClick={(e) => onDeleteChapter(e, chapter.id)}>🗑</button>
                 </div>
               )}
             </div>
@@ -38,7 +38,7 @@ export default function CourseSidebar({
                     {isInstructor && (
                       <div style={{ minWidth: '50px', textAlign: 'right' }}>
                         <button className="btn-icon btn-edit" onClick={(e) => onEditLesson(e, lesson)}>✏️</button>
-                        <button className="btn-icon btn-delete" onClick={(e) => onDeleteLesson(e, lesson.id)}>🗑️</button>
+                        <button className="btn-icon btn-delete" onClick={(e) => onDeleteLesson(e, lesson.id)}>🗑</button>
                       </div>
                     )}
                   </li>
@@ -46,7 +46,7 @@ export default function CourseSidebar({
               </ul>
               {isInstructor && (
                 <div style={{ padding: '5px 20px', background: '#f8f9fa' }}>
-                  <button style={{ fontSize: '0.8rem', color: '#007bff', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => onAddLesson(chapter.id)}>+ Add Lesson</button>
+                  <button style={{ fontSize: '0.8rem', color: '#007bff', background: 'none', border: 'none', cursor: 'pointer' }} onClick={() => onAddLesson(chapter.id)}>+ Thêm bài học</button>
                 </div>
               )}
             </div>

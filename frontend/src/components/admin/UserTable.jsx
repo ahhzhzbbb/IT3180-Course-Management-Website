@@ -69,7 +69,7 @@ export default function UserTable() {
     }));
   };
 
-  if (loading) return <div>Loading Users...</div>;
+  if (loading) return <div>Đang tải thông tin người dùng ...</div>;
 
   const getRoleClass = (r) => {
     if (r === 'ROLE_ADMIN') return styles.admin;
@@ -84,7 +84,7 @@ export default function UserTable() {
       </div>
       <table className={styles.table}>
         <thead>
-          <tr><th>ID</th><th>Username</th><th>Name</th><th>Roles</th><th className={styles.actions}>Actions</th></tr>
+          <tr><th>ID</th><th>Username</th><th>Họ và tên</th><th>Chức năng</th><th className={styles.actions}>Hành động</th></tr>
         </thead>
         <tbody>
           {users.map(u => (
@@ -101,7 +101,7 @@ export default function UserTable() {
               </td>
               <td className={styles.actions}>
                 <button className="btn-icon btn-edit" onClick={() => handleOpenEdit(u)}>✏️</button>
-                <button className="btn-icon btn-delete" onClick={() => handleDelete(u.id)}>🗑️</button>
+                <button className="btn-icon btn-delete" onClick={() => handleDelete(u.id)}>🗑</button>
               </td>
             </tr>
           ))}

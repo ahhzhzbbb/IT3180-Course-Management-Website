@@ -9,18 +9,18 @@ export default function EnrollmentModal({
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()} style={{ width: '800px', maxWidth: '95%' }}>
-        <h3>Manage: {course.title}</h3>
+        <h3>Quản lý: {course.title}</h3>
         <div className={styles.panel}>
           <div className={styles.column}>
-            <h4>Instructors</h4>
+            <h4>Giáo viên</h4>
             <div className={styles.controlRow}>
               <select className={styles.select} value={instructorIdToAdd} onChange={e => setInstructorIdToAdd(e.target.value)}>
-                <option value="">Select Instructor...</option>
+                <option value="">Phân công giáo viên ...</option>
                 {allUsers.filter(u => u.roles.includes('ROLE_INSTRUCTOR') && !instructors.find(i => i.id === u.id)).map(u => (
                   <option key={u.id} value={u.id}>{getUserLabel(u)}</option>
                 ))}
               </select>
-              <button className="btn-primary" style={{ padding: '6px 12px' }} onClick={onAddInstructor}>Add</button>
+              <button className="btn-primary" style={{ padding: '6px 12px' }} onClick={onAddInstructor}>Thêm</button>
             </div>
             {instructors.map(u => (
               <div key={u.id} className={styles.tag}>
@@ -31,15 +31,15 @@ export default function EnrollmentModal({
           </div>
           {/* Student Column */}
           <div className={styles.column}>
-            <h4>Students</h4>
+            <h4>Học viên</h4>
             <div className={styles.controlRow}>
               <select className={styles.select} value={studentIdToAdd} onChange={e => setStudentIdToAdd(e.target.value)}>
-                <option value="">Select Student...</option>
+                <option value="">Thêm học viên...</option>
                 {allUsers.filter(u => !students.find(s => s.id === u.id)).map(u => (
                   <option key={u.id} value={u.id}>{getUserLabel(u)}</option>
                 ))}
               </select>
-              <button className="btn-primary" style={{ padding: '6px 12px' }} onClick={onAddStudent}>Add</button>
+              <button className="btn-primary" style={{ padding: '6px 12px' }} onClick={onAddStudent}>Thêm</button>
             </div>
             {students.map(u => (
               <div key={u.id} className={styles.tag}>
@@ -50,7 +50,7 @@ export default function EnrollmentModal({
           </div>
         </div>
         <div className={styles.footer}>
-          <button className={styles.doneBtn} onClick={onClose}>Done</button>
+          <button className={styles.doneBtn} onClick={onClose}>Lưu</button>
         </div>
       </div>
     </div>

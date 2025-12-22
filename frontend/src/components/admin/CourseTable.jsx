@@ -44,16 +44,16 @@ export default function CourseTable() {
   const handleAddPerson = async (type, id) => { if (!id) return; const endpoint = type === 'student' ? 'students' : 'instructors'; try { await api.post(`/courses/${selectedCourse.id}/${endpoint}/${id}`); handleOpenEnrollment(selectedCourse); if (type === 'student') setStudentIdToAdd(''); else setInstructorIdToAdd(''); } catch (err) { alert("Failed to add user"); } };
   const handleRemovePerson = async (type, id) => { const endpoint = type === 'student' ? 'students' : 'instructors'; try { await api.delete(`/courses/${selectedCourse.id}/${endpoint}/${id}`); setEnrollmentData(prev => ({ ...prev, [type === 'student' ? 'students' : 'instructors']: prev[type === 'student' ? 'students' : 'instructors'].filter(u => u.id !== id) })); } catch (err) { alert("Failed to remove user"); } };
 
-  if (loading) return <div>Loading Courses...</div>;
+  if (loading) return <div>Đang tải khóa học ...</div>;
 
   return (
     <>
       <div className={styles.header}>
-        <button className="btn-primary" onClick={handleOpenCreate}>+ New Course</button>
+        <button className="btn-primary" onClick={handleOpenCreate}>+ Tạo khóa học mới</button>
       </div>
       <table className={styles.table}>
         <thead>
-          <tr><th>ID</th><th>Title</th><th className={styles.actions}>Actions</th></tr>
+          <tr><th>ID</th><th>Tên khóa học</th><th className={styles.actions}>Hành động</th></tr>
         </thead>
         <tbody>
           {courses.map(c => (
@@ -62,8 +62,8 @@ export default function CourseTable() {
               <td style={{ fontWeight: '500' }}>{c.title}</td>
               <td className={styles.actions}>
                 <button className="btn-icon btn-edit" onClick={() => handleOpenEdit(c)}>✏️</button>
-                <button className="btn-icon btn-delete" onClick={() => handleDelete(c.id)}>🗑️</button>
-                <button className="btn-icon" onClick={() => handleOpenEnrollment(c)} style={{ fontSize: '0.9rem' }}>👥</button>
+                <button className="btn-icon btn-delete" onClick={() => handleDelete(c.id)}>🗑</button>
+                <button className="btn-icon" onClick={() => handleOpenEnrollment(c)} style={{ fontSize: '0.9rem' }}>✚</button>
               </td>
             </tr>
           ))}

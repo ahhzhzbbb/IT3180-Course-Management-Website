@@ -3,7 +3,7 @@ import styles from './VideoPlayer.module.css';
 
 export default function VideoPlayer({ videoUrl, title, description }) {
   const renderVideo = (url) => {
-    if (!url) return <div style={{ color: '#aaa' }}>No Video URL</div>;
+    if (!url) return <div style={{ color: '#aaa' }}>Không có video</div>;
     let embedUrl = url;
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
       embedUrl = url.replace('watch?v=', 'embed/');

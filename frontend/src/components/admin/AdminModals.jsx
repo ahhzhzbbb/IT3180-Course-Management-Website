@@ -24,7 +24,7 @@ export function UserModal({ isOpen, onClose, onSave, form, setForm, isEdit, onRo
               />
             </div>
             <div className={styles.formGroup}>
-              <label className={styles.label}>Full Name</label>
+              <label className={styles.label}>Họ và tên</label>
               <input
                 className={styles.input}
                 required
@@ -36,7 +36,7 @@ export function UserModal({ isOpen, onClose, onSave, form, setForm, isEdit, onRo
 
           <div className={styles.formGroup}>
             <label className={styles.label}>
-              Password {isEdit && <small style={{ fontWeight: 'normal', color: '#666' }}>(Blank to keep)</small>}
+              Password {isEdit && <small style={{ fontWeight: 'normal', color: '#666' }}>(Để trống nếu không muốn thay đổi)</small>}
             </label>
             <input
               className={styles.input}
@@ -51,7 +51,7 @@ export function UserModal({ isOpen, onClose, onSave, form, setForm, isEdit, onRo
             <>
               <div className={styles.row}>
                 <div className={styles.formGroup}>
-                  <label className={styles.label}>Phone</label>
+                  <label className={styles.label}>Số điện thoại</label>
                   <input
                     className={styles.input}
                     required
@@ -60,7 +60,7 @@ export function UserModal({ isOpen, onClose, onSave, form, setForm, isEdit, onRo
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <label className={styles.label}>Birth Date</label>
+                  <label className={styles.label}>Ngày sinh</label>
                   <input
                     className={styles.input}
                     type="date"
@@ -82,7 +82,7 @@ export function UserModal({ isOpen, onClose, onSave, form, setForm, isEdit, onRo
           )}
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>Roles</label>
+            <label className={styles.label}>Chức năng</label>
             <div className={styles.rolesContainer}>
               {['ROLE_USER', 'ROLE_INSTRUCTOR', 'ROLE_ADMIN'].map(r => (
                 <label key={r} className={styles.roleLabel}>
@@ -99,9 +99,9 @@ export function UserModal({ isOpen, onClose, onSave, form, setForm, isEdit, onRo
 
           <div className={styles.actions}>
             <div className={styles.saveBtnWrapper}>
-              <button type="submit" className="btn-primary">Save</button>
+              <button type="submit" className="btn-primary">Lưu</button>
             </div>
-            <button type="button" onClick={onClose} className={styles.cancelBtn}>Cancel</button>
+            <button type="button" onClick={onClose} className={styles.cancelBtn}>Hủy</button>
           </div>
         </form>
       </div>
@@ -119,7 +119,7 @@ export function CourseModal({ isOpen, onClose, onSave, form, setForm, isEdit }) 
 
         <form onSubmit={onSave} className={styles.form}>
           <div className={styles.formGroup}>
-            <label className={styles.label}>Course Title</label>
+            <label className={styles.label}>Tên Khóa học</label>
             <input
               className={styles.input}
               required
@@ -129,7 +129,7 @@ export function CourseModal({ isOpen, onClose, onSave, form, setForm, isEdit }) 
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>Description</label>
+            <label className={styles.label}>Mô tả</label>
             <textarea
               className={styles.textarea}
               rows={5}

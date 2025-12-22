@@ -7,20 +7,20 @@ export function ChapterModal({ isOpen, onClose, onSave, title, setTitle, isEdit 
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.content} onClick={e => e.stopPropagation()}>
-        <h3>{isEdit ? 'Edit Chapter' : 'Add New Chapter'}</h3>
+        <h3>{isEdit ? 'Chỉnh sửa chương' : 'Thêm chương mới'}</h3>
         <form onSubmit={onSave} className={styles.form}>
           <input
             className={styles.input}
             value={title}
             onChange={e => setTitle(e.target.value)}
             autoFocus
-            placeholder="e.g. Chapter 1: Introduction"
+            placeholder="VD. Chương 1: Giới thiệu"
           />
           <div className={styles.actions}>
             <div className={styles.saveBtnWrapper}>
-              <button type="submit" className="btn-primary">Save</button>
+              <button type="submit" className="btn-primary">Lưu</button>
             </div>
-            <button type="button" onClick={onClose} className={styles.cancelBtn}>Cancel</button>
+            <button type="button" onClick={onClose} className={styles.cancelBtn}>Hủy</button>
           </div>
         </form>
       </div>
@@ -34,13 +34,13 @@ export function LessonModal({ isOpen, onClose, onSave, form, setForm, isEdit }) 
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.content} onClick={e => e.stopPropagation()}>
-        <h3>{isEdit ? 'Edit Lesson' : 'Add New Lesson'}</h3>
+        <h3>{isEdit ? 'Chỉnh sửa bài học' : 'Thêm bài học'}</h3>
         <form onSubmit={onSave} className={styles.form}>
           <input
             className={styles.input}
             value={form.title}
             onChange={e => setForm({ ...form, title: e.target.value })}
-            placeholder="Lesson Title"
+            placeholder="Tên bài học"
           />
           <input
             className={styles.input}
@@ -53,13 +53,13 @@ export function LessonModal({ isOpen, onClose, onSave, form, setForm, isEdit }) 
             value={form.description}
             onChange={e => setForm({ ...form, description: e.target.value })}
             rows={4}
-            placeholder="Brief description of this lesson..."
+            placeholder="Mô tả bài học"
           />
           <div className={styles.actions}>
             <div className={styles.saveBtnWrapper}>
-              <button type="submit" className="btn-primary">Save</button>
+              <button type="submit" className="btn-primary">Lưu</button>
             </div>
-            <button type="button" onClick={onClose} className={styles.cancelBtn}>Cancel</button>
+            <button type="button" onClick={onClose} className={styles.cancelBtn}>Hủy</button>
           </div>
         </form>
       </div>
