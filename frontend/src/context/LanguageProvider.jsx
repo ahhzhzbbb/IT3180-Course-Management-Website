@@ -17,11 +17,28 @@ const translations = {
     'login.password': 'Mật khẩu',
     'login.signin': 'Đăng Nhập',
     'login.or': 'hoặc',
-    'login.noAccount': 'Chưa có tài khoản? Liên hệ quản trị viên',
+    'login.noAccount': 'Chưa có tài khoản?',
+    'login.registerLink': 'Đăng ký ngay',
     'login.error.invalid': 'Tên đăng nhập hoặc mật khẩu không đúng',
     'login.error.general': 'Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.',
     'login.placeholder.username': 'Nhập tên đăng nhập',
     'login.placeholder.password': 'Nhập mật khẩu',
+
+    // Register
+    'register.title': 'Tạo Tài Khoản',
+    'register.subtitle': 'Tạo tài khoản mới để bắt đầu học tập',
+    'register.phone': 'Số điện thoại',
+    'register.birth': 'Ngày sinh',
+    'register.gender': 'Giới tính',
+    'register.genderPlaceholder': 'Chọn giới tính...',
+    'register.male': 'Nam',
+    'register.female': 'Nữ',
+    'register.placeholder.name': 'Nhập họ tên',
+    'register.placeholder.phone': 'Nhập số điện thoại (10 chữ số)',
+    'register.submit': 'Đăng Ký',
+    'register.success': 'Đăng ký thành công! Đang chuyển tới trang đăng nhập...',
+    'register.error.general': 'Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại.',
+    'register.alreadyAccount': 'Đã có tài khoản?',
     
     // Dashboard
     'dashboard.welcome': 'Chào mừng trở lại, {name}!',
@@ -103,6 +120,13 @@ const translations = {
     // Theme
     'theme.light': 'Sáng',
     'theme.dark': 'Tối',
+
+    // Illustration
+    'illustration.title': 'Bắt Đầu Học Ngay Hôm Nay',
+    'illustration.subtitle': 'Truy cập hàng ngàn khóa học và mở rộng kiến thức của bạn',
+    'illustration.feature1': 'Giảng viên chuyên nghiệp',
+    'illustration.feature2': 'Truy cập trọn đời',
+    'illustration.feature3': 'Học theo tiến độ của bạn',
   },
   
   en: {
@@ -119,11 +143,28 @@ const translations = {
     'login.password': 'Password',
     'login.signin': 'Sign In',
     'login.or': 'or',
-    'login.noAccount': "Don't have an account? Contact your administrator",
+    'login.noAccount': "Don't have an account?",
+    'login.registerLink': 'Register now',
     'login.error.invalid': 'Invalid username or password',
     'login.error.general': 'An error occurred during login. Please try again.',
     'login.placeholder.username': 'Enter your username',
     'login.placeholder.password': 'Enter your password',
+
+    // Register
+    'register.title': 'Create Account',
+    'register.subtitle': 'Create a new account to start learning',
+    'register.phone': 'Phone Number',
+    'register.birth': 'Birth Date',
+    'register.gender': 'Gender',
+    'register.genderPlaceholder': 'Select gender...',
+    'register.male': 'Male',
+    'register.female': 'Female',
+    'register.placeholder.name': 'Enter your full name',
+    'register.placeholder.phone': 'Enter phone number (10 digits)',
+    'register.submit': 'Register',
+    'register.success': 'Registration successful! Redirecting to login...',
+    'register.error.general': 'An error occurred during registration. Please try again.',
+    'register.alreadyAccount': 'Already have an account?',
     
     // Dashboard
     'dashboard.welcome': 'Welcome back, {name}!',
@@ -205,10 +246,17 @@ const translations = {
     // Theme
     'theme.light': 'Light',
     'theme.dark': 'Dark',
+
+    // Illustration
+    'illustration.title': 'Start Learning Today',
+    'illustration.subtitle': 'Access thousands of courses and expand your knowledge',
+    'illustration.feature1': 'Expert Instructors',
+    'illustration.feature2': 'Lifetime Access',
+    'illustration.feature3': 'Learn at Your Pace',
   }
 };
 
-export function LanguageProvider({ children }) {
+export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState(() => {
     return localStorage.getItem('language') || 'vi';
   });
@@ -239,7 +287,7 @@ export function LanguageProvider({ children }) {
   );
 }
 
-export function useLanguage() {
+export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {
     throw new Error('useLanguage must be used within LanguageProvider');
