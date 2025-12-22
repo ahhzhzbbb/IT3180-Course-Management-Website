@@ -74,9 +74,55 @@ export default function CourseDetail() {
   };
   const handleAddExercise = async (data) => { await api.post(`/lessons/${activeLesson.id}/exercises`, data); fetchCourse(); };
   const handleDeleteExercise = async (exId) => { await api.delete(`/exercises/${exId}`); fetchCourse(); };
-  const handleSubmitWork = async (exId, solution) => { await api.post('/submissions', { userId: user.id, exerciseId: exId, solution }); alert("Submitted!"); };
-  const handleLoadSubmissions = async (exId) => { const res = await api.get(`/submissions?exerciseId=${exId}`); return res.data.submissions || res.data || []; };
-  const handleGradeWork = async (subId, score) => { await api.put(`/submission/${subId}?score=${score}`); alert("Graded!"); };
+  const handleSubmitWork = async (exId, solution) => {
+    try {
+      // Lưu ý: Kiểm tra xem backend yêu cầu field là 'solution' hay 'content'
+      // Ở đây tôi giữ 'solution' theo code cũ của bạn, nhưng bọc trong object
+      await api.post(`/exercise/${exId}/submissions/${user.id}`, { 
+        solution: solution 
+      }); 
+      
+      alert("Nộp bài thành công!");
+    } catch (error) {
+      console.error("Lỗi khi nộp bài:", error);
+      alert("Có lỗi xảy ra khi nộp bài. Vui lòng thử lại.");
+    }
+  };
+
+  const handleLoadSubmissions = async (exId) => {
+    try {
+      const res = await api.get(`/submissions?exerciseId=${exId}`);
+      console.log("Dữ liệu thô từ API Submissions:", res.data);
+
+      // Kiểm tra cấu trúc của SubmissionResponse
+      // Thông thường sẽ là res.data.content hoặc res.data.submissions
+      const data = res.data.content || res.data.submissions || res.data || [];
+      
+      return Array.isArray(data) ? data : [];
+    } catch (err) {
+      console.error("Lỗi khi load bài nộp:", err);
+      return [];
+    }
+  };
+  const handleGradeWork = async (subId, score) => {
+    if (!subId || subId === "undefined") {
+      alert("Không tìm thấy ID bài nộp!");
+      return;
+    }
+
+    try {
+      // API yêu cầu: /api/submission/{id}/{score}
+      // Lưu ý: Bỏ /api ở đầu nếu axiosConfig đã có sẵn prefix /api
+      await api.put(`/submission/${subId}/${score}`); 
+      
+      alert("Đã chấm điểm thành công!");
+      // Refresh lại dữ liệu nếu cần
+      if (typeof fetchCourse === 'function') fetchCourse(); 
+    } catch (error) {
+      console.error("Lỗi chấm điểm:", error.response?.data || error.message);
+      alert("Lỗi: " + (error.response?.data?.message || "Không thể chấm điểm"));
+    }
+  };
 
   const handleSaveChapter = async (e) => {
     e.preventDefault();
