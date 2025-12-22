@@ -169,12 +169,28 @@
   align-items: center;
   justify-content: center;
   padding: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  position: relative;
+  background-image: url('https://tse1.mm.bing.net/th/id/OIP.UpUDNBYwB4SmDl23kQMfcgHaEj?rs=1&pid=ImgDetMain&o=7&rm=3');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* subtle dark overlay to keep text readable */
+.illustration::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.35));
+  pointer-events: none;
 }
 
 .illustrationContent {
   max-width: 480px;
+  position: relative;
+  z-index: 1;
 }
 
 .illustrationContent h2 {

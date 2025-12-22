@@ -7,6 +7,7 @@ import Navbar from '../components/layout/Navbar';
 
 // Pages
 import Login from '../pages/Login';
+import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import CourseDetail from '../pages/CourseDetail';
 import AdminDashboard from '../pages/AdminDashboard';
@@ -27,6 +28,7 @@ export default function AppRoutes() {
     <Routes>
       {/* Public Routes */}
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       {/* Protected Routes */}
       <Route element={<Layout />}>
