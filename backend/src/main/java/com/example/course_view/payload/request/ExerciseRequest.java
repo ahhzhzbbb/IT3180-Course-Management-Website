@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class ExerciseRequest {
     private String title;
     private String description;
+    private Integer maxSubmissions;
 }

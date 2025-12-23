@@ -15,6 +15,9 @@ import com.example.course_view.security.response.UserInfoResponse;
 import com.example.course_view.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +35,12 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public UserResponse getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public UserResponse getAllUsers(Integer pageNumber, Integer pageSize) {
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize);
+        Page<User> userPage = userRepository.findAll(pageDetails);
+        List<User> users = userPage.getContent();
+        if (users.isEmpty())
+            throw new RuntimeException("Not Found");
         List<UserDTO> userDTOs = users.stream()
                 .map(user -> {
                     List<String> userRoles = user.getRoles().stream()
@@ -47,7 +54,14 @@ public class UserServiceImpl implements UserService {
                     );
                 })
                 .toList();
-        return new UserResponse(userDTOs);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUsers(userDTOs);
+        userResponse.setPageNumber(userPage.getNumber());
+        userResponse.setPageSize(userPage.getSize());
+        userResponse.setTotalElements(userPage.getTotalElements());
+        userResponse.setTotalPages(userPage.getTotalPages());
+        userResponse.setLastPage(userPage.isLast());
+        return userResponse;
     }
 
     @Override
@@ -60,7 +74,10 @@ public class UserServiceImpl implements UserService {
                 signupRequest.getUsername(),
                 encoder.encode(signupRequest.getPassword())
         );
-
+        user.setName(signupRequest.getName());
+        user.setPhoneNumber(signupRequest.getPhoneNumber());
+        user.setBirth(signupRequest.getBirth());
+        user.setGender(signupRequest.getGender());
         Set<String> strRoles = signupRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
@@ -96,7 +113,17 @@ public class UserServiceImpl implements UserService {
         List<String> savedUserRoles = savedUser.getRoles().stream()
                 .map(role -> role.getRoleName().name())
                 .toList();
-        return new UserInfoResponse(savedUser.getUserId(), null, savedUser.getUsername(), savedUser.getName(), savedUserRoles);
+        return new UserInfoResponse(
+                savedUser.getUserId(),
+                null,
+                savedUser.getUsername(),
+                savedUser.getName(),
+                savedUserRoles,
+                savedUser.getPhoneNumber(),
+                savedUser.getBirth(),
+                savedUser.getGender(),
+                savedUser.getState()
+        );
     }
 
     @Transactional
@@ -109,7 +136,6 @@ public class UserServiceImpl implements UserService {
                 .toList();
         UserInfoResponse deletedUserInfoResponse = new UserInfoResponse(
                 existingUser.getUserId(),
-                null,
                 existingUser.getUsername(),
                 existingUser.getName(),
                 existingUserRoles
@@ -133,13 +159,33 @@ public class UserServiceImpl implements UserService {
             user.setUsername(request.getUsername());
         }
 
+        if (request.getName() != null && !request.getName().isEmpty()) {
+            user.setName(request.getName());
+        }
 
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(encoder.encode(request.getPassword()));
         }
 
-        List<String> strRolesList = request.getRoles();
+        // Profile fields
+        if (request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty()) {
+            user.setPhoneNumber(request.getPhoneNumber());
+        }
 
+        if (request.getBirth() != null) {
+            user.setBirth(request.getBirth());
+        }
+
+        if (request.getGender() != null) {
+            user.setGender(request.getGender());
+        }
+
+        if (request.getState() != null && !request.getState().isEmpty()) {
+            user.setState(request.getState());
+        }
+
+        // 4. Update Roles
+        List<String> strRolesList = request.getRoles();
         if (strRolesList != null) {
             Set<String> strRoles = new HashSet<>(strRolesList);
             Set<Role> roles = new HashSet<>();
@@ -182,7 +228,11 @@ public class UserServiceImpl implements UserService {
                 null,
                 savedUser.getUsername(),
                 savedUser.getName(),
-                savedUserRoles
+                savedUserRoles,
+                savedUser.getPhoneNumber(),
+                savedUser.getBirth(),
+                savedUser.getGender(),
+                savedUser.getState()
         );
     }
 

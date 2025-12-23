@@ -1,9 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import './styles/global.css' // Ensure global styles are imported
+import './styles/theme.css' // Small shared theme utilities
 import App from './App.jsx'
+import { ThemeProvider } from './context/ThemeProvider'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </StrictMode>,
 )

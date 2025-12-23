@@ -1,8 +1,11 @@
 package com.example.course_view.repositories;
 
 import com.example.course_view.models.Course;
+import com.example.course_view.models.CourseInstructor;
 import com.example.course_view.models.CourseStudent;
 import com.example.course_view.models.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +16,8 @@ public interface CourseStudentRepository extends JpaRepository<CourseStudent, Lo
     boolean existsByCourseAndStudent(Course course, User student);
 
     List<CourseStudent> findByCourse(Course course);
+
+    Page<CourseStudent> findByCourse(Course course, Pageable pageable);
 
     CourseStudent findByCourseAndStudent(Course course, User student);
 

@@ -1,0 +1,130 @@
+:root {
+  /* local fallbacks in case variables are not loaded */
+  --card-radius: 12px;
+}
+
+.container {
+  max-width: 920px;
+  margin: 32px auto;
+  padding: 28px;
+  background: var(--bg-card, #fff);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0,0,0,0.08));
+  border: 1px solid var(--border-color, rgba(0,0,0,0.06));
+}
+
+.container h2 {
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+  letter-spacing: -0.2px;
+}
+
+.title {
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+/* Responsive two-column layout on wider screens */
+@media (min-width: 768px) {
+  .form {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 20px;
+  }
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.form input,
+.form select {
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: var(--bg-color);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  color: var(--text-main);
+}
+
+.form input:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.08);
+}
+
+/* Make readonly fields slightly muted */
+.form input[readonly] {
+  background: transparent;
+  color: var(--text-muted);
+  border-style: dashed;
+}
+
+/* Button spans full width on small screens and full row on larger screens */
+button[type="submit"] {
+  grid-column: 1 / -1;
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: calc(var(--radius-md) + 4px);
+  border: none;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 0 6px 18px rgba(37,99,235,0.12);
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+}
+
+/* Message styles */
+.success {
+  grid-column: 1 / -1;
+  color: var(--success-color);
+  background: rgba(16, 185, 129, 0.08);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border-left: 4px solid var(--success-color);
+}
+
+.error {
+  grid-column: 1 / -1;
+  color: var(--error-color);
+  background: rgba(239, 68, 68, 0.06);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border-left: 4px solid var(--error-color);
+}
+
+.profileLink {
+  display: inline-block;
+  padding: 8px 10px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+/* Small helper: make form fields stack nicely on mobile */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+    margin: 20px 16px;
+  }
+}
+
+

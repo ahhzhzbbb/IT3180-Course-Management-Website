@@ -31,13 +31,24 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    // Profile fields
+    private String phoneNumber;
+    private java.time.LocalDate birth;
+    private Boolean gender;
+    private String state;
+
     public UserDetailsImpl(Long id, String username, String password, String name,
-                           Collection<? extends GrantedAuthority> authorities) {
+                           Collection<? extends GrantedAuthority> authorities,
+                           String phoneNumber, java.time.LocalDate birth, Boolean gender, String state) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
         this.authorities = authorities;
+        this.phoneNumber = phoneNumber;
+        this.birth = birth;
+        this.gender = gender;
+        this.state = state;
     }
 
     public static UserDetailsImpl build(User user) {
@@ -50,7 +61,11 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getPassword(),
                 user.getName(),
-                authorities
+                authorities,
+                user.getPhoneNumber(),
+                user.getBirth(),
+                user.getGender(),
+                user.getState()
         );
     }
 
@@ -102,6 +117,11 @@ public class UserDetailsImpl implements UserDetails {
             return false;
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
     public boolean hasRole(String role) {
         return authorities.stream()

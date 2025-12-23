@@ -68,7 +68,11 @@ public class AuthServiceImpl implements AuthService {
                 jwtCookie.toString(),
                 userDetails.getUsername(),
                 userDetails.getName(),
-                roles
+                roles,
+                userDetails.getPhoneNumber(),
+                userDetails.getBirth(),
+                userDetails.getGender(),
+                userDetails.getState()
         );
 
         return new AuthenticationResult(response, jwtCookie);
@@ -107,7 +111,7 @@ public class AuthServiceImpl implements AuthService {
                         roles.add(adminRole);
 
                         break;
-                    case "seller":
+                    case "instructor":
                         Role modRole = roleRepository.findByRoleName(AppRole.ROLE_INSTRUCTOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
@@ -134,7 +138,7 @@ public class AuthServiceImpl implements AuthService {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
 
-        return new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getName(), roles);
+        return new UserInfoResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getName(), roles, userDetails.getPhoneNumber(), userDetails.getBirth(), userDetails.getGender(), userDetails.getState());
     }
 
 

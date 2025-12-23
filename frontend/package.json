@@ -6,8 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "vitest",
     "lint": "eslint .",
     "preview": "vite preview"
+  },
+  "vitest": {
+    "globals": true,
+    "environment": "jsdom",
+    "setupFiles": "src/setupTests.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -28,6 +34,10 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "vite": "^7.3.0"
+    "vite": "^7.3.0",
+    "vitest": "^0.32.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.1",
+    "jsdom": "^22.1.0"
   }
 }

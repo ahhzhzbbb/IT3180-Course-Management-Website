@@ -1,5 +1,6 @@
 package com.example.course_view.controller;
 
+import com.example.course_view.configs.AppConstants;
 import com.example.course_view.payload.request.UserUpdateRequest;
 import com.example.course_view.payload.response.UserResponse;
 import com.example.course_view.security.request.SignupRequest;
@@ -20,8 +21,11 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
-    public ResponseEntity<UserResponse> getAllUsers() {
-        UserResponse userResponse = userService.getAllUsers();
+    public ResponseEntity<UserResponse> getAllUsers(
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize
+    ) {
+        UserResponse userResponse = userService.getAllUsers(pageNumber, pageSize);
         return ResponseEntity.ok(userResponse);
     }
 
@@ -32,12 +36,23 @@ public class UserController {
         return new ResponseEntity<>(userInfoResponse, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("@userResource.canUpdateUser(#userId, authentication)")
     @PutMapping("/users/{userId}")
     public ResponseEntity<UserInfoResponse> updateUser(@RequestBody UserUpdateRequest request, @PathVariable Long userId) {
         UserInfoResponse userInfoResponse = userService.updateUser(request, userId);
         return new ResponseEntity<>(userInfoResponse, HttpStatus.CREATED);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/users/me")
+    public ResponseEntity<UserInfoResponse> updateCurrentUser(@RequestBody UserUpdateRequest request, org.springframework.security.core.Authentication authentication) {
+        // Prevent username change by current user
+        request.setUsername(null);
+        com.example.course_view.security.services.UserDetailsImpl ud = (com.example.course_view.security.services.UserDetailsImpl) authentication.getPrincipal();
+        UserInfoResponse userInfoResponse = userService.updateUser(request, ud.getId());
+        return new ResponseEntity<>(userInfoResponse, HttpStatus.CREATED);
+    }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/users/{userId}")

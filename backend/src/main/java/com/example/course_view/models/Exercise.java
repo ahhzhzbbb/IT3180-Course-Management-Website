@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,11 +19,14 @@ public class Exercise {
     private String title;
     private String description;
 
+    private Integer maxSubmissions = 1;
+
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     @JsonIgnore
     private Lesson lesson;
 
-
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Submission> submissions;
 
 }

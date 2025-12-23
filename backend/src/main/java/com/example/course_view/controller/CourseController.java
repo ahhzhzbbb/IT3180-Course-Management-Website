@@ -30,7 +30,7 @@ public class CourseController {
         CourseResponse courseResponse = courseService.getAllCourses();
         return ResponseEntity.ok().body(courseResponse);
     }
-
+    @PreAuthorize("@userResource.canAccessCourse(#courseId, authentication)")
     @GetMapping("/courses/{courseId}")
     public ResponseEntity<CourseDTO> getCourseById(@PathVariable("courseId") Long courseId){
         CourseDTO courseDTO = courseService.getCourseById(courseId);
