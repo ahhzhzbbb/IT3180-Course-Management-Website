@@ -10,9 +10,6 @@ export default function DashboardHeader({ user, isInstructor }) {
       <h1 className={styles.title}>
         {t('dashboard.welcome', { name: user?.name || user?.username })}
       </h1>
-      <p className={styles.subtitle}>
-        {t('dashboard.loggedAs')} <strong>{isInstructor ? t('role.instructor') : t('role.student')}</strong>.
-      </p>
     </div>
   );
 }
