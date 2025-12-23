@@ -64,9 +64,9 @@ export default function Profile() {
 
   return (
     <div className={styles.container}>
-      <h2>Profile</h2>
+      <h2 className={styles.title}>Profile</h2>
       {message && (
-        <div className={message.type === 'success' ? styles.success : styles.error}>{message.text}</div>
+        <div role="alert" aria-live="polite" className={message.type === 'success' ? styles.success : styles.error}>{message.text}</div>
       )}
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>

@@ -2,94 +2,93 @@
 
 /* Reuse global modal structure or keep consistent with local style */
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .label {
-    font-weight: 500;
-    color: #374151;
-    font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.95rem;
 }
 
 .input,
 .textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.2s;
-    box-sizing: border-box;
-    /* Important so padding doesn't break width */
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: all 0.12s ease;
+  box-sizing: border-box;
 }
 
 .input:focus,
 .textarea:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.08);
 }
 
 .rolesContainer {
-    display: flex;
-    gap: 15px;
-    padding: 12px;
-    background: #f9fafb;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  flex-wrap: wrap;
 }
 
 .roleLabel {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.9rem;
-    color: #4b5563;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
 }
 
 .actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 10px;
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .cancelBtn {
-    flex: 1;
-    padding: 10px;
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    color: #374151;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+  flex: 1;
+  padding: 10px;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
 }
 
 .cancelBtn:hover {
-    background: #e5e7eb;
+  background: var(--bg-card);
 }
 
 /* Helper to force full width on save button if needed */
 .saveBtnWrapper {
-    flex: 1;
+  flex: 1;
 }
 
 .saveBtnWrapper button {
-    width: 100%;
+  width: 100%;
 }

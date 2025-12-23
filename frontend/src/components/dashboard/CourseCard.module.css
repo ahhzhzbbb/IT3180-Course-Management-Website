@@ -4,6 +4,13 @@
   text-decoration: none;
   color: inherit;
   display: block;
+  border-radius: var(--radius-lg);
+}
+
+.cardLink:focus-visible {
+  outline: 3px solid rgba(59,130,246,0.16);
+  outline-offset: 2px;
+  border-radius: var(--radius-lg);
 }
 
 .card {
@@ -11,7 +18,7 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
+  transition: all 0.28s cubic-bezier(0.16,1,0.3,1);
   border: 1px solid var(--border-color);
   height: 100%;
   display: flex;
@@ -19,7 +26,7 @@
 }
 
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-md);
   border-color: var(--primary-color);
 }
@@ -108,7 +115,8 @@
 }
 
 .instructor,
-.lessons {
+.lessons,
+.students {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -119,6 +127,12 @@
   height: 16px;
   flex-shrink: 0;
 }
+
+.students {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  gap: 8px;
+} 
 
 /* Responsive */
 @media (max-width: 768px) {

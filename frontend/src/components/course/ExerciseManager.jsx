@@ -48,7 +48,7 @@ export default function ExerciseManager({
       <div className={styles.header}>
         <h3>📝 Bài tập</h3>
         {isInstructor && !isAdding && (
-          <button onClick={() => setIsAdding(true)} style={{ fontSize: '0.8em' }}>+ Thêm bài tập</button>
+          <button className={`${styles.btn} ${styles['btn-primary']}`} onClick={() => setIsAdding(true)}>+ Thêm bài tập</button>
         )}
       </div>
 
@@ -67,8 +67,8 @@ export default function ExerciseManager({
             onChange={e => setNewExercise({ ...newExercise, description: e.target.value })} 
           />
           <div className={styles.buttonGroup}>
-            <button onClick={() => { onAddExercise(newExercise); setIsAdding(false); setNewExercise({ title: '', description: '' }); }}>Lưu</button>
-            <button onClick={() => setIsAdding(false)} style={{ background: '#ccc' }}>Hủy</button>
+            <button className={`${styles.btn} ${styles['btn-primary']}`} onClick={() => { onAddExercise(newExercise); setIsAdding(false); setNewExercise({ title: '', description: '' }); }}>Lưu</button>
+            <button className={`${styles.btn} ${styles['btn-secondary']}`} onClick={() => setIsAdding(false)}>Hủy</button>
           </div>
         </div>
       )}
@@ -80,7 +80,7 @@ export default function ExerciseManager({
             <div className={styles.itemHeader}>
               <span>{ex.title}</span>
               {isInstructor && (
-                <button className="btn-icon btn-delete" onClick={() => onDeleteExercise(ex.id)}>🗑️</button>
+                <button className={`${styles['btn-icon']} ${styles['btn-delete']}`} onClick={() => onDeleteExercise(ex.id)}>🗑️</button>
               )}
             </div>
             <p>{ex.description}</p>

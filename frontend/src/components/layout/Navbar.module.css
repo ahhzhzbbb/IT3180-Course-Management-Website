@@ -7,19 +7,30 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 64px;
+  height: 72px; /* slightly taller for improved spacing */
 }
 
 .container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 28px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* Slight logo size bump */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
 .brand {
   display: flex;
   align-items: center;

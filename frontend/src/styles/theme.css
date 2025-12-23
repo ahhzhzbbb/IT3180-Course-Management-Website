@@ -1,0 +1,83 @@
+/* Lightweight shared utilities and small components for the app theme */
+
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.form-grid {
+  display: grid;
+  gap: 16px;
+}
+
+/* input with icon support */
+.input-icon {
+  position: relative;
+}
+
+.input-icon input,
+.input-icon select {
+  padding-left: 42px; /* space for icon */
+}
+
+.icon-left {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.small {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Utilities */
+.u-center {
+  text-align: center;
+}
+
+.u-gap-sm {
+  gap: 8px;
+}
+
+/* subtle divider */
+.divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 12px 0;
+}
+
+/* Accessibility & reduced motion */
+:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.18);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Ensure primary buttons have a clear focus ring */
+.btn-primary:focus-visible,
+.btn-icon:focus-visible {
+  outline: 3px solid rgba(37,99,235,0.18);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
