@@ -93,6 +93,18 @@ The IT3180 Course Management Website has been thoroughly tested with automated e
 
 **Test Steps:**
 1. Click user menu button in navbar
+
+---
+
+
+1. Login as a normal user.
+2. Navigate to `/profile` via the user menu.
+3. Change `Name` or other profile fields and click `Save` — expect success toast and updated values.
+4. Ensure users cannot change `username` via the profile page (username field is read-only).
+5. As admin, try to update other users via `PUT /api/users/{id}` (admin-only) and verify roles behavior.
+
+---
+
 2. Verify dropdown displays role and logout option
 3. Test logout functionality
 

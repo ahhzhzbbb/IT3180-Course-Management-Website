@@ -108,7 +108,8 @@ class AuthServiceImplTest {
     void login_Success_ReturnsJwt() {
         // Arrange
         Authentication authentication = mock(Authentication.class);
-        UserDetailsImpl userDetails = new UserDetailsImpl(1L, "existinguser", "pass", "John", Set.of());
+        // Create UserDetailsImpl with empty authorities and null profile fields
+        UserDetailsImpl userDetails = new UserDetailsImpl(1L, "existinguser", "pass", "John", java.util.List.of(), null, null, null, null);
 
         when(authentication.getPrincipal()).thenReturn(userDetails);
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);

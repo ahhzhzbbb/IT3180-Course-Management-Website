@@ -99,7 +99,17 @@ public class UserServiceImpl implements UserService {
         List<String> savedUserRoles = savedUser.getRoles().stream()
                 .map(role -> role.getRoleName().name())
                 .toList();
-        return new UserInfoResponse(savedUser.getUserId(), null, savedUser.getUsername(), savedUser.getName(), savedUserRoles);
+        return new UserInfoResponse(
+                savedUser.getUserId(),
+                null,
+                savedUser.getUsername(),
+                savedUser.getName(),
+                savedUserRoles,
+                savedUser.getPhoneNumber(),
+                savedUser.getBirth(),
+                savedUser.getGender(),
+                savedUser.getState()
+        );
     }
 
     @Transactional
@@ -112,7 +122,6 @@ public class UserServiceImpl implements UserService {
                 .toList();
         UserInfoResponse deletedUserInfoResponse = new UserInfoResponse(
                 existingUser.getUserId(),
-                null,
                 existingUser.getUsername(),
                 existingUser.getName(),
                 existingUserRoles
@@ -142,6 +151,23 @@ public class UserServiceImpl implements UserService {
 
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(encoder.encode(request.getPassword()));
+        }
+
+        // Profile fields
+        if (request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty()) {
+            user.setPhoneNumber(request.getPhoneNumber());
+        }
+
+        if (request.getBirth() != null) {
+            user.setBirth(request.getBirth());
+        }
+
+        if (request.getGender() != null) {
+            user.setGender(request.getGender());
+        }
+
+        if (request.getState() != null && !request.getState().isEmpty()) {
+            user.setState(request.getState());
         }
 
         // 4. Update Roles
@@ -188,7 +214,11 @@ public class UserServiceImpl implements UserService {
                 null,
                 savedUser.getUsername(),
                 savedUser.getName(),
-                savedUserRoles
+                savedUserRoles,
+                savedUser.getPhoneNumber(),
+                savedUser.getBirth(),
+                savedUser.getGender(),
+                savedUser.getState()
         );
     }
 

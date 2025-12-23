@@ -100,6 +100,9 @@ export default function Navbar() {
               <div className={styles.userRole}>
                 {isAdmin ? t('role.admin') : isInstructor ? t('role.instructor') : t('role.student')}
               </div>
+              <Link to="/profile" className={styles.profileLink} onClick={() => setShowUserMenu(false)}>
+                {t('nav.profile') || 'Profile'}
+              </Link>
               <button onClick={handleLogout} className={styles.logoutBtn}>
                 {t('nav.logout')}
               </button>

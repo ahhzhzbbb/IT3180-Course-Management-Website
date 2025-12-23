@@ -39,6 +39,17 @@ public class UserController {
         return new ResponseEntity<>(userInfoResponse, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/users/me")
+    public ResponseEntity<UserInfoResponse> updateCurrentUser(@RequestBody UserUpdateRequest request, org.springframework.security.core.Authentication authentication) {
+        // Prevent username change by current user
+        request.setUsername(null);
+        com.example.course_view.security.services.UserDetailsImpl ud = (com.example.course_view.security.services.UserDetailsImpl) authentication.getPrincipal();
+        UserInfoResponse userInfoResponse = userService.updateUser(request, ud.getId());
+        return new ResponseEntity<>(userInfoResponse, HttpStatus.CREATED);
+    }
+
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<UserInfoResponse> deleteUser(@PathVariable Long userId) {

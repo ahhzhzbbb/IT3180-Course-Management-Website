@@ -11,6 +11,7 @@ import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import CourseDetail from '../pages/CourseDetail';
 import AdminDashboard from '../pages/AdminDashboard';
+import Profile from '../pages/Profile';
 import LandingPage from '../pages/LandingPage'
 
 // Layout Wrapper
@@ -56,8 +57,11 @@ export default function AppRoutes() {
           </AdminRoute>
         } />
 
-        {/* Default Redirect */}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="/profile" element={
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        } />
       </Route>
     </Routes>
   );

@@ -42,6 +42,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const refreshUser = async () => {
+    try {
+      const userRes = await api.get('/auth/user');
+      setUser(userRes.data);
+      return userRes.data;
+    } catch (error) {
+      console.error("Refresh user failed", error);
+      return null;
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('jwtToken');
     setUser(null);
@@ -51,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   if (loading) return <div style={{ padding: '20px' }}>Loading User...</div>;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
