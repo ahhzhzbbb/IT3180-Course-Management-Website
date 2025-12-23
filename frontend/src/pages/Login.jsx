@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
-import { useLanguage } from '../context/LanguageProvider';
 import styles from './Login.module.css';
 
 export default function Login() {
@@ -10,7 +9,6 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  const { t } = useLanguage();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,10 +25,10 @@ export default function Login() {
           navigate('/dashboard');
         }
       } else {
-        setError(t('login.error.invalid'));
+        setError('Tên đăng nhập hoặc mật khẩu không đúng');
       }
     } catch (err) {
-      setError(t('login.error.general'));
+      setError('Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.');
     } finally {
       setIsLoading(false);
     }
@@ -40,8 +38,8 @@ export default function Login() {
     <div className={styles.container}>
       <div className={styles.loginCard}>
         <div className={styles.header}>
-          <h1 className={styles.title}>{t('login.title')}</h1>
-          <p className={styles.subtitle}>{t('login.subtitle')}</p>
+          <h1 className={styles.title}>Chào Mừng Trở Lại</h1>
+          <p className={styles.subtitle}>Đăng nhập để tiếp tục hành trình học tập của bạn</p>
         </div>
 
         {error && (
@@ -55,12 +53,12 @@ export default function Login() {
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('login.username')}</label>
+            <label className={styles.label}>Tên đăng nhập</label>
             <input
               type="text"
               required
               className={styles.input}
-              placeholder={t('login.placeholder.username')}
+              placeholder={'Nhập tên đăng nhập'}
               value={creds.username}
               onChange={e => setCreds({ ...creds, username: e.target.value })}
               disabled={isLoading}
@@ -68,12 +66,12 @@ export default function Login() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('login.password')}</label>
+            <label className={styles.label}>Mật khẩu</label>
             <input
               type="password"
               required
               className={styles.input}
-              placeholder={t('login.placeholder.password')}
+              placeholder={'Nhập mật khẩu'}
               value={creds.password}
               onChange={e => setCreds({ ...creds, password: e.target.value })}
               disabled={isLoading}
@@ -86,46 +84,46 @@ export default function Login() {
             disabled={isLoading}
           >
             {isLoading ? (
-              <span className={styles.loadingSpinner}>{t('login.signin')}...</span>
+              <span className={styles.loadingSpinner}>Đăng Nhập...</span>
             ) : (
-              t('login.signin')
+              'Đăng Nhập'
             )}
           </button>
         </form>
 
         <div className={styles.divider}>
-          <span>{t('login.or')}</span>
+          <span>hoặc</span>
         </div>
 
         <div className={styles.footer}>
           <p className={styles.footerText}>
-            {t('login.noAccount')} <Link to="/register">{t('login.registerLink')}</Link>
+            Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
           </p>
         </div>
       </div>
 
       <div className={styles.illustration}>
         <div className={styles.illustrationContent}>
-          <h2>{t('illustration.title')}</h2>
-          <p>{t('illustration.subtitle')}</p>
+          <h2>Bắt Đầu Học Ngay Hôm Nay</h2>
+          <p>Truy cập hàng ngàn khóa học và mở rộng kiến thức của bạn</p>
           <div className={styles.features}>
             <div className={styles.feature}>
               <svg className={styles.featureIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
-              <span>{t('illustration.feature1')}</span>
+              <span>Giảng viên chuyên nghiệp</span>
             </div>
             <div className={styles.feature}>
               <svg className={styles.featureIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span>{t('illustration.feature2')}</span>
+              <span>Truy cập trọn đời</span>
             </div>
             <div className={styles.feature}>
               <svg className={styles.featureIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span>{t('illustration.feature3')}</span>
+              <span>Học theo tiến độ của bạn</span>
             </div>
           </div>
         </div>

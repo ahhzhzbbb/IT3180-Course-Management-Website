@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageProvider';
 import api from '../api/axiosConfig';
 import styles from './Login.module.css'; // reuse the same styles to keep look consistent
 
 export default function Register() {
-  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -41,12 +39,12 @@ export default function Register() {
 
       await api.post('/auth/signup', payload);
 
-      setSuccess(t('register.success'));
+      setSuccess('Đăng ký thành công! Đang chuyển tới trang đăng nhập...');
 
       // Redirect to login after a short delay so user sees success message
       setTimeout(() => navigate('/login'), 1200);
     } catch (err) {
-      const msg = err?.response?.data?.message || t('register.error.general');
+      const msg = err?.response?.data?.message || 'Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại.';
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -57,8 +55,8 @@ export default function Register() {
     <div className={styles.container}>
       <div className={styles.loginCard}>
         <div className={styles.header}>
-          <h1 className={styles.title}>{t('register.title')}</h1>
-          <p className={styles.subtitle}>{t('register.subtitle')}</p>
+          <h1 className={styles.title}>Tạo Tài Khoản</h1>
+          <p className={styles.subtitle}>Tạo tài khoản mới để bắt đầu học tập</p>
         </div>
 
         {error && (
@@ -72,18 +70,18 @@ export default function Register() {
 
         {success && (
           <div style={{ padding: 12, background: '#e6ffed', border: '1px solid #c6f3d1', borderRadius: 8, marginBottom: 18 }}>
-            {success} <Link to="/login" style={{ marginLeft: 8 }}>{t('login.signin')}</Link>
+            {success} <Link to="/login" style={{ marginLeft: 8 }}>Đăng Nhập</Link>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('modal.fullName')}</label>
+            <label className={styles.label}>Họ Tên</label>
             <input
               type="text"
               required
               className={styles.input}
-              placeholder={t('register.placeholder.name')}
+              placeholder={'Nhập họ tên'}
               value={form.name}
               onChange={e => setForm({ ...form, name: e.target.value })}
               disabled={isLoading}
@@ -91,12 +89,12 @@ export default function Register() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('login.username')}</label>
+            <label className={styles.label}>Tên đăng nhập</label>
             <input
               type="text"
               required
               className={styles.input}
-              placeholder={t('login.placeholder.username')}
+              placeholder={'Nhập tên đăng nhập'}
               value={form.username}
               onChange={e => setForm({ ...form, username: e.target.value })}
               disabled={isLoading}
@@ -104,12 +102,12 @@ export default function Register() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('modal.password')}</label>
+            <label className={styles.label}>Mật Khẩu</label>
             <input
               type="password"
               required
               className={styles.input}
-              placeholder={t('login.placeholder.password')}
+              placeholder={'Nhập mật khẩu'}
               value={form.password}
               onChange={e => setForm({ ...form, password: e.target.value })}
               disabled={isLoading}
@@ -117,12 +115,12 @@ export default function Register() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('register.phone')}</label>
+            <label className={styles.label}>Số điện thoại</label>
             <input
               type="text"
               required
               className={styles.input}
-              placeholder={t('register.placeholder.phone')}
+              placeholder={'Nhập số điện thoại (10 chữ số)'}
               value={form.phoneNumber}
               onChange={e => setForm({ ...form, phoneNumber: e.target.value })}
               disabled={isLoading}
@@ -130,7 +128,7 @@ export default function Register() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('register.birth')}</label>
+            <label className={styles.label}>Ngày sinh</label>
             <input
               type="date"
               required
@@ -142,16 +140,16 @@ export default function Register() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>{t('register.gender')}</label>
+            <label className={styles.label}>Giới tính</label>
             <select
               className={styles.input}
               value={form.gender}
               onChange={e => setForm({ ...form, gender: e.target.value })}
               disabled={isLoading}
             >
-              <option value="">{t('register.genderPlaceholder')}</option>
-              <option value="male">{t('register.male')}</option>
-              <option value="female">{t('register.female')}</option>
+              <option value="">Chọn giới tính...</option>
+              <option value="male">Nam</option>
+              <option value="female">Nữ</option>
             </select>
           </div>
 
@@ -160,25 +158,25 @@ export default function Register() {
             className={styles.submitBtn}
             disabled={isLoading}
           >
-            {isLoading ? <span className={styles.loadingSpinner}>{t('register.submit')}...</span> : t('register.submit')}
+            {isLoading ? <span className={styles.loadingSpinner}>Đăng Ký...</span> : 'Đăng Ký'}
           </button>
         </form>
 
         <div className={styles.divider}>
-          <span>{t('login.or')}</span>
+          <span>hoặc</span>
         </div>
 
         <div className={styles.footer}>
           <p className={styles.footerText}>
-            {t('register.alreadyAccount')} <Link to="/login">{t('login.signin')}</Link>
+            Đã có tài khoản? <Link to="/login">Đăng Nhập</Link>
           </p>
         </div>
       </div>
 
       <div className={styles.illustration}>
         <div className={styles.illustrationContent}>
-          <h2>Start Learning Today</h2>
-          <p>Access thousands of courses and expand your knowledge</p>
+          <h2>Bắt Đầu Học Ngay Hôm Nay</h2>
+          <p>Truy cập hàng ngàn khóa học và mở rộng kiến thức của bạn</p>
         </div>
       </div>
     </div>
