@@ -12,5 +12,5 @@ public interface UserService {
 
     UserInfoResponse updateUser(UserUpdateRequest request, Long userId);
 
-    UserResponse getAllUsers();
+    UserResponse getAllUsers(Integer pageNumber, Integer pageSize);
 }

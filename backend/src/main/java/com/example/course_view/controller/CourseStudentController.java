@@ -1,5 +1,6 @@
 package com.example.course_view.controller;
 
+import com.example.course_view.configs.AppConstants;
 import com.example.course_view.payload.dto.CourseStudentDTO;
 import com.example.course_view.payload.response.CourseResponse;
 import com.example.course_view.payload.response.UserResponse;
@@ -33,8 +34,12 @@ public class CourseStudentController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/courses/{courseId}/students")
-    public ResponseEntity<UserResponse> getAllStudentsFromCourse(@PathVariable Long courseId) {
-        UserResponse userResponse = courseStudentService.getAllStudentsFromCourse(courseId);
+    public ResponseEntity<UserResponse> getAllStudentsFromCourse(
+            @PathVariable Long courseId,
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize
+    ) {
+        UserResponse userResponse = courseStudentService.getAllStudentsFromCourse(courseId, pageNumber, pageSize);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 

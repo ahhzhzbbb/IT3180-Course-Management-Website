@@ -4,6 +4,7 @@ import { PrivateRoute, AdminRoute } from './Guards';
 
 // Components
 import Navbar from '../components/layout/Navbar';
+import CourseEnrollment from '../components/admin/CourseEnrollment'; // <--- Import this
 
 // Pages
 import Login from '../pages/Login';
@@ -11,8 +12,7 @@ import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import CourseDetail from '../pages/CourseDetail';
 import AdminDashboard from '../pages/AdminDashboard';
-import Profile from '../pages/Profile';
-import LandingPage from '../pages/LandingPage'
+import LandingPage from '../pages/LandingPage';
 
 // Layout Wrapper
 const Layout = () => (
@@ -51,17 +51,22 @@ export default function AppRoutes() {
           </PrivateRoute>
         } />
 
+        {/* --- Admin Routes --- */}
         <Route path="/admin" element={
           <AdminRoute>
             <AdminDashboard />
           </AdminRoute>
         } />
 
-        <Route path="/profile" element={
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
+        {/* NEW: Dedicated Enrollment Page */}
+        <Route path="/admin/course/:courseId/enrollment" element={
+          <AdminRoute>
+            <CourseEnrollment />
+          </AdminRoute>
         } />
+
+        {/* Default Redirect */}
+        <Route path="*" element={<Navigate to="/dashboard" />} />
       </Route>
     </Routes>
   );

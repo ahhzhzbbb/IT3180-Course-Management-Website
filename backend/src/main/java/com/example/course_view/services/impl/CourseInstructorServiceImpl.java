@@ -16,6 +16,9 @@ import com.example.course_view.repositories.UserRepository;
 import com.example.course_view.services.CourseInstructorService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,15 +66,28 @@ public class CourseInstructorServiceImpl implements CourseInstructorService {
     }
 
     @Override
-    public UserResponse getAllInstructorsFromCourse(Long courseId) {
+    public UserResponse getAllInstructorsFromCourse(Long courseId, Integer pageNumber, Integer pageSize) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "Id", courseId));
-        List<CourseInstructor> courseInstructors  = courseInstructorRepository.findByCourse(course);
-        List<UserDTO> userDTOS = courseInstructors.stream()
-                .map(courseStudent -> modelMapper.map(courseStudent.getInstructor(), UserDTO.class))
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize);
+        Page<CourseInstructor> courseInstructorPage = courseInstructorRepository.findByCourse(course, pageDetails);
+        List<UserDTO> userDTOS = courseInstructorPage.getContent().stream()
+                .map(courseInstructor -> modelMapper.map(courseInstructor.getInstructor(), UserDTO.class))
                 .toList();
-        return new UserResponse(userDTOS);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUsers(userDTOS);
+        userResponse.setPageNumber(courseInstructorPage.getNumber());
+        userResponse.setPageSize(courseInstructorPage.getSize());
+        userResponse.setTotalElements(courseInstructorPage.getTotalElements());
+        userResponse.setTotalPages(courseInstructorPage.getTotalPages());
+        userResponse.setLastPage(courseInstructorPage.isLast());
+        return userResponse;
     }
+
+
+
+
+
 
     @Override
     public CourseResponse getAllCoursesFromInstructor(Long instructorId) {

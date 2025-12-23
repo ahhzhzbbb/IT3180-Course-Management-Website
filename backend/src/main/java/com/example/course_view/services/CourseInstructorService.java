@@ -9,7 +9,7 @@ public interface CourseInstructorService {
 
     CourseInstructorDTO deleteInstructorFromCourse(Long courseId, Long instructorId);
 
-    UserResponse getAllInstructorsFromCourse(Long courseId);
+    UserResponse getAllInstructorsFromCourse(Long courseId, Integer pageNumber, Integer pageSize);
 
     CourseResponse getAllCoursesFromInstructor(Long instructorId);
 }

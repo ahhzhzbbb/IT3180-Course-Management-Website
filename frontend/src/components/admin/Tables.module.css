@@ -1,18 +1,20 @@
+/* Header Area */
 .header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-  gap: 12px;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    /* Changed from flex-end to separate Button and Stats */
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-.tableWrapper {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: var(--radius-md);
-  -webkit-overflow-scrolling: touch;
+.stats {
+    font-size: 0.9rem;
+    color: #6b7280;
+    /* Matches your table header color */
+    font-weight: 500;
 }
 
+/* Table Styles */
 .table {
   width: 100%;
   min-width: 720px;
@@ -61,11 +63,11 @@
 
 /* Role Tags (pill style) */
 .roleTag {
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 999px;
-  margin-right: 6px;
-  font-weight: 600;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-weight: 600;
 }
 
 .admin {
@@ -79,13 +81,60 @@
 }
 
 .user {
-  background: rgba(59, 130, 246, 0.08);
-  color: var(--primary-color);
+    background: #dbeafe;
+    color: #1e40af;
 }
 
-/* Responsive: allow table to scroll but keep header visible */
-@media (max-width: 768px) {
-  .table {
-    min-width: 640px;
-  }
+/* Pagination Footer */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-top: 1px solid #e5e7eb;
+    /* Matches table border */
+    margin-top: 1rem;
+}
+
+.rowsPerPage {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.rowsPerPage select {
+    padding: 0.3rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background-color: white;
+    color: #374151;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.rowsPerPage select:focus {
+    outline: 2px solid #dbeafe;
+    border-color: #3b82f6;
+}
+
+.pageControls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pageInfo {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* Ensure buttons inside pagination don't look weird if they inherit global styles */
+.pageControls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f3f4f6;
+    color: #9ca3af;
 }
