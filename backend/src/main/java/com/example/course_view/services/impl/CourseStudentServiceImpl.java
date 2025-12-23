@@ -2,6 +2,7 @@ package com.example.course_view.services.impl;
 
 import com.example.course_view.exceptions.ResourceNotFoundException;
 import com.example.course_view.models.Course;
+import com.example.course_view.models.CourseInstructor;
 import com.example.course_view.models.CourseStudent;
 import com.example.course_view.models.User;
 import com.example.course_view.payload.dto.CourseListDTO;
@@ -15,6 +16,9 @@ import com.example.course_view.repositories.UserRepository;
 import com.example.course_view.services.CourseStudentService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,14 +66,22 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
-    public UserResponse getAllStudentsFromCourse(Long courseId) {
+    public UserResponse getAllStudentsFromCourse(Long courseId, Integer pageNumber, Integer pageSize) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "Id", courseId));
-        List<CourseStudent> courseStudents = courseStudentRepository.findByCourse(course);
-        List<UserDTO> userDTOS = courseStudents.stream()
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize);
+        Page<CourseStudent> courseStudentPage = courseStudentRepository.findByCourse(course, pageDetails);
+        List<UserDTO> userDTOS = courseStudentPage.getContent().stream()
                 .map(courseStudent -> modelMapper.map(courseStudent.getStudent(), UserDTO.class))
                 .toList();
-        return new UserResponse(userDTOS);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUsers(userDTOS);
+        userResponse.setPageNumber(courseStudentPage.getNumber());
+        userResponse.setPageSize(courseStudentPage.getSize());
+        userResponse.setTotalElements(courseStudentPage.getTotalElements());
+        userResponse.setTotalPages(courseStudentPage.getTotalPages());
+        userResponse.setLastPage(courseStudentPage.isLast());
+        return userResponse;
     }
 
     @Override

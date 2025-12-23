@@ -1,5 +1,6 @@
 package com.example.course_view.controller;
 
+import com.example.course_view.configs.AppConstants;
 import com.example.course_view.payload.request.UserUpdateRequest;
 import com.example.course_view.payload.response.UserResponse;
 import com.example.course_view.security.request.SignupRequest;
@@ -20,8 +21,11 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
-    public ResponseEntity<UserResponse> getAllUsers() {
-        UserResponse userResponse = userService.getAllUsers();
+    public ResponseEntity<UserResponse> getAllUsers(
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize
+    ) {
+        UserResponse userResponse = userService.getAllUsers(pageNumber, pageSize);
         return ResponseEntity.ok(userResponse);
     }
 

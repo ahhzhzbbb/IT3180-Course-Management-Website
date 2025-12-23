@@ -10,7 +10,7 @@ public interface CourseStudentService {
 
     CourseStudentDTO deleteStudentFromCourse(Long courseId, Long studentId);
 
-    UserResponse getAllStudentsFromCourse(Long courseId);
+    UserResponse getAllStudentsFromCourse(Long courseId, Integer pageNumber, Integer pageSize);
 
     CourseResponse getAllCoursesFromStudent(Long studentId);
 

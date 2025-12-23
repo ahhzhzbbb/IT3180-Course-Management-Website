@@ -1,5 +1,6 @@
 package com.example.course_view.controller;
 
+import com.example.course_view.configs.AppConstants;
 import com.example.course_view.payload.dto.CourseInstructorDTO;
 import com.example.course_view.payload.response.CourseResponse;
 import com.example.course_view.payload.response.UserResponse;
@@ -32,8 +33,12 @@ public class CourseInstructorController {
     }
 
     @GetMapping("/courses/{courseId}/instructors")
-    public ResponseEntity<UserResponse> getAllInstructorsFromCourse(@PathVariable Long courseId) {
-        UserResponse userResponse = courseInstructorService.getAllInstructorsFromCourse(courseId);
+    public ResponseEntity<UserResponse> getAllInstructorsFromCourse(
+            @PathVariable Long courseId,
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize
+    ) {
+        UserResponse userResponse = courseInstructorService.getAllInstructorsFromCourse(courseId, pageNumber, pageSize);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 

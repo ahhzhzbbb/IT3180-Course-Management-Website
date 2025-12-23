@@ -63,7 +63,7 @@ public class UserResourceServiceImpl implements UserResourceService {
         if (user == null) return false;
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));
-//        if (user.isAdmin()) return true;
+        if (user.isAdmin()) return true;
 
         if (user.isInstructor()) {
             return courseInstructorRepository

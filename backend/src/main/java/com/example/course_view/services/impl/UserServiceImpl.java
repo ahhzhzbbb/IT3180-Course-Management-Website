@@ -15,6 +15,9 @@ import com.example.course_view.security.response.UserInfoResponse;
 import com.example.course_view.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +35,12 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public UserResponse getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public UserResponse getAllUsers(Integer pageNumber, Integer pageSize) {
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize);
+        Page<User> userPage = userRepository.findAll(pageDetails);
+        List<User> users = userPage.getContent();
+        if (users.isEmpty())
+            throw new RuntimeException("Not Found");
         List<UserDTO> userDTOs = users.stream()
                 .map(user -> {
                     List<String> userRoles = user.getRoles().stream()
@@ -47,7 +54,14 @@ public class UserServiceImpl implements UserService {
                     );
                 })
                 .toList();
-        return new UserResponse(userDTOs);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUsers(userDTOs);
+        userResponse.setPageNumber(userPage.getNumber());
+        userResponse.setPageSize(userPage.getSize());
+        userResponse.setTotalElements(userPage.getTotalElements());
+        userResponse.setTotalPages(userPage.getTotalPages());
+        userResponse.setLastPage(userPage.isLast());
+        return userResponse;
     }
 
     @Override
