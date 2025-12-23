@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthProvider';
-import { useLanguage } from '../../context/LanguageProvider';
-import { useTheme } from '../../context/ThemeProvider';
+// Language provider removed; use fixed Vietnamese labels
+// Theme toggle removed; language toggle removed
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -10,8 +10,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const { language, toggleLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  // Using fixed Vietnamese labels
 
   const handleLogout = () => {
     logout();
@@ -32,7 +31,7 @@ export default function Navbar() {
             <svg className={styles.logoIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
-            <span className={styles.logoText}>{t('nav.learnhub')}</span>
+            <span className={styles.logoText}>Học Trực Tuyến</span>
           </Link>
         </div>
 
@@ -41,7 +40,7 @@ export default function Navbar() {
             to="/dashboard" 
             className={`${styles.navLink} ${isActive('/dashboard') ? styles.active : ''}`}
           >
-            {t('nav.dashboard')}
+            Trang chủ
           </Link>
           
           {isAdmin && (
@@ -49,39 +48,15 @@ export default function Navbar() {
               to="/admin" 
               className={`${styles.navLink} ${isActive('/admin') ? styles.active : ''}`}
             >
-              {t('nav.admin')}
+              Quản trị
             </Link>
           )}
         </div>
 
         <div className={styles.controls}>
-          {/* Language Toggle */}
-          <button 
-            className={styles.controlBtn}
-            onClick={toggleLanguage}
-            title={language === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
-          >
-            <span className={styles.langIcon}>
-              {language === 'vi' ? '🇻🇳' : '🇬🇧'}
-            </span>
-          </button>
+          {/* Language toggle removed */}
 
-          {/* Theme Toggle */}
-          <button 
-            className={styles.controlBtn}
-            onClick={toggleTheme}
-            title={theme === 'light' ? t('theme.dark') : t('theme.light')}
-          >
-            {theme === 'light' ? (
-              <svg className={styles.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            ) : (
-              <svg className={styles.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            )}
-          </button>
+          {/* Theme toggle removed */}
         </div>
 
         <div className={styles.userSection}>
@@ -98,13 +73,13 @@ export default function Navbar() {
           {showUserMenu && (
             <div className={styles.userMenu}>
               <div className={styles.userRole}>
-                {isAdmin ? t('role.admin') : isInstructor ? t('role.instructor') : t('role.student')}
+                {isAdmin ? 'Quản trị viên' : isInstructor ? 'Giảng viên' : 'Học viên'}
               </div>
               <Link to="/profile" className={styles.profileLink} onClick={() => setShowUserMenu(false)}>
-                {t('nav.profile') || 'Profile'}
+                Hồ sơ
               </Link>
               <button onClick={handleLogout} className={styles.logoutBtn}>
-                {t('nav.logout')}
+                Đăng xuất
               </button>
             </div>
           )}

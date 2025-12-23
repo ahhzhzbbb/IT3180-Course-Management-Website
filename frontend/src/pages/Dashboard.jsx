@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axiosConfig';
 import { useAuth } from '../context/AuthProvider';
-import { useLanguage } from '../context/LanguageProvider';
 import styles from './Dashboard.module.css';
 
 // Child Components
@@ -10,7 +9,6 @@ import CourseList from '../components/dashboard/CourseList';
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const { t } = useLanguage();
   const [myCourses, setMyCourses] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,15 +65,7 @@ export default function Dashboard() {
       {myCourses.length > 0 && (
         <>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>{t('dashboard.myLearning')}</h2>
-            {isInstructor && (
-              <button
-                className="btn-primary"
-                onClick={() => alert("Please use the Admin Panel to create courses.")}
-              >
-                {t('admin.newCourse')}
-              </button>
-            )}
+            <h2 className={styles.sectionTitle}>Khóa Học Của Tôi</h2>
           </div>
           <CourseList courses={myCourses} loading={loading} />
         </>
@@ -84,10 +74,10 @@ export default function Dashboard() {
       {/* All Courses Section */}
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>
-          {myCourses.length > 0 ? t('dashboard.discoverMore') : t('dashboard.allCourses')}
+          {myCourses.length > 0 ? 'Khám Phá Thêm' : 'Tất Cả Khóa Học'}
         </h2>
       </div>
-      <CourseList courses={availableCourses} loading={loading} emptyMessage={t('dashboard.noCourses')} />
+      <CourseList courses={availableCourses} loading={loading} emptyMessage={'Không có khóa học nào'} />
     </div>
   );
 }

@@ -1,9 +1,7 @@
 import React from 'react';
-import { useLanguage } from '../../context/LanguageProvider';
 import styles from './AdminTabs.module.css';
 
 export default function AdminTabs({ activeTab, setActiveTab }) {
-  const { t } = useLanguage();
   
   return (
     <div className={styles.tabs}>
@@ -11,13 +9,18 @@ export default function AdminTabs({ activeTab, setActiveTab }) {
         className={`${styles.btn} ${activeTab === 'courses' ? styles.active : ''}`}
         onClick={() => setActiveTab('courses')}
       >
-        {t('admin.courses')}
+        Khóa Học
       </button>
       <button
         className={`${styles.btn} ${activeTab === 'users' ? styles.active : ''}`}
         onClick={() => setActiveTab('users')}
       >
-        {t('admin.users')}
+        Người Dùng
+      </button>
+      <button
+        className={`${styles.btn} ${activeTab === 'settings' ? styles.active : ''}`}
+      >
+        Khôi phục
       </button>
     </div>
   );

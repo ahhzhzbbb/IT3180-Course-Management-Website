@@ -1,10 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { useLanguage } from '../../context/LanguageProvider';
 import CourseCard from './CourseCard';
 import styles from './CourseList.module.css';
 
 export default function CourseList({ courses, loading, emptyMessage }) {
-  const { t } = useLanguage();
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('popular');
 
@@ -29,7 +27,7 @@ export default function CourseList({ courses, loading, emptyMessage }) {
     return (
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
-        <p>{t('dashboard.loading')}</p>
+        <p>Đang tải khóa học...</p>
       </div>
     );
   }
@@ -40,7 +38,8 @@ export default function CourseList({ courses, loading, emptyMessage }) {
         <svg className={styles.emptyIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
         </svg>
-        <h3>{emptyMessage || t('dashboard.noCourses')}</h3>
+        <h3>{emptyMessage || 'Không có khóa học nào'}</h3>
+        
       </div>
     );
   }
@@ -51,16 +50,16 @@ export default function CourseList({ courses, loading, emptyMessage }) {
         <div className={styles.searchWrap}>
           <input
             className={styles.searchInput}
-            placeholder={t('dashboard.searchPlaceholder') || 'Search courses...'}
+            placeholder={'Tìm khóa học...'}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            aria-label={t('dashboard.searchPlaceholder') || 'Search courses'}
+            aria-label={'Tìm khóa học'}
           />
         </div>
         <div className={styles.controls}>
           <select className={styles.select} value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort courses">
-            <option value="popular">{t('dashboard.sortPopular') || 'Most popular'}</option>
-            <option value="newest">{t('dashboard.sortNewest') || 'Newest'}</option>
+            <option value="popular">Phổ biến nhất</option>
+            <option value="newest">Mới nhất</option>
           </select>
           <button className="btn-icon" onClick={() => { setQuery(''); setSort('popular'); }} aria-label="Clear filters">✕</button>
         </div>
@@ -71,8 +70,8 @@ export default function CourseList({ courses, loading, emptyMessage }) {
           <svg className={styles.emptyIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
           </svg>
-          <h3>{t('dashboard.noResults') || 'No results'}</h3>
-          <p className={styles.small}>{t('dashboard.tryDifferent') || 'Try a different keyword or clear filters.'}</p>
+          <h3>Không có kết quả</h3>
+          <p className={styles.small}>Hãy thử từ khóa khác hoặc xóa bộ lọc.</p>
         </div>
       ) : (
         <div className={styles.grid}>
