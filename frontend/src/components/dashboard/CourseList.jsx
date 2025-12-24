@@ -1,33 +1,39 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import CourseCard from './CourseCard';
 import styles from './CourseList.module.css';
+import api from '../../api/axiosConfig';
 
 export default function CourseList({ courses, loading, emptyMessage }) {
   const [query, setQuery] = useState('');
   const [sortBy, setSortBy] = useState('popular');
   const [grade, setGrade] = useState('all');
   const [subject, setSubject] = useState('all');
+  const [studentCounts, setStudentCounts] = useState({});
   
-  const getCreatedAt = (c) => c?.createdAt || c?.created_at || 0;
   const getPopularity = (c) => {
-    const candidates = [
-      c?.popularity,
-      c?.popular,
-      c?.enrolledCount,
-      c?.enrollmentCount,
-      c?.enrollCount,
-      c?.studentsCount,
-      c?.learnersCount,
-      c?.views,
-      c?.viewCount,
-    ];
-    for (const v of candidates) {
-      if (typeof v === 'number') return v;
-      if (Array.isArray(v)) return v.length;
-    }
-    if (Array.isArray(c?.enrollments)) return c.enrollments.length;
-    if (Array.isArray(c?.students)) return c.students.length;
-    return 0;
+    const id = c?.id;
+    if (id == null) return 0;
+    const count = studentCounts[id];
+    return typeof count === 'number' ? count : 0;
+  };
+  const parseDateToMillis = (v) => {
+    if (!v) return 0;
+    if (typeof v === 'number') return v;
+    const t = Date.parse(v);
+    return Number.isNaN(t) ? 0 : t;
+  };
+  const getCreatedAt = (c) => {
+    const v =
+      c?.createdAt ??
+      c?.created_at ??
+      c?.createDate ??
+      c?.createdDate ??
+      c?.publishedAt ??
+      c?.publishDate ??
+      c?.created_time ??
+      c?.createdTime ??
+      null;
+    return parseDateToMillis(v);
   };
   const parseTitleParts = (titleLike) => {
     const title = typeof titleLike === 'string' ? titleLike.trim() : '';
@@ -50,6 +56,47 @@ export default function CourseList({ courses, loading, emptyMessage }) {
     const { subject } = parseTitleParts(c?.title || c?.name || '');
     return subject ?? c?.subject ?? c?.category ?? c?.topic;
   };
+  
+  // Fetch number of students per course to use for popularity sorting
+  useEffect(() => {
+    if (!Array.isArray(courses) || courses.length === 0) return;
+    const pendingIds = courses
+      .map((c) => c?.id)
+      .filter((id) => id != null && studentCounts[id] === undefined);
+    if (pendingIds.length === 0) return;
+
+    let cancelled = false;
+    const fetchCounts = async () => {
+      try {
+        const entries = await Promise.all(
+          pendingIds.map(async (id) => {
+            try {
+              const res = await api.get(`/courses/${id}/numberOfStudents`);
+              const data = res?.data;
+              const count = typeof data === 'number' ? data : (data?.count ?? 0);
+              return [id, count];
+            } catch (e) {
+              return [id, 0];
+            }
+          })
+        );
+        if (!cancelled) {
+          setStudentCounts((prev) => {
+            const next = { ...prev };
+            for (const [id, count] of entries) next[id] = count;
+            return next;
+          });
+        }
+      } catch {
+        // noop
+      }
+    };
+    fetchCounts();
+    return () => {
+      cancelled = true;
+    };
+    // Only refetch when course ids change or new ids are missing
+  }, [courses, studentCounts]);
   
   const filtered = useMemo(() => {
     if (!Array.isArray(courses)) return [];
@@ -79,13 +126,13 @@ export default function CourseList({ courses, loading, emptyMessage }) {
     }
 
     if (sortBy === 'newest') {
-      list = [...list].sort((a, b) => new Date(getCreatedAt(b)) - new Date(getCreatedAt(a)));
+      list = [...list].sort((a, b) => getCreatedAt(b) - getCreatedAt(a));
     } else if (sortBy === 'popular') {
       list = [...list].sort((a, b) => getPopularity(b) - getPopularity(a));
     }
-
+    
     return list;
-  }, [courses, query, sortBy, grade, subject]);
+  }, [courses, query, sortBy, grade, subject, studentCounts]);
 
   if (loading) {
     return (
@@ -122,6 +169,7 @@ export default function CourseList({ courses, loading, emptyMessage }) {
         </div>
         <div className={styles.controls}>
           <select className={styles.select} value={sortBy} onChange={(e) => setSortBy(e.target.value)} aria-label="Sắp xếp khóa học">
+            <option value="all">Tiêu chí sắp xếp</option>
             <option value="popular">Phổ biến nhất</option>
             <option value="newest">Mới nhất</option>
           </select>

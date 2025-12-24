@@ -49,4 +49,15 @@ public class CourseStudentController {
         return new ResponseEntity<>(courseResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/courses/{courseId}/numberOfStudents")
+    public ResponseEntity<Integer> getNumberStudentsFromCourse(
+            @PathVariable Long courseId,
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize
+    ) {
+        UserResponse userResponse = courseStudentService.getAllStudentsFromCourse(courseId, pageNumber, pageSize);
+        Integer respone = userResponse.getUsers().size();
+        return new ResponseEntity<>(respone, HttpStatus.OK);
+    }
+
 }
