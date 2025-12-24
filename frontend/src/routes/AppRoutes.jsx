@@ -13,6 +13,7 @@ import Dashboard from '../pages/Dashboard';
 import CourseDetail from '../pages/CourseDetail';
 import AdminDashboard from '../pages/AdminDashboard';
 import LandingPage from '../pages/LandingPage';
+import Profile from '../pages/Profile';
 
 // Layout Wrapper
 const Layout = () => (
@@ -42,6 +43,12 @@ export default function AppRoutes() {
         <Route path="/" element={
           <PrivateRoute>
             <LandingPage />
+          </PrivateRoute>
+        } />
+        
+        <Route path="/profile" element={
+          <PrivateRoute>
+            <Profile />
           </PrivateRoute>
         } />
 
