@@ -96,7 +96,7 @@ export default function CourseEnrollment() {
         <button className="btn-secondary" onClick={() => navigate('/admin')}>&larr; Back</button>
         <div className={styles.headerInfo}>
           <h2>{course.title}</h2>
-          <span className={styles.subtitle}>Enrollment Management</span>
+          <span className={styles.subtitle}>Quản lý đăng ký</span>
         </div>
       </div>
 
@@ -105,13 +105,13 @@ export default function CourseEnrollment() {
           className={activeTab === 'student' ? styles.activeTab : ''}
           onClick={() => { setActiveTab('student'); setEnrolledPage(0); }}
         >
-          Manage Students
+          Quản lý học sinh
         </button>
         <button
           className={activeTab === 'instructor' ? styles.activeTab : ''}
           onClick={() => { setActiveTab('instructor'); setEnrolledPage(0); }}
         >
-          Manage Instructors
+          Quản lý giáo viên
         </button>
       </div>
 
@@ -119,7 +119,7 @@ export default function CourseEnrollment() {
         {/* LEFT: ENROLLED USERS */}
         <div className={styles.panel}>
           <h3 className={styles.panelTitle}>
-            Currently Enrolled ({activeTab}s)
+            Hiện tại đã đăng ký ({activeTab}s)
           </h3>
           <div className={styles.tableWrapper}>
             <table className={styles.miniTable}>
@@ -150,10 +150,10 @@ export default function CourseEnrollment() {
 
         {/* RIGHT: AVAILABLE USERS */}
         <div className={styles.panel}>
-          <h3 className={styles.panelTitle}>Add New {activeTab}</h3>
+          <h3 className={styles.panelTitle}>Thêm mới {activeTab}</h3>
           <input
             type="text"
-            placeholder="Search by username..."
+            placeholder="Tìm kiếm theo tên..."
             className={styles.searchBar}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

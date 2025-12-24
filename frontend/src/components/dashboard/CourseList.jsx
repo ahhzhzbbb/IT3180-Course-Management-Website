@@ -4,8 +4,53 @@ import styles from './CourseList.module.css';
 
 export default function CourseList({ courses, loading, emptyMessage }) {
   const [query, setQuery] = useState('');
-  const [sort, setSort] = useState('popular');
-
+  const [sortBy, setSortBy] = useState('popular');
+  const [grade, setGrade] = useState('all');
+  const [subject, setSubject] = useState('all');
+  
+  const getCreatedAt = (c) => c?.createdAt || c?.created_at || 0;
+  const getPopularity = (c) => {
+    const candidates = [
+      c?.popularity,
+      c?.popular,
+      c?.enrolledCount,
+      c?.enrollmentCount,
+      c?.enrollCount,
+      c?.studentsCount,
+      c?.learnersCount,
+      c?.views,
+      c?.viewCount,
+    ];
+    for (const v of candidates) {
+      if (typeof v === 'number') return v;
+      if (Array.isArray(v)) return v.length;
+    }
+    if (Array.isArray(c?.enrollments)) return c.enrollments.length;
+    if (Array.isArray(c?.students)) return c.students.length;
+    return 0;
+  };
+  const parseTitleParts = (titleLike) => {
+    const title = typeof titleLike === 'string' ? titleLike.trim() : '';
+    if (!title) return { subject: null, grade: null };
+    // Match: "<subject> [-(khối|lớp)] <gradeNumber>" e.g., "Toán 10", "Vật lý - 11", "Hóa học khối 12"
+    const re = /^(.+?)(?:\s*[-–—]?\s*(?:khối|lớp))?\s*(\d{1,2})\s*$/iu;
+    const m = title.match(re);
+    if (m) {
+      const subject = m[1]?.trim() || null;
+      const grade = m[2]?.trim() || null;
+      return { subject, grade };
+    }
+    return { subject: null, grade: null };
+  };
+  const getGrade = (c) => {
+    const { grade } = parseTitleParts(c?.title || c?.name || '');
+    return grade ?? c?.grade ?? c?.gradeLevel ?? c?.grade_level ?? c?.level ?? c?.class;
+  };
+  const getSubject = (c) => {
+    const { subject } = parseTitleParts(c?.title || c?.name || '');
+    return subject ?? c?.subject ?? c?.category ?? c?.topic;
+  };
+  
   const filtered = useMemo(() => {
     if (!Array.isArray(courses)) return [];
     const q = query.trim().toLowerCase();
@@ -17,11 +62,30 @@ export default function CourseList({ courses, loading, emptyMessage }) {
         return title.includes(q) || desc.includes(q);
       });
     }
-    if (sort === 'newest') {
-      list = [...list].sort((a, b) => new Date(b.createdAt || b.created_at || 0) - new Date(a.createdAt || a.created_at || 0));
+    if (grade !== 'all') {
+      const gq = String(grade).toLowerCase();
+      list = list.filter(c => {
+        const g = getGrade(c);
+        return g != null && String(g).toLowerCase() === gq;
+      });
     }
+
+    if (subject !== 'all') {
+      const sq = String(subject).toLowerCase();
+      list = list.filter(c => {
+        const s = getSubject(c);
+        return s != null && String(s).toLowerCase() === sq;
+      });
+    }
+
+    if (sortBy === 'newest') {
+      list = [...list].sort((a, b) => new Date(getCreatedAt(b)) - new Date(getCreatedAt(a)));
+    } else if (sortBy === 'popular') {
+      list = [...list].sort((a, b) => getPopularity(b) - getPopularity(a));
+    }
+
     return list;
-  }, [courses, query, sort]);
+  }, [courses, query, sortBy, grade, subject]);
 
   if (loading) {
     return (
@@ -57,11 +121,29 @@ export default function CourseList({ courses, loading, emptyMessage }) {
           />
         </div>
         <div className={styles.controls}>
-          <select className={styles.select} value={sort} onChange={(e) => setSort(e.target.value)} aria-label="Sort courses">
+          <select className={styles.select} value={sortBy} onChange={(e) => setSortBy(e.target.value)} aria-label="Sắp xếp khóa học">
             <option value="popular">Phổ biến nhất</option>
             <option value="newest">Mới nhất</option>
           </select>
-          <button className="btn-icon" onClick={() => { setQuery(''); setSort('popular'); }} aria-label="Clear filters">✕</button>
+
+          <select className={styles.select} value={grade} onChange={(e) => setGrade(e.target.value)} aria-label="Lọc theo khối">
+            <option value="all">Tất cả khối</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+
+          <select className={styles.select} value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Lọc theo môn">
+            <option value="all">Tất cả môn</option>
+            <option value="Toán">Toán</option>
+            <option value="Vật lý">Vật lý</option>
+            <option value="Hóa học">Hóa học</option>
+            <option value="Sinh học">Sinh học</option>
+            <option value="Ngữ văn">Ngữ văn</option>
+            <option value="Lịch sử">Lịch sử</option>
+            <option value="Địa lý">Địa lý</option>
+            <option value="Tiếng Anh">Tiếng Anh</option>
+          </select>
         </div>
       </div>
 
@@ -75,7 +157,7 @@ export default function CourseList({ courses, loading, emptyMessage }) {
         </div>
       ) : (
         <div className={styles.grid}>
-          {filtered.map(course => (
+          { filtered.map(course => (
             <CourseCard key={course.id} course={course} />
           ))}
         </div>
