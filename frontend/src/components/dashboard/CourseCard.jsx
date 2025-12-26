@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './CourseCard.module.css';
+import api from '../../api/axiosConfig';
 
 export default function CourseCard({ course }) {
   const fallbackImage = 'https://hinhnen4k.com/wp-content/uploads/2023/06/hinh-nen-hoc-tap-30.jpg';
-  const studentCount = course.studentsCount ?? (course.students ? course.students.length : undefined) ?? course.enrolled ?? course.enrollmentCount ?? null;
+  const initialCount = course.studentsCount ?? (course.students ? course.students.length : undefined) ?? course.enrolled ?? course.enrollmentCount ?? null;
+  const [studentCount, setStudentCount] = useState(initialCount ?? null);
+
+  useEffect(() => {
+    let cancelled = false;
+    // Only fetch from API if count not provided in props
+    if (studentCount === null && course?.id) {
+      api
+        .get(`/courses/${course.id}/numberOfStudents`)
+        .then((res) => {
+          if (!cancelled && typeof res?.data === 'number') {
+            setStudentCount(res.data);
+          }
+        })
+        .catch(() => {
+          // Silently ignore errors; keep count hidden if unavailable
+        });
+    }
+    return () => {
+      cancelled = true;
+    };
+    // We only refetch when course id changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [course?.id]);
 
   return (
     <Link to={`/course/${course.id}`} className={styles.cardLink}>
