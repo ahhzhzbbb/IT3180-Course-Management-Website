@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthProvider';
-// Language provider removed; use fixed Vietnamese labels
-// Theme toggle removed; language toggle removed
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -10,7 +8,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  // Using fixed Vietnamese labels
 
   const handleLogout = () => {
     logout();
@@ -54,9 +51,6 @@ export default function Navbar() {
         </div>
 
         <div className={styles.controls}>
-          {/* Language toggle removed */}
-
-          {/* Theme toggle removed */}
         </div>
 
         <div className={styles.userSection}>

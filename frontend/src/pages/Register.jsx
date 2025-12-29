@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axiosConfig';
-import styles from './Login.module.css'; // reuse the same styles to keep look consistent
+import styles from './Login.module.css';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -26,8 +26,6 @@ export default function Register() {
     setIsLoading(true);
 
     try {
-      // Keep phone as-is (no client-side validation); backend will handle persistence
-      // Build payload - do not include roles so backend will assign default student role
       const payload = {
         username: form.username,
         password: form.password,
@@ -41,7 +39,6 @@ export default function Register() {
 
       setSuccess('Đăng ký thành công! Đang chuyển tới trang đăng nhập...');
 
-      // Redirect to login after a short delay so user sees success message
       setTimeout(() => navigate('/login'), 1200);
     } catch (err) {
       const msg = err?.response?.data?.message || 'Đã xảy ra lỗi khi đăng ký. Vui lòng thử lại.';

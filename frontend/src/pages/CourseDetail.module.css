@@ -15,7 +15,6 @@
   min-width: 0;
 }
 
-/* Course hero / header within left column (if present in markup) */
 .courseHero {
   display: flex;
   flex-direction: column;
@@ -50,12 +49,10 @@
   border: 1px solid var(--border-color);
 }
 
-/* Ensure left column content cards look elevated */
 .leftColumn > * {
   background: transparent;
 }
 
-/* Make sidebar a little narrower on very small screens and stack below */
 @media (max-width: 1024px) {
   .container {
     grid-template-columns: 1fr;

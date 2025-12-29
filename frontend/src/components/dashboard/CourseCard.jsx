@@ -10,7 +10,6 @@ export default function CourseCard({ course }) {
 
   useEffect(() => {
     let cancelled = false;
-    // Only fetch from API if count not provided in props
     if (studentCount === null && course?.id) {
       api
         .get(`/courses/${course.id}/numberOfStudents`)
@@ -20,14 +19,11 @@ export default function CourseCard({ course }) {
           }
         })
         .catch(() => {
-          // Silently ignore errors; keep count hidden if unavailable
         });
     }
     return () => {
       cancelled = true;
     };
-    // We only refetch when course id changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [course?.id]);
 
   return (

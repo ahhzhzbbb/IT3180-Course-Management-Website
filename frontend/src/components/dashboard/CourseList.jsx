@@ -38,7 +38,6 @@ export default function CourseList({ courses, loading, emptyMessage }) {
   const parseTitleParts = (titleLike) => {
     const title = typeof titleLike === 'string' ? titleLike.trim() : '';
     if (!title) return { subject: null, grade: null };
-    // Match: "<subject> [-(khối|lớp)] <gradeNumber>" e.g., "Toán 10", "Vật lý - 11", "Hóa học khối 12"
     const re = /^(.+?)(?:\s*[-–—]?\s*(?:khối|lớp))?\s*(\d{1,2})\s*$/iu;
     const m = title.match(re);
     if (m) {
@@ -57,7 +56,6 @@ export default function CourseList({ courses, loading, emptyMessage }) {
     return subject ?? c?.subject ?? c?.category ?? c?.topic;
   };
   
-  // Fetch number of students per course to use for popularity sorting
   useEffect(() => {
     if (!Array.isArray(courses) || courses.length === 0) return;
     const pendingIds = courses
@@ -95,7 +93,6 @@ export default function CourseList({ courses, loading, emptyMessage }) {
     return () => {
       cancelled = true;
     };
-    // Only refetch when course ids change or new ids are missing
   }, [courses, studentCounts]);
   
   const filtered = useMemo(() => {

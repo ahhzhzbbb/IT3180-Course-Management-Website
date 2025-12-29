@@ -2,11 +2,9 @@ import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { PrivateRoute, AdminRoute } from './Guards';
 
-// Components
 import Navbar from '../components/layout/Navbar';
 import CourseEnrollment from '../components/admin/CourseEnrollment'; // <--- Import this
 
-// Pages
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
@@ -15,7 +13,6 @@ import AdminDashboard from '../pages/AdminDashboard';
 import LandingPage from '../pages/LandingPage';
 import Profile from '../pages/Profile';
 
-// Layout Wrapper
 const Layout = () => (
   <>
     <Navbar />
@@ -28,11 +25,9 @@ const Layout = () => (
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Public Routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Protected Routes */}
       <Route element={<Layout />}>
         <Route path="/dashboard" element={
           <PrivateRoute>
@@ -58,21 +53,18 @@ export default function AppRoutes() {
           </PrivateRoute>
         } />
 
-        {/* --- Admin Routes --- */}
         <Route path="/admin" element={
           <AdminRoute>
             <AdminDashboard />
           </AdminRoute>
         } />
 
-        {/* NEW: Dedicated Enrollment Page */}
         <Route path="/admin/course/:courseId/enrollment" element={
           <AdminRoute>
             <CourseEnrollment />
           </AdminRoute>
         } />
 
-        {/* Default Redirect */}
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Route>
     </Routes>

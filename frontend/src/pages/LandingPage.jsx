@@ -3,7 +3,6 @@ import api from '../api/axiosConfig';
 import { useAuth } from '../context/AuthProvider';
 import styles from './Dashboard.module.css';
 
-// Child Components
 import DashboardHeader from '../components/dashboard/DashboardHeader';
 import CourseList from '../components/dashboard/CourseList';
 
@@ -24,7 +23,6 @@ export default function Dashboard() {
         
         let courseList = [];
         
-        // SỬA TẠI ĐÂY: Kiểm tra res.data.courses thay vì allCourses
         if (res.data && Array.isArray(res.data.courses)) {
           courseList = res.data.courses;
         } else if (Array.isArray(res.data)) {
@@ -41,10 +39,8 @@ export default function Dashboard() {
   return (
     <div className={styles.container}>
 
-      {/* 1. Welcome Banner */}
       <DashboardHeader user={user} isInstructor={isInstructor} />
 
-      {/* 2. Section Title & Actions */}
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>My Courses</h2>
 
@@ -58,7 +54,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* 3. Course Grid */}
       <CourseList courses={courses} loading={loading} />
 
       <br />

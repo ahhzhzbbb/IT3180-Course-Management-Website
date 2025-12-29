@@ -3,7 +3,6 @@ import api from '../api/axiosConfig';
 import { useAuth } from '../context/AuthProvider';
 import styles from './Dashboard.module.css';
 
-// Child Components
 import DashboardHeader from '../components/dashboard/DashboardHeader';
 import CourseList from '../components/dashboard/CourseList';
 
@@ -17,7 +16,6 @@ export default function Dashboard() {
   const isAdmin = user?.roles?.includes('ROLE_ADMIN');
 
   useEffect(() => {
-    // Fetch user's enrolled courses
     const fetchMyCourses = async () => {
       if (!user?.id) return;
       try {
@@ -34,7 +32,6 @@ export default function Dashboard() {
   }, [user]);
 
   useEffect(() => {
-    // Fetch all available courses
     const fetchAllCourses = async () => {
       try {
         const res = await api.get('/courses');
@@ -51,17 +48,14 @@ export default function Dashboard() {
     fetchAllCourses();
   }, []);
 
-  // Filter out enrolled courses from all courses
   const availableCourses = allCourses.filter(
     course => !myCourses.some(mc => mc.id === course.id)
   );
 
   return (
     <div className={styles.container}>
-      {/* Welcome Banner */}
       <DashboardHeader user={user} isInstructor={isInstructor} />
 
-      {/* My Courses Section */}
       {myCourses.length > 0 && (
         <>
           <div className={styles.sectionHeader}>
@@ -71,7 +65,6 @@ export default function Dashboard() {
         </>
       )}
 
-      {/* All Courses Section */}
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>
           {myCourses.length > 0 ? 'Khám Phá Thêm' : 'Tất Cả Khóa Học'}

@@ -1,5 +1,3 @@
-/* src/components/course/ExerciseManager.module.css */
-
 .section {
   margin-top: 20px;
   padding: 18px;
@@ -139,13 +137,11 @@
   background: var(--bg-color);
 }
 
-/* Danger / delete */
 .btn-delete {
   color: var(--error-color);
   border-color: rgba(239,68,68,0.12);
 }
 
-/* Small variant for compact actions */
 .btn-small {
   padding: 6px 10px;
   font-size: 0.9rem;

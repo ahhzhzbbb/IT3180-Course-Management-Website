@@ -1,40 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import api from '../../api/axiosConfig';
 import { CourseModal } from './AdminModals';
 import styles from './Tables.module.css';
 
 export default function CourseTable() {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate(); 
 
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // -- Pagination State --
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
 
-  // -- Modal State (For Create/Edit Course only) --
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState(null);
   const [courseForm, setCourseForm] = useState({ title: '', description: '' });
 
-  // 1. Fetch Courses with Pagination
   const fetchCourses = async () => {
     setLoading(true);
     try {
-      // Backend request with page params
       const res = await api.get(`/courses?pageNumber=${page}&pageSize=${pageSize}`);
 
       if (res.data.courses) {
-        // Handle Paginated Response
         setCourses(res.data.courses);
         setTotalPages(res.data.totalPages);
         setTotalElements(res.data.totalElements);
       } else {
-        // Fallback for non-paginated response
         setCourses(res.data);
         setTotalElements(res.data.length);
         setTotalPages(1);
@@ -50,7 +44,6 @@ export default function CourseTable() {
     fetchCourses();
   }, [page, pageSize]);
 
-  // 2. Handlers for Create/Edit
   const handleOpenCreate = () => {
     setEditingCourse(null);
     setCourseForm({ title: '', description: '' });
@@ -85,12 +78,10 @@ export default function CourseTable() {
     }
   };
 
-  // 3. NEW: Navigate to the Dedicated Enrollment Page
   const handleManageEnrollment = (courseId) => {
     navigate(`/admin/course/${courseId}/enrollment`);
   };
 
-  // Pagination Controls
   const handlePrevPage = () => { if (page > 0) setPage(p => p - 1); };
   const handleNextPage = () => { if (page < totalPages - 1) setPage(p => p + 1); };
 
@@ -118,7 +109,6 @@ export default function CourseTable() {
                 <button className="btn-icon btn-edit" onClick={() => handleOpenEdit(c)} title="Edit">✏️</button>
                 <button className="btn-icon btn-delete" onClick={() => handleDelete(c.id)} title="Delete">🗑️</button>
 
-                {/* Updated Button: Navigates to new page */}
                 <button
                   className="btn-icon"
                   onClick={() => handleManageEnrollment(c.id)}
@@ -133,7 +123,6 @@ export default function CourseTable() {
         </tbody>
       </table>
 
-      {/* Pagination Footer */}
       <div className={styles.pagination}>
         <div className={styles.rowsPerPage}>
           <label>Rows per page:</label>
@@ -162,7 +151,6 @@ export default function CourseTable() {
         form={courseForm} setForm={setCourseForm} isEdit={!!editingCourse}
       />
 
-      {/* EnrollmentModal is completely removed from here */}
     </>
   );
 }
