@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './CourseCard.module.css';
+import api from '../../api/axiosConfig';
 
 export default function CourseCard({ course }) {
   const fallbackImage = 'https://hinhnen4k.com/wp-content/uploads/2023/06/hinh-nen-hoc-tap-30.jpg';
-  const studentCount = course.studentsCount ?? (course.students ? course.students.length : undefined) ?? course.enrolled ?? course.enrollmentCount ?? null;
+  const initialCount = course.studentsCount ?? (course.students ? course.students.length : undefined) ?? course.enrolled ?? course.enrollmentCount ?? null;
+  const [studentCount, setStudentCount] = useState(initialCount ?? null);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (studentCount === null && course?.id) {
+      api
+        .get(`/courses/${course.id}/numberOfStudents`)
+        .then((res) => {
+          if (!cancelled && typeof res?.data === 'number') {
+            setStudentCount(res.data);
+          }
+        })
+        .catch(() => {
+        });
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [course?.id]);
 
   return (
     <Link to={`/course/${course.id}`} className={styles.cardLink}>

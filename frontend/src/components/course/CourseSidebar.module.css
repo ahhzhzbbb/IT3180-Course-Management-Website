@@ -1,7 +1,3 @@
-/* =========================
-   HIGH CONTRAST SIDEBAR (CSS MODULE)
-   ========================= */
-
 .sidebar {
     flex: 1;
     min-width: 340px;
@@ -12,11 +8,10 @@
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     position: sticky;
-    top: 84px; /* aligns with header spacing */
+    top: 84px;
     overflow: hidden;
 }
 
-/* Sidebar Header */
 .sidebar h3 {
     margin: 0;
     padding: 20px 24px;
@@ -31,20 +26,16 @@
     color: #111827;
 }
 
-/* --- CHAPTERS --- */
 .chapterItem {
     border-bottom: 1px solid #f1f5f9;
 }
 
 .chapterHeader {
     background: #fff;
-    /* Keep white to contrast with gray lesson blocks */
     padding: 16px 24px;
     font-size: 1.05rem;
     font-weight: 700;
-    /* Bolder to stand out as a header */
     color: #1e293b;
-    /* Very dark slate */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -69,10 +60,8 @@
     color: #3b82f6;
 }
 
-/* --- LESSONS LIST --- */
 .lessonList {
     overflow: hidden;
-    /* CHANGED: Reduced time from 0.4s to 0.15s for instant feel */
     transition: max-height 0.15s ease-out, opacity 0.15s ease-out, padding 0.1s linear;
     background: #fff;
     padding: 8px 12px;
@@ -82,70 +71,52 @@
     max-height: 0;
     opacity: 0;
     padding: 0 12px;
-    /* Smoothly collapse padding too */
     visibility: hidden;
-    /* Ensures it doesn't take clicks when closed */
 }
 
 .expanded {
-    /* Use a slightly larger max-height to ensure it fits, but keep it tight */
     max-height: 2000px;
     opacity: 1;
     visibility: visible;
 }
 
-/* --- LESSON ITEM (THE CARD STYLE) --- */
 .lessonItem {
     display: flex;
     align-items: center;
     gap: 12px;
 
-    /* Box Styling */
     margin-bottom: 6px;
-    /* Gap between lessons */
     padding: 12px 16px;
     border-radius: 8px;
-    /* Rounded corners */
     background-color: #f8fafc;
-    /* Distinct light gray bg */
     border: 1px solid #e2e8f0;
-    /* Subtle border definition */
 
-    /* Text Styling */
     font-size: 0.95rem;
     font-weight: 500;
     color: #475569;
-    /* Slate 600 */
 
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
 }
 
-/* Hover Effect - Lifts up slightly */
 .lessonItem:hover {
     background: #ffffff;
     border-color: #3b82f6;
-    /* Blue border on hover */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     transform: translateY(-2px);
     color: #2563eb;
     z-index: 1;
 }
 
-/* ACTIVE STATE - High Visibility */
 .active {
     background: #eff6ff;
-    /* Light blue bg */
     border-color: #60a5fa;
-    /* Blue border */
     color: #1e40af;
-    /* Dark blue text */
     font-weight: 700;
     box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
 }
 
-/* Active State indicator bar */
 .active::before {
     content: "";
     position: absolute;
@@ -158,7 +129,6 @@
     border-bottom-left-radius: 8px;
 }
 
-/* Mobile Responsiveness */
 @media (max-width: 1024px) {
     .sidebar {
         width: 100%;

@@ -1,5 +1,4 @@
 :root {
-  /* local fallbacks in case variables are not loaded */
   --card-radius: 12px;
 }
 
@@ -32,7 +31,6 @@
   grid-template-columns: 1fr;
 }
 
-/* Responsive two-column layout on wider screens */
 @media (min-width: 768px) {
   .form {
     grid-template-columns: repeat(2, 1fr);
@@ -65,14 +63,12 @@
   box-shadow: 0 6px 18px rgba(37,99,235,0.08);
 }
 
-/* Make readonly fields slightly muted */
 .form input[readonly] {
   background: transparent;
   color: var(--text-muted);
   border-style: dashed;
 }
 
-/* Button spans full width on small screens and full row on larger screens */
 button[type="submit"] {
   grid-column: 1 / -1;
   display: inline-block;
@@ -92,7 +88,6 @@ button[type="submit"]:hover {
   transform: translateY(-2px);
 }
 
-/* Message styles */
 .success {
   grid-column: 1 / -1;
   color: var(--success-color);
@@ -119,7 +114,6 @@ button[type="submit"]:hover {
   border-radius: 6px;
 }
 
-/* Small helper: make form fields stack nicely on mobile */
 @media (max-width: 480px) {
   .container {
     padding: 20px;

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../api/axiosConfig';
 import { useAuth } from '../context/AuthProvider';
-import styles from './CourseDetail.module.css'; // Import Module
+import styles from './CourseDetail.module.css'; 
 
-// Child Components
 import CommentSection from '../components/course/CommentSection';
 import ExerciseManager from '../components/course/ExerciseManager';
 import VideoPlayer from '../components/course/VideoPlayer';
@@ -16,21 +15,17 @@ export default function CourseDetail() {
   const { user } = useAuth();
   const isInstructor = user?.roles?.includes('ROLE_INSTRUCTOR');
 
-  // --- STATE ---
   const [course, setCourse] = useState(null);
   const [activeLesson, setActiveLesson] = useState(null);
   const [loading, setLoading] = useState(true);
   const [expandedChapters, setExpandedChapters] = useState({});
 
-  // Comments State
   const [comments, setComments] = useState([]);
   const [commentsLoading, setCommentsLoading] = useState(false);
 
-  // Modals State
   const [chapterModal, setChapterModal] = useState({ show: false, isEdit: false, id: null, title: '' });
   const [lessonModal, setLessonModal] = useState({ show: false, isEdit: false, chapterId: null, id: null, title: '', videoUrl: '', description: '' });
 
-  // --- API LOGIC (Same as before) ---
   const fetchCourse = () => {
     if (!course) setLoading(true);
     api.get(`/courses/${courseId}`)
@@ -65,7 +60,6 @@ export default function CourseDetail() {
     }
   }, [activeLesson]);
 
-  // --- HANDLERS (Same as before) ---
   const toggleChapter = (id) => setExpandedChapters(p => ({ ...p, [id]: !p[id] }));
   const handlePostComment = async (content) => {
     await api.post('/public/comment', { userId: user.id, lessonId: activeLesson.id, content });
@@ -76,8 +70,6 @@ export default function CourseDetail() {
   const handleDeleteExercise = async (exId) => { await api.delete(`/exercises/${exId}`); fetchCourse(); };
   const handleSubmitWork = async (exId, solution) => {
     try {
-      // Lưu ý: Kiểm tra xem backend yêu cầu field là 'solution' hay 'content'
-      // Ở đây tôi giữ 'solution' theo code cũ của bạn, nhưng bọc trong object
       const res = await api.post(`/exercise/${exId}/submissions/${user.id}`, { 
         solution: solution 
       }); 
@@ -96,8 +88,6 @@ export default function CourseDetail() {
       const res = await api.get(`/submissions?exerciseId=${exId}`);
       console.log("Dữ liệu thô từ API Submissions:", res.data);
 
-      // Kiểm tra cấu trúc của SubmissionResponse
-      // Thông thường sẽ là res.data.content hoặc res.data.submissions
       const data = res.data.content || res.data.submissions || res.data || [];
       
       return Array.isArray(data) ? data : [];
@@ -113,12 +103,9 @@ export default function CourseDetail() {
     }
 
     try {
-      // API yêu cầu: /api/submission/{id}/{score}
-      // Lưu ý: Bỏ /api ở đầu nếu axiosConfig đã có sẵn prefix /api
       await api.put(`/submission/${subId}/${score}`); 
       
       alert("Đã chấm điểm thành công!");
-      // Refresh lại dữ liệu nếu cần
       if (typeof fetchCourse === 'function') fetchCourse(); 
     } catch (error) {
       console.error("Lỗi chấm điểm:", error.response?.data || error.message);
@@ -166,7 +153,6 @@ export default function CourseDetail() {
               exercises={activeLesson.exercises || []} isInstructor={isInstructor}
               onAddExercise={handleAddExercise} onDeleteExercise={handleDeleteExercise}
               onSubmitWork={handleSubmitWork} onGradeWork={handleGradeWork} onLoadSubmissions={handleLoadSubmissions}
-              // student-specific: function to load the current user's submission for an exercise
               onLoadMySubmission={async (exId) => {
                 try {
                   const res = await api.get(`/submissions/my?exerciseId=${exId}`);
@@ -177,7 +163,6 @@ export default function CourseDetail() {
                   return null;
                 }
               }}
-              // pass the current user so ExerciseManager can identify the student's own submission
               user={user}
             />
             <CommentSection key={`cm-${activeLesson.id}`} comments={comments} loading={commentsLoading} onPostComment={handlePostComment} />

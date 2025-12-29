@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styles from './AdminDashboard.module.css'; // Import the new module
 import '../styles/global.css';
 
-// Child Components
 import AdminTabs from '../components/admin/AdminTabs';
 import UserTable from '../components/admin/UserTable';
 import CourseTable from '../components/admin/CourseTable';

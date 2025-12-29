@@ -7,9 +7,8 @@ export default function UserTable() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pagination State
-  const [page, setPage] = useState(0); // Backend starts at 0
-  const [pageSize, setPageSize] = useState(5); // Adjust default as needed
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
 
@@ -23,10 +22,8 @@ export default function UserTable() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      // Updated to match UserController @RequestParam(name = "pageNumber")
       const res = await api.get(`/users?pageNumber=${page}&pageSize=${pageSize}`);
 
-      // Match UserResponse.java structure
       setUsers(res.data.users);
       setTotalPages(res.data.totalPages);
       setTotalElements(res.data.totalElements);
@@ -37,7 +34,6 @@ export default function UserTable() {
     }
   };
 
-  // Re-fetch whenever page or pageSize changes
   useEffect(() => {
     fetchUsers();
   }, [page, pageSize]);
@@ -94,7 +90,6 @@ export default function UserTable() {
     }));
   };
 
-  // Pagination Handlers
   const handlePrevPage = () => {
     if (page > 0) setPage(p => p - 1);
   };
@@ -146,7 +141,6 @@ export default function UserTable() {
         </tbody>
       </table>
 
-      {/* Pagination Footer */}
       <div className={styles.pagination}>
         <div className={styles.rowsPerPage}>
           <label>Rows per page:</label>

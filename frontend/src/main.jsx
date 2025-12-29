@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './styles/global.css' // Ensure global styles are imported
-import './styles/theme.css' // Small shared theme utilities
+import './styles/global.css'
+import './styles/theme.css'
 import App from './App.jsx'
 import { ThemeProvider } from './context/ThemeProvider'
 

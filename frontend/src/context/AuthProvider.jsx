@@ -23,8 +23,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.post('/auth/login', { username, password });
       
-      // JWT is set as HTTP-only cookie by backend
-      // Extract token from response if available (for local storage backup)
       if (res.data.jwtToken) {
         let rawToken = res.data.jwtToken;
         if (rawToken.includes('=')) rawToken = rawToken.split('=')[1];
@@ -32,7 +30,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('jwtToken', rawToken);
       }
 
-      // Fetch user details after successful login
       const userRes = await api.get('/auth/user');
       setUser(userRes.data);
       return userRes.data;

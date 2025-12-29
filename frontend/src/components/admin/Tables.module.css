@@ -2,7 +2,6 @@
 .header {
     display: flex;
     justify-content: space-between;
-    /* Changed from flex-end to separate Button and Stats */
     align-items: center;
     margin-bottom: 15px;
 }
@@ -10,11 +9,9 @@
 .stats {
     font-size: 0.9rem;
     color: #6b7280;
-    /* Matches your table header color */
     font-weight: 500;
 }
 
-/* Table Styles */
 .table {
   width: 100%;
   min-width: 720px;
@@ -61,7 +58,6 @@
   text-align: right;
 }
 
-/* Role Tags (pill style) */
 .roleTag {
     font-size: 0.75rem;
     padding: 2px 8px;
@@ -85,14 +81,12 @@
     color: #1e40af;
 }
 
-/* Pagination Footer */
 .pagination {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
     border-top: 1px solid #e5e7eb;
-    /* Matches table border */
     margin-top: 1rem;
 }
 
@@ -131,7 +125,6 @@
     color: #374151;
 }
 
-/* Ensure buttons inside pagination don't look weird if they inherit global styles */
 .pageControls button:disabled {
     opacity: 0.5;
     cursor: not-allowed;

@@ -9,7 +9,6 @@ export default function ExerciseManager({
   onSubmitWork, 
   onGradeWork, 
   onLoadSubmissions,
-  // New props
   onLoadMySubmission,
   user
 }) {
@@ -20,10 +19,8 @@ export default function ExerciseManager({
   const [submissions, setSubmissions] = useState([]);
   const [loadingSubs, setLoadingSubs] = useState(false);
   
-  // State lưu điểm số theo ID bài nộp
   const [gradeScore, setGradeScore] = useState({});
 
-  // Student-specific: lưu bài nộp của chính người dùng hiện tại cho mỗi exercise
   const [mySubmission, setMySubmission] = useState(null);
 
   const handleToggleSubmissions = async (exId) => {
@@ -97,7 +94,6 @@ export default function ExerciseManager({
                     {loadingSubs && <p>Đang tải...</p>}
                     {!loadingSubs && submissions.length === 0 && <p>Chưa có bài nộp.</p>}
                     {!loadingSubs && submissions.map((sub, index) => {
-                      // Ưu tiên lấy ID. Nếu cả id và submissionId đều không có, dùng index làm fallback (không khuyến khích)
                       const currentSubId = sub.id || sub.submissionId;
 
                       return (
@@ -109,7 +105,6 @@ export default function ExerciseManager({
                               type="number" 
                               className={styles.gradeInput} 
                               placeholder="Điểm"
-                              // Hiển thị điểm đang có trong DB nếu chưa gõ điểm mới
                               defaultValue={sub.score} 
                               onChange={(e) => {
                                 const val = e.target.value;
@@ -121,7 +116,6 @@ export default function ExerciseManager({
                             />
                             <button 
                               onClick={() => { 
-                                // Lấy điểm: Nếu state trống thì lấy chính sub.score hiện tại
                                 const scoreToSubmit = gradeScore[currentSubId] !== undefined ? gradeScore[currentSubId] : sub.score;
                                 
                                 console.log("ID bài nộp:", currentSubId, "Điểm chấm:", scoreToSubmit);
@@ -150,7 +144,6 @@ export default function ExerciseManager({
                     setActiveExerciseId(ex.id);
                     setSubmissionText("");
 
-                    // Load the student's own submission (if any) when they open the submission area
                     if (typeof onLoadMySubmission === 'function') {
                       try {
                         const mine = await onLoadMySubmission(ex.id);
@@ -178,7 +171,6 @@ export default function ExerciseManager({
                         onClick={async () => {
                           const created = await onSubmitWork(ex.id, submissionText);
                           setSubmissionText("");
-                          // Keep submission area open and show the submitted solution
                           setActiveExerciseId(ex.id);
                           if (created) setMySubmission(created);
                         }}
@@ -196,7 +188,6 @@ export default function ExerciseManager({
                       </button>
                     </div>
 
-                    {/* Show the student's submission and score if available */}
                     {mySubmission ? (
                       <div style={{ marginTop: 10, padding: 10, border: '1px solid #eee', background: '#fff' }}>
                         <p><strong>Bài nộp của bạn:</strong> {mySubmission.solution}</p>

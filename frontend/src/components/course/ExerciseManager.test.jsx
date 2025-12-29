@@ -16,26 +16,21 @@ describe('ExerciseManager', () => {
       />
     );
 
-    // Ensure the exercise title is visible
     expect(screen.getByText('Ex 1')).toBeInTheDocument();
 
-    // Click 'Nộp bài' to open submission area
     const submitBtn = screen.getByText('Nộp bài');
     fireEvent.click(submitBtn);
 
-    // textarea should appear
     const textarea = await screen.findByPlaceholderText(/Viết lời giải của cưng vào đây/i);
     fireEvent.change(textarea, { target: { value: 'My solution' } });
 
     const confirmBtn = screen.getByText('Xác nhận nộp');
     fireEvent.click(confirmBtn);
 
-    // onSubmitWork should be called with exercise id and solution
     await waitFor(() => {
       expect(onSubmitWork).toHaveBeenCalledWith(1, 'My solution');
     });
 
-    // The submitted solution should be shown in the UI
     const submitted = await screen.findByText(/Bài nộp của bạn:/i);
     expect(submitted).toBeInTheDocument();
     expect(screen.getByText(/My solution/)).toBeInTheDocument();
@@ -57,13 +52,11 @@ describe('ExerciseManager', () => {
       />
     );
 
-    // Click 'Xem bài nộp & chấm'
     const viewBtn = screen.getByText('Xem bài nộp & chấm');
     fireEvent.click(viewBtn);
 
     expect(onLoadSubmissions).toHaveBeenCalledWith(2);
 
-    // Wait for submission to appear
     const studentLabel = await screen.findByText(/Học viên:/i);
     expect(studentLabel).toBeInTheDocument();
     expect(screen.getByText(/student1/)).toBeInTheDocument();

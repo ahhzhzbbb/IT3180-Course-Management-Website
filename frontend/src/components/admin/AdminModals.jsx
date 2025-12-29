@@ -1,9 +1,6 @@
 import React from 'react';
 import styles from './AdminModals.module.css';
 
-// We reuse the global "modal-overlay" and "modal-content" classes 
-// for the outer shell, but use local styles for the form internals.
-
 export function UserModal({ isOpen, onClose, onSave, form, setForm, isEdit, onRoleChange }) {
   if (!isOpen) return null;
 

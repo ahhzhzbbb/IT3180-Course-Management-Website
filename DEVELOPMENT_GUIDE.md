@@ -1,28 +1,10 @@
 # IT3180 Course Management Website - Development Guide
 
-## 🚀 Quick Start
-
-### Frontend (Currently Running ✅)
-
-The frontend is **currently running** at: **http://localhost:5174/**
-
-**Status**: ✅ Frontend Dev Server Active
-
-### Backend (Needs Java 17+) ⚠️
-
-**Issue**: Your system has Java 11, but this project requires **Java 17 or higher**.
-
 ## 📋 Requirements
-
-### Current System
-- ✅ Node.js & npm (installed)
-- ⚠️ Java 11 (needs upgrade to Java 17+)
-- ⚠️ MySQL (database configuration needed)
-
 ### Required Versions
-- Java: **17 or 21** (currently have 11)
-- Node.js: **14+** (installed ✅)
-- MySQL: **8.0+** (check configuration)
+- Java: **17 or 21** 
+- Node.js: **14+** 
+- MySQL: **8.0+** 
 
 ## 🔧 Setup Instructions
 
@@ -66,7 +48,7 @@ cd backend
 
 Backend will run on: **http://localhost:8080**
 
-### 4. Start Frontend (Already Running)
+### 4. Start Frontend
 
 ```powershell
 cd frontend
@@ -154,16 +136,3 @@ If you encounter issues:
 2. Verify all requirements are met
 3. Check database connection
 4. Review application.properties configuration
-
-## 🎉 Next Steps
-
-1. **Install Java 17+** (required!)
-2. **Start MySQL** and verify connection
-3. **Run backend** with `mvnw spring-boot:run`
-4. **Access frontend** at http://localhost:5174
-5. **Login** and start testing features!
-
----
-
-**Frontend Status**: ✅ Running on http://localhost:5174  
-**Backend Status**: ⚠️ Waiting for Java 17+ installation

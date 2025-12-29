@@ -1,5 +1,3 @@
-/* Course Card - Udemy/Coursera inspired design */
-
 .cardLink {
   text-decoration: none;
   color: inherit;
@@ -34,7 +32,7 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 aspect ratio */
+  padding-top: 56.25%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   overflow: hidden;
 }

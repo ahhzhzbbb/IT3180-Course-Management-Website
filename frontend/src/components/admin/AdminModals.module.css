@@ -1,6 +1,4 @@
-/* src/components/admin/AdminModals.module.css */
 
-/* Reuse global modal structure or keep consistent with local style */
 .form {
   display: flex;
   flex-direction: column;
